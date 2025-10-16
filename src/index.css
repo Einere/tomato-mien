@@ -58,7 +58,7 @@ body {
   }
 
   .btn-secondary {
-    @apply bg-gray-100 text-primary hover:bg-gray-200 focus:ring-gray-500;
+    @apply bg-gray-100 text-gray-700 hover:bg-gray-200 focus:ring-gray-500;
   }
 
   .btn-danger {
@@ -66,7 +66,7 @@ body {
   }
 
   .btn-ghost {
-    @apply text-muted hover:text-secondary focus:ring-gray-500;
+    @apply text-gray-400 hover:text-gray-600 focus:ring-gray-500;
   }
 
   .btn-success {
@@ -101,7 +101,7 @@ body {
   }
 
   .status-inactive {
-    @apply inline-flex items-center text-muted;
+    @apply inline-flex items-center text-gray-400;
   }
 
   .status-dot-active {
