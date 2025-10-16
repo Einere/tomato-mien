@@ -37,7 +37,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
       {/* 메인 컨텐츠 */}
       <div className="flex-1 flex overflow-hidden">
         {/* 좌측 패널 - 규칙 리스트 */}
-        <div className="w-1/3 min-w-64">
+        <div className="w-1/4 min-w-64">
           <RuleList
             rules={rules}
             selectedRuleId={selectedRuleId}
