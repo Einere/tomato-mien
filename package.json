@@ -133,5 +133,5 @@
       "releaseType": "release"
     }
   },
-  "packageManager": "npm"
+  "packageManager": "npm@10.9.2"
 }
