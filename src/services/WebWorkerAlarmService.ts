@@ -3,7 +3,6 @@ import type { AlarmRule, AlarmEvent } from '../types/alarm'
 export class WebWorkerAlarmService {
   private static instance: WebWorkerAlarmService
   private worker: Worker | null = null
-  private workerUrl: string | null = null
   private rules: AlarmRule[] = []
   private onAlarmTriggered?: (event: AlarmEvent) => void
   private lastCheckTime: Date | null = null
@@ -21,169 +20,10 @@ export class WebWorkerAlarmService {
 
   private initializeWorker() {
     try {
-      // Web Worker를 인라인으로 생성하여 crypto.hash 문제 회피
-      const workerCode = `
-        // Web Worker for background alarm checking
-        class AlarmWorker {
-          constructor() {
-            this.rules = new Map()
-            this.intervalId = null
-            this.triggeredAlarms = new Set()
-            this.lastCheckMinute = null
-            self.addEventListener('message', this.handleMessage.bind(this))
-          }
-
-          handleMessage(event) {
-            const { type, data } = event.data
-            switch (type) {
-              case 'START_ALARM':
-                this.start()
-                break
-              case 'STOP_ALARM':
-                this.stop()
-                break
-              case 'UPDATE_RULES':
-                this.rules.clear()
-                if (data.rules && Array.isArray(data.rules)) {
-                  data.rules.forEach((rule) => {
-                    this.rules.set(rule.id, rule)
-                  })
-                }
-                break
-              case 'UPDATE_RULE':
-                if (data.rule) {
-                  this.rules.set(data.rule.id, data.rule)
-                }
-                break
-              case 'CHECK_ALARM':
-                this.checkAlarms()
-                break
-            }
-          }
-
-          start() {
-            if (this.intervalId) {
-              this.stop()
-            }
-            this.intervalId = self.setInterval(() => {
-              this.checkAlarms()
-            }, 60000)
-            this.checkAlarms()
-          }
-
-          stop() {
-            if (this.intervalId) {
-              self.clearInterval(this.intervalId)
-              this.intervalId = null
-            }
-          }
-
-          checkAlarms() {
-            const now = new Date()
-            const currentHour = now.getHours()
-            const currentMinute = now.getMinutes()
-
-            if (this.lastCheckMinute !== currentMinute) {
-              this.triggeredAlarms.clear()
-              this.lastCheckMinute = currentMinute
-            }
-
-            for (const rule of this.rules.values()) {
-              if (!rule.enabled) continue
-
-              const shouldTrigger = this.evaluateCondition(rule.condition, currentHour, currentMinute)
-              
-              if (shouldTrigger) {
-                const alarmKey = \`\${rule.id}:\${currentHour}:\${currentMinute}\`
-                
-                if (!this.triggeredAlarms.has(alarmKey)) {
-                  this.triggerAlarm(rule)
-                  this.triggeredAlarms.add(alarmKey)
-                }
-              }
-            }
-
-            self.postMessage({
-              type: 'LAST_CHECK_TIME_UPDATE',
-              data: { lastCheckTime: now.toISOString() }
-            })
-          }
-
-          evaluateCondition(condition, currentHour, currentMinute) {
-            if ('operator' in condition) {
-              return this.evaluateCompoundCondition(condition, currentHour, currentMinute)
-            } else {
-              return this.evaluateTimeCondition(condition, currentHour, currentMinute)
-            }
-          }
-
-          evaluateCompoundCondition(condition, currentHour, currentMinute) {
-            const results = condition.conditions.map(c => 
-              this.evaluateCondition(c, currentHour, currentMinute)
-            )
-
-            if (condition.operator === 'AND') {
-              return results.every(result => result)
-            } else {
-              return results.some(result => result)
-            }
-          }
-
-          evaluateTimeCondition(condition, currentHour, currentMinute) {
-            switch (condition.type) {
-              case 'range':
-                return this.evaluateRangeCondition(condition, currentHour, currentMinute)
-              case 'interval':
-                return this.evaluateIntervalCondition(condition, currentHour, currentMinute)
-              case 'specific':
-                return this.evaluateSpecificCondition(condition, currentHour, currentMinute)
-            }
-          }
-
-          evaluateRangeCondition(condition, currentHour, currentMinute) {
-            const currentTime = currentHour * 60 + currentMinute
-            const startTime = condition.startHour * 60 + condition.startMinute
-            const endTime = condition.endHour * 60 + condition.endMinute
-
-            if (startTime <= endTime) {
-              return currentTime >= startTime && currentTime <= endTime
-            } else {
-              return currentTime >= startTime || currentTime <= endTime
-            }
-          }
-
-          evaluateIntervalCondition(condition, currentHour, currentMinute) {
-            const currentTime = currentHour * 60 + currentMinute
-            return currentTime % condition.intervalMinutes === 0
-          }
-
-          evaluateSpecificCondition(condition, currentHour, currentMinute) {
-            const hourMatch = condition.hour === undefined || condition.hour === currentHour
-            const minuteMatch = condition.minute === undefined || condition.minute === currentMinute
-            return hourMatch && minuteMatch
-          }
-
-          triggerAlarm(rule) {
-            const event = {
-              ruleId: rule.id,
-              ruleName: rule.name,
-              triggeredAt: new Date(),
-              message: \`\${rule.name} 알람이 울렸습니다!\`,
-            }
-
-            self.postMessage({
-              type: 'ALARM_TRIGGERED',
-              data: event
-            })
-          }
-        }
-
-        new AlarmWorker()
-      `
-
-      const blob = new Blob([workerCode], { type: 'application/javascript' })
-      this.workerUrl = URL.createObjectURL(blob)
-      this.worker = new Worker(this.workerUrl)
+      // 원래의 파일 기반 Web Worker 사용
+      this.worker = new Worker(new URL('../workers/alarmWorker.ts', import.meta.url), {
+        type: 'module'
+      })
 
       // 워커 메시지 리스너
       this.worker.onmessage = (event) => {
@@ -395,10 +235,6 @@ export class WebWorkerAlarmService {
     if (this.worker) {
       this.worker.terminate()
       this.worker = null
-    }
-    if (this.workerUrl) {
-      URL.revokeObjectURL(this.workerUrl)
-      this.workerUrl = null
     }
   }
 
