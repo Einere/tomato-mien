@@ -61,27 +61,37 @@ jobs:
           release/*.exe
           release/*.nsis
 
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Download all artifacts
-      uses: actions/download-artifact@v4
-      
-    - name: Create Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: |
-          macos-builds/*
-          linux-builds/*
-          windows-builds/*
-        generate_release_notes: true
-        draft: false
-        prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          release:
+            needs: build
+            runs-on: ubuntu-latest
+            if: startsWith(github.ref, 'refs/tags/')
+            permissions:
+              contents: write
+              pull-requests: write
+            
+            steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              
+            - name: Download all artifacts
+              uses: actions/download-artifact@v4
+              
+            - name: Debug GitHub Token
+              run: |
+                echo "GitHub Token exists: ${{ secrets.GITHUB_TOKEN != '' }}"
+                echo "Tag: ${{ github.ref_name }}"
+                echo "Repository: ${{ github.repository }}"
+              
+            - name: Create Release
+              uses: softprops/action-gh-release@v1
+              with:
+                files: |
+                  macos-builds/*
+                  linux-builds/*
+                  windows-builds/*
+                generate_release_notes: true
+                draft: false
+                prerelease: false
+                fail_on_unmatched_files: false
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
