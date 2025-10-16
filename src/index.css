@@ -29,119 +29,141 @@ body {
   }
 }
 
-/* ===== 공용 컴포넌트 스타일 ===== */
+@layer components {
 
-/* 버튼 상태 클래스 */
-.btn-primary {
-  @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
-}
+  /* 텍스트 토큰 */
+  .text-primary {
+    @apply text-gray-900;
+  }
 
-.btn-secondary {
-  @apply bg-gray-100 text-gray-700 hover:bg-gray-200 focus:ring-gray-500;
-}
+  .text-secondary {
+    @apply text-gray-500;
+  }
 
-.btn-danger {
-  @apply bg-red-50 text-red-600 hover:bg-red-100 focus:ring-red-500;
-}
+  .text-muted {
+    @apply text-gray-400;
+  }
 
-.btn-ghost {
-  @apply text-gray-400 hover:text-gray-600 focus:ring-gray-500;
-}
+  input {
+    @apply border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
 
-.btn-success {
-  @apply bg-green-100 text-green-700 hover:bg-green-200 focus:ring-green-500;
-}
+  select {
+    @apply px-4 py-2 pr-8 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+  }
 
-.btn-warning {
-  @apply bg-yellow-100 text-yellow-700 hover:bg-yellow-200 focus:ring-yellow-500;
-}
+  /* 버튼 상태 클래스 */
+  .btn-primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
+  }
 
-/* 버튼 크기 클래스 */
-.btn-sm {
-  @apply px-3 py-1.5 text-sm;
-}
+  .btn-secondary {
+    @apply bg-gray-100 text-primary hover:bg-gray-200 focus:ring-gray-500;
+  }
 
-.btn-md {
-  @apply px-4 py-2 text-sm;
-}
+  .btn-danger {
+    @apply bg-red-50 text-red-600 hover:bg-red-100 focus:ring-red-500;
+  }
 
-.btn-lg {
-  @apply px-6 py-3 text-base;
-}
+  .btn-ghost {
+    @apply text-muted hover:text-secondary focus:ring-gray-500;
+  }
 
-/* 버튼 기본 스타일 */
-.btn-base {
-  @apply inline-flex items-center justify-center font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer;
-}
+  .btn-success {
+    @apply bg-green-100 text-green-700 hover:bg-green-200 focus:ring-green-500;
+  }
 
-/* 상태 표시 클래스 */
-.status-active {
-  @apply inline-flex items-center text-green-600;
-}
+  .btn-warning {
+    @apply bg-yellow-100 text-yellow-700 hover:bg-yellow-200 focus:ring-yellow-500;
+  }
 
-.status-inactive {
-  @apply inline-flex items-center text-gray-400;
-}
+  /* 버튼 크기 클래스 */
+  .btn-sm {
+    @apply px-3 py-1.5 text-sm;
+  }
 
-.status-dot-active {
-  @apply w-2 h-2 bg-green-500 rounded-full mr-2;
-}
+  .btn-md {
+    @apply px-4 py-2 text-sm;
+  }
 
-.status-dot-inactive {
-  @apply w-2 h-2 bg-gray-300 rounded-full mr-2;
-}
+  .btn-lg {
+    @apply px-6 py-3 text-base;
+  }
 
-/* 카드 스타일 */
-.card {
-  @apply bg-white rounded-lg shadow-sm border border-gray-200;
-}
+  /* 버튼 기본 스타일 */
+  .btn-base {
+    @apply inline-flex items-center justify-center font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer;
+  }
 
-.card-header {
-  @apply p-6 border-b border-gray-100;
-}
+  /* 상태 표시 클래스 */
+  .status-active {
+    @apply inline-flex items-center text-green-600;
+  }
 
-.card-body {
-  @apply p-6;
-}
+  .status-inactive {
+    @apply inline-flex items-center text-muted;
+  }
 
-/* 알림 스타일 */
-.notification-info {
-  @apply p-4 bg-blue-50 rounded-lg border border-blue-200;
-}
+  .status-dot-active {
+    @apply w-2 h-2 bg-green-500 rounded-full mr-2;
+  }
 
-.notification-warning {
-  @apply p-4 bg-yellow-50 rounded-lg border border-yellow-200;
-}
+  .status-dot-inactive {
+    @apply w-2 h-2 bg-gray-300 rounded-full mr-2;
+  }
 
-.notification-error {
-  @apply p-4 bg-red-50 rounded-lg border border-red-200;
-}
+  /* 카드 스타일 */
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200;
+  }
 
-.notification-success {
-  @apply p-4 bg-green-50 rounded-lg border border-green-200;
-}
+  .card-header {
+    @apply p-6 border-b border-gray-100;
+  }
 
-/* 아이콘 컨테이너 */
-.icon-container {
-  @apply w-8 h-8 rounded-lg flex items-center justify-center mr-3;
-}
+  .card-body {
+    @apply p-6;
+  }
 
-.icon-container-blue {
-  @apply bg-blue-100;
-}
+  /* 알림 스타일 */
+  .notification-info {
+    @apply p-4 bg-blue-50 rounded-lg border border-blue-200;
+  }
 
-.icon-container-gray {
-  @apply bg-gray-100;
-}
+  .notification-warning {
+    @apply p-4 bg-yellow-50 rounded-lg border border-yellow-200;
+  }
 
-.icon-container-green {
-  @apply bg-green-100;
-}
+  .notification-error {
+    @apply p-4 bg-red-50 rounded-lg border border-red-200;
+  }
 
-.icon-container-yellow {
-  @apply bg-yellow-100;
-}
+  .notification-success {
+    @apply p-4 bg-green-50 rounded-lg border border-green-200;
+  }
 
-.icon-container-red {
-  @apply bg-red-100;
+  /* 아이콘 컨테이너 */
+  .icon-container {
+    @apply w-8 h-8 rounded-lg flex items-center justify-center mr-3;
+  }
+
+  .icon-container-blue {
+    @apply bg-blue-100;
+  }
+
+  .icon-container-gray {
+    @apply bg-gray-100;
+  }
+
+  .icon-container-green {
+    @apply bg-green-100;
+  }
+
+  .icon-container-yellow {
+    @apply bg-yellow-100;
+  }
+
+  .icon-container-red {
+    @apply bg-red-100;
+  }
 }

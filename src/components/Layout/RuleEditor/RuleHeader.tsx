@@ -28,17 +28,17 @@ export const RuleHeader: React.FC<RuleHeaderProps> = ({
               type="text"
               value={rule.name}
               onChange={(e) => onNameChange(e.target.value)}
-              className="text-2xl font-semibold text-gray-900 bg-transparent border-none outline-none w-full placeholder-gray-400"
+              className="text-2xl font-semibold text-primary bg-transparent border-none outline-none w-full placeholder-gray-400"
               placeholder="규칙 이름을 입력하세요"
             />
-            <div className="text-sm text-gray-500 mt-1">
+            <div className="text-sm text-secondary mt-1">
               {rule.enabled ? (
                 <span className="inline-flex items-center text-green-600">
                   <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                   활성화됨
                 </span>
               ) : (
-                <span className="inline-flex items-center text-gray-400">
+                <span className="inline-flex items-center text-muted">
                   <div className="w-2 h-2 bg-gray-300 rounded-full mr-2"></div>
                   비활성화됨
                 </span>
@@ -62,7 +62,7 @@ export const RuleHeader: React.FC<RuleHeaderProps> = ({
               onClick={onSave}
               disabled={!hasChanges}
               variant="primary"
-              className={!hasChanges ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : ''}
+              className={!hasChanges ? 'bg-gray-300 text-secondary cursor-not-allowed' : ''}
             >
               저장
             </Button>

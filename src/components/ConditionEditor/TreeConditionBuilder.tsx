@@ -48,7 +48,7 @@ const OperatorBadge: React.FC<{ operator: LogicalOperator }> = ({ operator }) =>
 )
 
 const SectionLabel: React.FC<{ label: string }> = ({ label }) => (
-  <span className="inline-flex items-center px-2 py-0.5 rounded border text-xs text-gray-700 bg-white">
+  <span className="inline-flex items-center px-2 py-0.5 rounded border text-xs text-primary bg-white">
     {label}
   </span>
 )
@@ -65,7 +65,6 @@ export const TreeConditionBuilder: React.FC<TreeConditionBuilderProps> = ({
             <SectionLabel label="시작" />
             <div className="mt-2 flex gap-2">
               <select
-                className="px-2 py-1 border rounded"
                 value={c.startHour}
                 onChange={(e) => onChange({ ...c, startHour: parseInt(e.target.value) })}
               >
@@ -76,7 +75,6 @@ export const TreeConditionBuilder: React.FC<TreeConditionBuilderProps> = ({
                 ))}
               </select>
               <select
-                className="px-2 py-1 border rounded"
                 value={c.startMinute}
                 onChange={(e) => onChange({ ...c, startMinute: parseInt(e.target.value) })}
               >
@@ -92,7 +90,6 @@ export const TreeConditionBuilder: React.FC<TreeConditionBuilderProps> = ({
             <SectionLabel label="종료" />
             <div className="mt-2 flex gap-2">
               <select
-                className="px-2 py-1 border rounded"
                 value={c.endHour}
                 onChange={(e) => onChange({ ...c, endHour: parseInt(e.target.value) })}
               >
@@ -103,7 +100,6 @@ export const TreeConditionBuilder: React.FC<TreeConditionBuilderProps> = ({
                 ))}
               </select>
               <select
-                className="px-2 py-1 border rounded"
                 value={c.endMinute}
                 onChange={(e) => onChange({ ...c, endMinute: parseInt(e.target.value) })}
               >
@@ -123,7 +119,6 @@ export const TreeConditionBuilder: React.FC<TreeConditionBuilderProps> = ({
         <div className="flex items-center gap-2">
           <SectionLabel label="간격(분)" />
           <select
-            className="px-2 py-1 border rounded"
             value={c.intervalMinutes}
             onChange={(e) => onChange({ ...c, intervalMinutes: parseInt(e.target.value) })}
           >
@@ -142,7 +137,7 @@ export const TreeConditionBuilder: React.FC<TreeConditionBuilderProps> = ({
         <div>
           <SectionLabel label="시간" />
           <select
-            className="mt-2 px-2 py-1 border rounded w-full"
+            className="mt-2 w-full"
             value={c.hour ?? ''}
             onChange={(e) => onChange({ ...c, hour: e.target.value ? parseInt(e.target.value) : undefined })}
           >
@@ -157,7 +152,7 @@ export const TreeConditionBuilder: React.FC<TreeConditionBuilderProps> = ({
         <div>
           <SectionLabel label="분" />
           <select
-            className="mt-2 px-2 py-1 border rounded w-full"
+            className="mt-2 w-full"
             value={c.minute ?? ''}
             onChange={(e) => onChange({ ...c, minute: e.target.value ? parseInt(e.target.value) : undefined })}
           >
@@ -253,7 +248,6 @@ export const TreeConditionBuilder: React.FC<TreeConditionBuilderProps> = ({
           <div className="flex items-center gap-2">
             <div className="relative group">
               <select
-                className="px-2 py-1 border rounded"
                 value={node.type}
                 onChange={(e) => {
                   const t = e.target.value as TimeCondition['type']

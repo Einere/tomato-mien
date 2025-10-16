@@ -11,6 +11,7 @@ interface ConditionBuilderProps {
   onChange: (condition: TimeCondition) => void
 }
 
+// TODO: 이 컴포넌트는 사용하지 않는다. 삭제할 예정
 export const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
   condition,
   onChange,
@@ -47,7 +48,7 @@ export const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
   const renderRangeCondition = (condition: RangeCondition) => (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-primary mb-2">
           시작 시간
         </label>
         <div className="flex space-x-2">
@@ -59,7 +60,6 @@ export const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
                 startHour: parseInt(e.target.value),
               })
             }
-            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {Array.from({ length: 24 }, (_, i) => (
               <option key={i} value={i}>
@@ -75,7 +75,6 @@ export const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
                 startMinute: parseInt(e.target.value),
               })
             }
-            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {Array.from({ length: 60 }, (_, i) => (
               <option key={i} value={i}>
@@ -87,7 +86,7 @@ export const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-primary mb-2">
           종료 시간
         </label>
         <div className="flex space-x-2">
@@ -99,7 +98,6 @@ export const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
                 endHour: parseInt(e.target.value),
               })
             }
-            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {Array.from({ length: 24 }, (_, i) => (
               <option key={i} value={i}>
@@ -115,7 +113,6 @@ export const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
                 endMinute: parseInt(e.target.value),
               })
             }
-            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {Array.from({ length: 60 }, (_, i) => (
               <option key={i} value={i}>
@@ -130,7 +127,7 @@ export const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
 
   const renderIntervalCondition = (condition: IntervalCondition) => (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-2">
+      <label className="block text-sm font-medium text-primary mb-2">
         간격 (분)
       </label>
       <select
@@ -141,7 +138,7 @@ export const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
             intervalMinutes: parseInt(e.target.value),
           })
         }
-        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full"
       >
         <option value={5}>5분마다</option>
         <option value={10}>10분마다</option>
@@ -155,7 +152,7 @@ export const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
   const renderSpecificCondition = (condition: SpecificCondition) => (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-primary mb-2">
           시간 (선택사항)
         </label>
         <select
@@ -166,7 +163,7 @@ export const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
               hour: e.target.value ? parseInt(e.target.value) : undefined,
             })
           }
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full"
         >
           <option value="">모든 시간</option>
           {Array.from({ length: 24 }, (_, i) => (
@@ -178,7 +175,7 @@ export const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-primary mb-2">
           분 (선택사항)
         </label>
         <select
@@ -189,7 +186,7 @@ export const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
               minute: e.target.value ? parseInt(e.target.value) : undefined,
             })
           }
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full"
         >
           <option value="">모든 분</option>
           {Array.from({ length: 60 }, (_, i) => (
@@ -205,37 +202,34 @@ export const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-primary mb-2">
           조건 타입
         </label>
         <div className="flex space-x-2">
           <button
             onClick={() => handleTypeChange('range')}
-            className={`px-3 py-2 rounded-md text-sm font-medium ${
-              condition.type === 'range'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
+            className={`px-3 py-2 rounded-md text-sm font-medium ${condition.type === 'range'
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-200 text-primary hover:bg-gray-300'
+              }`}
           >
             시간 범위
           </button>
           <button
             onClick={() => handleTypeChange('interval')}
-            className={`px-3 py-2 rounded-md text-sm font-medium ${
-              condition.type === 'interval'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
+            className={`px-3 py-2 rounded-md text-sm font-medium ${condition.type === 'interval'
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-200 text-primary hover:bg-gray-300'
+              }`}
           >
             간격
           </button>
           <button
             onClick={() => handleTypeChange('specific')}
-            className={`px-3 py-2 rounded-md text-sm font-medium ${
-              condition.type === 'specific'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
+            className={`px-3 py-2 rounded-md text-sm font-medium ${condition.type === 'specific'
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-200 text-primary hover:bg-gray-300'
+              }`}
           >
             특정 시간
           </button>

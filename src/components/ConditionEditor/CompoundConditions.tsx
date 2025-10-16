@@ -16,11 +16,11 @@ interface CompoundConditionsProps {
   showDelete?: boolean
 }
 
-export const CompoundConditions: React.FC<CompoundConditionsProps> = ({ 
-  condition, 
-  onChange, 
-  onDelete, 
-  showDelete = true 
+export const CompoundConditions: React.FC<CompoundConditionsProps> = ({
+  condition,
+  onChange,
+  onDelete,
+  showDelete = true
 }) => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -70,14 +70,14 @@ export const CompoundConditions: React.FC<CompoundConditionsProps> = ({
             ]}
             className="min-w-[140px]"
           />
-          <span className="text-gray-600 text-sm">{condition.conditions.length}개 조건</span>
+          <span className="text-secondary text-sm">{condition.conditions.length}개 조건</span>
         </div>
         <div className="flex items-center space-x-2">
           <Button
             onClick={() => setIsOpen(!isOpen)}
             variant="ghost"
             size="sm"
-            className="p-1 text-gray-400 hover:text-gray-600"
+            className="p-1 text-muted hover:text-secondary"
           >
             <ChevronDownIcon className={`w-4 h-4 transform transition-transform ${isOpen ? 'rotate-180' : ''}`} />
           </Button>
@@ -100,12 +100,12 @@ export const CompoundConditions: React.FC<CompoundConditionsProps> = ({
             <div key={index} className="relative">
               {index > 0 && (
                 <div className="flex items-center justify-center my-2">
-                  <span className="px-2 py-1 bg-gray-200 text-gray-600 text-xs rounded">
+                  <span className="px-2 py-1 bg-gray-200 text-secondary text-xs rounded">
                     {getOperatorLabel(condition.operator)}
                   </span>
                 </div>
               )}
-              
+
               {'operator' in subCondition ? (
                 <CompoundConditions
                   condition={subCondition}
@@ -127,7 +127,7 @@ export const CompoundConditions: React.FC<CompoundConditionsProps> = ({
             trigger={
               <Button
                 variant="secondary"
-                className="w-full border-2 border-dashed border-gray-300 text-gray-500 hover:border-gray-400 hover:text-gray-600"
+                className="w-full border-2 border-dashed border-gray-300 text-secondary hover:border-gray-400 hover:text-secondary"
               >
                 + 조건 추가
               </Button>

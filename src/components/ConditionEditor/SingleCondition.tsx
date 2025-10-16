@@ -1,5 +1,5 @@
 import React from 'react'
-import type { TimeCondition } from '../../types/alarm'
+import type { IntervalCondition, SpecificCondition, TimeCondition } from '../../types/alarm'
 import { Button } from '../UI/Button'
 import { Select } from '../UI/Select'
 import { XIcon } from '../UI/Icons'
@@ -12,11 +12,11 @@ interface SingleConditionProps {
   showDelete?: boolean
 }
 
-export const SingleCondition: React.FC<SingleConditionProps> = ({ 
-  condition, 
-  onChange, 
-  onDelete, 
-  showDelete = true 
+export const SingleCondition: React.FC<SingleConditionProps> = ({
+  condition,
+  onChange,
+  onDelete,
+  showDelete = true
 }) => {
   const handleTypeChange = (newType: TimeCondition['type']) => {
     onChange(createConditionByType(newType))
@@ -36,7 +36,17 @@ export const SingleCondition: React.FC<SingleConditionProps> = ({
             ]}
             className="min-w-[120px]"
           />
-          <span className="text-gray-600 text-sm">{getConditionLabel(condition)}</span>
+          {/* TODO: input 요소를 여기로 옮기자 */}
+          {condition.type === 'range' && (
+            <TimeRangeInput condition={condition} onChange={onChange} />
+          )}
+          {condition.type === 'interval' && (
+            <TimeIntervalInput condition={condition} onChange={onChange} />
+          )}
+          {condition.type === 'specific' && (
+            <SpecificTimeInput condition={condition} onChange={onChange} />
+          )}
+          {/* <span className="text-gray-600 text-sm">{getConditionLabel(condition)}</span> */}
         </div>
         <div className="flex items-center space-x-2">
           {showDelete && (
@@ -44,111 +54,111 @@ export const SingleCondition: React.FC<SingleConditionProps> = ({
               onClick={onDelete}
               variant="ghost"
               size="sm"
-              className="p-1 text-red-400 hover:text-red-600"
             >
-              <XIcon className="w-4 h-4" />
+              <XIcon className="w-4 h-4 text-red-400 hover:text-red-600" />
             </Button>
           )}
         </div>
       </div>
 
-      <div className="space-y-4">
-        {condition.type === 'range' && (
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">시작 시간</label>
-              <div className="flex space-x-2">
-                <input
-                  type="number"
-                  min="0"
-                  max="23"
-                  value={condition.startHour}
-                  onChange={(e) => onChange({ ...condition, startHour: parseInt(e.target.value) || 0 })}
-                  className="w-20 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <span className="text-gray-500 self-center">시</span>
-                <input
-                  type="number"
-                  min="0"
-                  max="59"
-                  value={condition.startMinute}
-                  onChange={(e) => onChange({ ...condition, startMinute: parseInt(e.target.value) || 0 })}
-                  className="w-20 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <span className="text-gray-500 self-center">분</span>
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">종료 시간</label>
-              <div className="flex space-x-2">
-                <input
-                  type="number"
-                  min="0"
-                  max="23"
-                  value={condition.endHour}
-                  onChange={(e) => onChange({ ...condition, endHour: parseInt(e.target.value) || 0 })}
-                  className="w-20 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <span className="text-gray-500 self-center">시</span>
-                <input
-                  type="number"
-                  min="0"
-                  max="59"
-                  value={condition.endMinute}
-                  onChange={(e) => onChange({ ...condition, endMinute: parseInt(e.target.value) || 0 })}
-                  className="w-20 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <span className="text-gray-500 self-center">분</span>
-              </div>
-            </div>
-          </div>
-        )}
 
-        {condition.type === 'interval' && (
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">간격 (분)</label>
-            <input
-              type="number"
-              min="1"
-              max="720"
-              value={condition.intervalMinutes}
-              onChange={(e) => onChange({ ...condition, intervalMinutes: parseInt(e.target.value) || 1 })}
-              className="w-32 px-3 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-        )}
-
-        {condition.type === 'specific' && (
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">시간</label>
-              <select
-                value={condition.hour ?? ''}
-                onChange={(e) => onChange({ ...condition, hour: e.target.value ? parseInt(e.target.value) : undefined })}
-                className="w-full px-3 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">모든 시간</option>
-                {Array.from({ length: 24 }, (_, i) => (
-                  <option key={i} value={i}>{i.toString().padStart(2, '0')}시</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">분</label>
-              <select
-                value={condition.minute ?? ''}
-                onChange={(e) => onChange({ ...condition, minute: e.target.value ? parseInt(e.target.value) : undefined })}
-                className="w-full px-3 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">모든 분</option>
-                {Array.from({ length: 60 }, (_, i) => (
-                  <option key={i} value={i}>{i.toString().padStart(2, '0')}분</option>
-                ))}
-              </select>
-            </div>
-          </div>
-        )}
-      </div>
     </div>
   )
+}
+
+type TimeRangeInputProps = Omit<SingleConditionProps, "condition" | "onDelete"> & {
+  condition: RangeCondition;
+};
+function TimeRangeInput(props: TimeRangeInputProps) {
+  const { condition, onChange } = props;
+
+  return (
+    <form >
+      <input
+        type="number"
+        min="0"
+        max="23"
+        value={condition.startHour}
+        onChange={(e) => onChange({ ...condition, startHour: parseInt(e.target.value) || 0 })}
+      />
+      <span className="text-secondary self-center">&nbsp;시&nbsp;</span>
+      <input
+        type="number"
+        min="0"
+        max="59"
+        value={condition.startMinute}
+        onChange={(e) => onChange({ ...condition, startMinute: parseInt(e.target.value) || 0 })}
+      />
+      <span className="text-secondary self-center">&nbsp;분&nbsp;부터&nbsp;</span>
+      <input
+        type="number"
+        min="0"
+        max="23"
+        value={condition.endHour}
+        onChange={(e) => onChange({ ...condition, endHour: parseInt(e.target.value) || 0 })}
+      />
+      <span className="text-secondary self-center">&nbsp;시&nbsp;</span>
+      <input
+        type="number"
+        min="0"
+        max="59"
+        value={condition.endMinute}
+        onChange={(e) => onChange({ ...condition, endMinute: parseInt(e.target.value) || 0 })}
+      />
+      <span className="text-secondary self-center">&nbsp;분 까지</span>
+    </form>
+  );
+}
+
+function TimeIntervalInput(props: Omit<SingleConditionProps, "condition" | "onDelete"> & {
+  condition: IntervalCondition;
+}) {
+  const { condition, onChange } = props;
+
+
+  return (
+    <form>
+      <input
+        type="number"
+        min="1"
+        max="720"
+        value={condition.intervalMinutes}
+        onChange={(e) => onChange({ ...condition, intervalMinutes: parseInt(e.target.value) || 1 })}
+      />
+      <span className="text-secondary self-center">&nbsp;분 마다</span>
+    </form>
+  );
+
+}
+
+type SpecificTimeInputProps = Omit<SingleConditionProps, "condition" | "onDelete"> & {
+  condition: SpecificCondition;
+};
+function SpecificTimeInput(props: SpecificTimeInputProps) {
+  const { condition, onChange } = props;
+
+  return (
+    <form>
+      <select
+        value={condition.hour ?? ''}
+        onChange={(e) => onChange({ ...condition, hour: e.target.value ? parseInt(e.target.value) : undefined })}
+      >
+        <option value="">모든 시간</option>
+        {Array.from({ length: 24 }, (_, i) => (
+          <option key={i} value={i}>{i.toString().padStart(2, '0')}</option>
+        ))}
+      </select>
+      <span className="text-secondary self-center">&nbsp;시&nbsp;</span>
+      <select
+        value={condition.minute ?? ''}
+        onChange={(e) => onChange({ ...condition, minute: e.target.value ? parseInt(e.target.value) : undefined })}
+      >
+        <option value="">모든 분</option>
+        {Array.from({ length: 60 }, (_, i) => (
+          <option key={i} value={i}>{i.toString().padStart(2, '0')}</option>
+        ))}
+      </select>
+      <span>&nbsp;분</span>
+    </form>
+  );
 }

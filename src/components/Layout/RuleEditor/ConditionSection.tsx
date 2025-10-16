@@ -22,7 +22,7 @@ export const ConditionSection: React.FC<ConditionSectionProps> = ({
           <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
             <ClockIcon className="w-4 h-4 text-blue-600" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-900">알람 조건</h3>
+          <h3 className="text-lg font-semibold text-primary">알람 조건</h3>
         </div>
         
         <NotionStyleConditionBuilder

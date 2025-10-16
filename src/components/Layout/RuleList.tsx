@@ -27,7 +27,7 @@ export const RuleList: React.FC<RuleListProps> = ({
       </div>
       <div className="overflow-y-auto">
         {rules.length === 0 ? (
-          <div className="p-6 text-gray-500 text-center">
+          <div className="p-6 text-secondary text-center">
             <div className="text-4xl mb-3">⏰</div>
             <p className="font-medium mb-2">알람 규칙이 없습니다</p>
             <p className="text-sm">
@@ -50,7 +50,7 @@ export const RuleList: React.FC<RuleListProps> = ({
                     {rule.name}
                   </h3>
                   <p className={`text-sm mt-1 ${
-                    rule.enabled ? 'text-green-600' : 'text-gray-500'
+                    rule.enabled ? 'text-green-600' : 'text-secondary'
                   }`}>
                     {rule.enabled ? '활성화됨' : '비활성화됨'}
                   </p>
