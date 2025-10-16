@@ -7,8 +7,8 @@ pnpm-debug.log*
 
 # Build outputs
 dist/
-release/
 build/
+release/
 
 # Environment variables
 .env
