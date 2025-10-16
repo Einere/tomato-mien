@@ -6,7 +6,7 @@ interface IconProps {
   fill?: string
 }
 
-export const XIcon: React.FC<IconProps> = ({ className = '', fill = "none", size = 16 }) => (
+export const XIcon: React.FC<IconProps> = ({ className = '', size = 16 }) => (
   <svg
     className={className}
     width={size}

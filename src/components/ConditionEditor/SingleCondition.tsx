@@ -1,9 +1,9 @@
 import React from 'react'
-import type { IntervalCondition, SpecificCondition, TimeCondition } from '../../types/alarm'
+import type { IntervalCondition, SpecificCondition, TimeCondition, RangeCondition } from '../../types/alarm'
 import { Button } from '../UI/Button'
 import { Select } from '../UI/Select'
 import { XIcon } from '../UI/Icons'
-import { createConditionByType, getConditionLabel } from '../../utils/alarmRules'
+import { createConditionByType } from '../../utils/alarmRules'
 
 interface SingleConditionProps {
   condition: TimeCondition
@@ -46,7 +46,6 @@ export const SingleCondition: React.FC<SingleConditionProps> = ({
           {condition.type === 'specific' && (
             <SpecificTimeInput condition={condition} onChange={onChange} />
           )}
-          {/* <span className="text-gray-600 text-sm">{getConditionLabel(condition)}</span> */}
         </div>
         <div className="flex items-center space-x-2">
           {showDelete && (

@@ -43,20 +43,6 @@ export const createConditionByType = (type: 'range' | 'interval' | 'specific'): 
   }
 }
 
-// 조건 라벨 생성 함수
-export const getConditionLabel = (condition: RangeCondition | IntervalCondition | SpecificCondition): string => {
-  switch (condition.type) {
-    case 'range':
-      return `${condition.startHour.toString().padStart(2, '0')}:${condition.startMinute.toString().padStart(2, '0')} - ${condition.endHour.toString().padStart(2, '0')}:${condition.endMinute.toString().padStart(2, '0')}`
-    case 'interval':
-      return `매 ${condition.intervalMinutes}분마다`
-    case 'specific':
-      const hour = condition.hour !== undefined ? `${condition.hour.toString().padStart(2, '0')}시` : '모든 시간'
-      const minute = condition.minute !== undefined ? `${condition.minute.toString().padStart(2, '0')}분` : '모든 분'
-      return `${hour} ${minute}`
-  }
-}
-
 // 연산자 라벨 생성 함수
 export const getOperatorLabel = (operator: LogicalOperator): string => {
   return operator === 'AND' ? '그리고' : '또는'
