@@ -82,7 +82,7 @@ function App() {
             saveRules(disabledRules)
             break
           case 'menu-about':
-            alert('Tomato Mien v1.0.0\n스마트 알람 앱')
+            alert('Tomato Mien v1.0.0\nSimple rule-based alarm app')
             break
         }
       }

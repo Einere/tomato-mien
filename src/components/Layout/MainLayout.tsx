@@ -32,7 +32,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
   return (
     <div className="h-screen flex flex-col bg-gray-200">
       {/* 툴바 */}
-      <Toolbar title="Tomato Mien - 스마트 알람" onAddRule={onAddRule} />
+      <Toolbar title="Tomato Mien" onAddRule={onAddRule} />
 
       {/* 메인 컨텐츠 */}
       <div className="flex-1 flex overflow-hidden">
