@@ -9,7 +9,7 @@ interface RuleInfoProps {
 export const RuleInfo: React.FC<RuleInfoProps> = ({ rule }) => {
   return (
     <Card className="p-6">
-      <HeaderWithIcon Icon={<IconWrapper Icon={InfoIcon} className="mr-3" />} title="규칙 정보" />
+      <HeaderWithIcon Icon={<IconWrapper Icon={<InfoIcon />} className="mr-3" />} title="규칙 정보" />
 
 
       <div className="grid grid-cols-2 gap-4 text-sm">
