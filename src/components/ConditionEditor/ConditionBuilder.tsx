@@ -3,12 +3,12 @@ import type {
   TimeCondition,
   CompoundCondition,
 } from '../../types/alarm'
-import { Button, Dropdown } from '../UI'
 import { CompoundConditions, SingleCondition } from '.'
 import {
   createDefaultRange,
   createDefaultCompound
 } from '../../utils/alarmRules'
+import { isCompoundCondition, isTimeCondition } from '../../utils/typeGuards'
 import { AddConditionDropdown } from './AddConditionDropdown'
 
 type AnyCondition = TimeCondition | CompoundCondition
@@ -26,7 +26,7 @@ export const NotionStyleConditionBuilder: React.FC<NotionStyleConditionBuilderPr
 
   // 루트 레벨에서 조건을 추가하는 함수
   const addCondition = () => {
-    if ('operator' in condition) {
+    if (isCompoundCondition(condition)) {
       // 이미 복합 조건이면 새 조건 추가
       onChange({
         ...condition,
@@ -43,7 +43,7 @@ export const NotionStyleConditionBuilder: React.FC<NotionStyleConditionBuilderPr
   }
 
   const addGroup = () => {
-    if ('operator' in condition) {
+    if (isCompoundCondition(condition)) {
       // 이미 복합 조건이면 새 그룹 추가
       onChange({
         ...condition,
@@ -70,7 +70,7 @@ export const NotionStyleConditionBuilder: React.FC<NotionStyleConditionBuilderPr
 
   return (
     <div className="space-y-4">
-      {'operator' in condition ? (
+      {isCompoundCondition(condition) ? (
         <CompoundConditions
           condition={condition}
           onChange={updateCondition}
@@ -87,7 +87,7 @@ export const NotionStyleConditionBuilder: React.FC<NotionStyleConditionBuilderPr
       )}
 
       {/* 루트 레벨 추가 버튼 - 단일 조건일 때만 표시 */}
-      {!('operator' in condition) && (
+      {isTimeCondition(condition) && (
         <AddConditionDropdown addCondition={addCondition} addGroup={addGroup} />
       )}
     </div>

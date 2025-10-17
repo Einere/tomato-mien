@@ -1,5 +1,6 @@
 // Web Worker for background alarm checking
 import type { AlarmRule, TimeCondition, CompoundCondition } from '../types/alarm'
+import { isCompoundCondition } from '../utils/typeGuards'
 
 interface WorkerMessage {
   type: 'START_ALARM' | 'STOP_ALARM' | 'UPDATE_RULES' | 'UPDATE_RULE' | 'CHECK_ALARM'
@@ -88,11 +89,11 @@ class AlarmWorker {
       if (!rule.enabled) continue
 
       const shouldTrigger = this.evaluateCondition(rule.condition, currentHour, currentMinute)
-      
+
       if (shouldTrigger) {
         // 중복 알람 방지: 같은 분에 같은 규칙이 이미 알람을 울렸는지 확인
         const alarmKey = `${rule.id}:${currentHour}:${currentMinute}`
-        
+
         if (!this.triggeredAlarms.has(alarmKey)) {
           this.triggerAlarm(rule)
           this.triggeredAlarms.add(alarmKey)
@@ -113,7 +114,7 @@ class AlarmWorker {
     currentHour: number,
     currentMinute: number
   ): boolean {
-    if ('operator' in condition) {
+    if (isCompoundCondition(condition)) {
       return this.evaluateCompoundCondition(condition, currentHour, currentMinute)
     } else {
       return this.evaluateTimeCondition(condition, currentHour, currentMinute)
@@ -126,7 +127,7 @@ class AlarmWorker {
     currentHour: number,
     currentMinute: number
   ): boolean {
-    const results = condition.conditions.map(c => 
+    const results = condition.conditions.map(c =>
       this.evaluateCondition(c, currentHour, currentMinute)
     )
 

@@ -1,4 +1,5 @@
 import type { TimeCondition, CompoundCondition } from '../types/alarm'
+import { isCompoundCondition } from './typeGuards'
 
 export type AnyCondition = TimeCondition | CompoundCondition
 
@@ -8,7 +9,7 @@ export interface ValidationIssue {
 }
 
 export function describeCondition(cond: AnyCondition): string {
-  if ('operator' in cond) {
+  if (isCompoundCondition(cond)) {
     const childTexts = cond.conditions.map((c) => describeCondition(c))
     const joined = childTexts.join(` ${cond.operator} `)
     return childTexts.length > 1 ? `(${joined})` : joined
@@ -30,7 +31,7 @@ export function describeCondition(cond: AnyCondition): string {
 export function validateCondition(cond: AnyCondition, basePath = 'condition'): ValidationIssue[] {
   const issues: ValidationIssue[] = []
 
-  if ('operator' in cond) {
+  if (isCompoundCondition(cond)) {
     if (cond.conditions.length === 0) {
       issues.push({ path: basePath, message: '그룹 안에 최소 1개의 조건이 필요합니다.' })
     }

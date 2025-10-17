@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import type { CompoundCondition, TimeCondition, LogicalOperator } from '../../types/alarm'
-import { Select, Button, Dropdown, ChevronDownIcon, XIcon, Badge } from '../UI'
+import { Select, Button, ChevronDownIcon, XIcon, Badge } from '../UI'
 import { SingleCondition } from '.'
 import { createDefaultRange, createDefaultCompound, getOperatorLabel } from '../../utils/alarmRules'
 import { AddConditionDropdown } from './AddConditionDropdown'
+import { isCompoundCondition } from '../../utils/typeGuards'
 
 type AnyCondition = TimeCondition | CompoundCondition
 
@@ -60,7 +61,6 @@ export const CompoundConditions: React.FC<CompoundConditionsProps> = ({
       {/* 헤더 영역 */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          {/* TODO: LogicalOperatorSelect 컴포넌트로 분리하기 */}
           <Select
             value={condition.operator}
             onChange={(e) => handleOperatorChange(e.target.value as LogicalOperator)}
@@ -106,7 +106,7 @@ export const CompoundConditions: React.FC<CompoundConditionsProps> = ({
               )}
 
               {/* TODO: 타입 가드 함수로 분리하기 */}
-              {'operator' in subCondition ? (
+              {isCompoundCondition(subCondition) ? (
                 <CompoundConditions
                   condition={subCondition}
                   onChange={(updated) => updateCondition(index, updated)}
