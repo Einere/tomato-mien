@@ -100,6 +100,7 @@ export const CompoundConditions: React.FC<CompoundConditionsProps> = ({
             <div key={index} className="relative">
               {index > 0 && (
                 <div className="flex items-center justify-center my-2">
+                  {/* TODO: LogicalOperatorBadge 컴포넌트로 분리하기 */}
                   <span className="px-2 py-1 bg-gray-200 text-secondary text-xs rounded">
                     {getOperatorLabel(condition.operator)}
                   </span>

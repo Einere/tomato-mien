@@ -61,37 +61,56 @@ jobs:
           release/*.exe
           release/*.nsis
 
-          release:
-            needs: build
-            runs-on: ubuntu-latest
-            if: startsWith(github.ref, 'refs/tags/')
-            permissions:
-              contents: write
-              pull-requests: write
-            
-            steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-              
-            - name: Download all artifacts
-              uses: actions/download-artifact@v4
-              
-            - name: Debug GitHub Token
-              run: |
-                echo "GitHub Token exists: ${{ secrets.GITHUB_TOKEN != '' }}"
-                echo "Tag: ${{ github.ref_name }}"
-                echo "Repository: ${{ github.repository }}"
-              
-            - name: Create Release
-              uses: softprops/action-gh-release@v1
-              with:
-                files: |
-                  macos-builds/*
-                  linux-builds/*
-                  windows-builds/*
-                generate_release_notes: true
-                draft: false
-                prerelease: false
-                fail_on_unmatched_files: false
-              env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      
+    - name: Debug GitHub Token
+      run: |
+        echo "GitHub Token exists: ${{ secrets.GITHUB_TOKEN != '' }}"
+        echo "Tag: ${{ github.ref_name }}"
+        echo "Repository: ${{ github.repository }}"
+      
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          macos-builds/*
+          linux-builds/*
+          windows-builds/*
+        tag_name: ${{ github.ref_name }}
+        name: Tomato Mien ${{ github.ref_name }}
+        body: |
+          ## 🍅🍜 Tomato Mien ${{ github.ref_name }}
+          
+          ### 다운로드
+          - **macOS**: `.dmg` 파일 다운로드 후 설치
+          - **Linux**: `.AppImage` 파일 다운로드 후 실행
+          - **Windows**: `.exe` 파일 다운로드 후 설치
+          
+          ### macOS 사용자 필독
+          첫 실행 시 Gatekeeper 경고가 나타날 수 있습니다. 자세한 해결 방법은 [README](https://github.com/Einere/tomato-mien#-macos에서-실행-시-gatekeeper-경고-해결-방법)를 참조하세요.
+          
+          ### 주요 변경사항
+          - 조건 기반 알람 설정
+          - 백그라운드 알림 실행
+          - 복잡한 시간 조건 지원 (AND/OR 논리)
+          
+          자세한 내용은 [README](https://github.com/Einere/tomato-mien)를 참조하세요.
+        generate_release_notes: false
+        draft: false
+        prerelease: false
+        fail_on_unmatched_files: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
