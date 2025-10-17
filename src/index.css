@@ -166,4 +166,8 @@ body {
   .icon-container-red {
     @apply bg-red-100;
   }
+
+  .toggle-btn {
+    @apply ml-2 h-6 w-11 rounded-full transition-colors duration-200 cursor-pointer;
+  }
 }

@@ -1,5 +1,5 @@
 import React, { useState, type ReactNode } from 'react'
-import { Button } from './Button'
+import { Button } from './'
 import { useOutsideClick } from '../../hooks/useOutsideClick'
 
 export interface DropdownItem {
@@ -38,7 +38,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
       <div onClick={() => setIsOpen(!isOpen)} className="cursor-pointer">
         {trigger}
       </div>
-      
+
       {isOpen && (
         <div className={`absolute top-full mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10 ${alignmentClasses} ${dropdownClassName}`}>
           {items.map((item, index) => (

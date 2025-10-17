@@ -29,15 +29,15 @@ export const RuleList: React.FC<RuleListProps> = ({
       </div>
 
       {/* 바디 영역 */}
-      <div className="overflow-y-auto">
+      <ol className="overflow-y-auto">
         {rules.length === 0 ? (
           <EmptyRuleList />
         ) : (
           rules.map((rule) => (
-            <RuleItem key={rule.id} rule={rule} selectedRuleId={selectedRuleId} onRuleSelect={onRuleSelect} onToggleEnabled={onToggleEnabled} />
+            <RuleItem key={rule.id} rule={rule} selected={rule.id === selectedRuleId} onRuleSelect={onRuleSelect} onToggleEnabled={onToggleEnabled} />
           ))
         )}
-      </div>
+      </ol>
     </div>
   )
 }
