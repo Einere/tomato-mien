@@ -1,5 +1,5 @@
 import React from 'react'
-import { ClockIcon } from '../../UI/Icons'
+import { ClockIcon } from '../../UI'
 
 export const EmptyState: React.FC = () => {
   return (

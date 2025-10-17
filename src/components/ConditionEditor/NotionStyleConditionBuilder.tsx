@@ -3,8 +3,7 @@ import type {
   TimeCondition,
   CompoundCondition,
 } from '../../types/alarm'
-import { Button } from '../UI/Button'
-import { Dropdown } from '../UI/Dropdown'
+import { Button, Dropdown } from '../UI'
 import { CompoundConditions } from './CompoundConditions'
 import { SingleCondition } from './SingleCondition'
 import { 

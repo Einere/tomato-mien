@@ -1,6 +1,6 @@
 import React from 'react'
 import type { AlarmRule } from '../../types/alarm'
-import { ActivationStatus } from '../UI/ActivationStatus'
+import { ActivationStatus } from '../UI'
 
 interface RuleListProps {
   rules: AlarmRule[]

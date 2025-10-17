@@ -1,12 +1,8 @@
 import React, { useState } from 'react'
 import type { CompoundCondition, TimeCondition, LogicalOperator } from '../../types/alarm'
-import { Select } from '../UI/Select'
-import { Button } from '../UI/Button'
-import { Dropdown } from '../UI/Dropdown'
+import { Select, Button, Dropdown, ChevronDownIcon, XIcon, Badge } from '../UI'
 import { SingleCondition } from './SingleCondition'
-import { ChevronDownIcon, XIcon } from '../UI/Icons'
 import { createDefaultRange, createDefaultCompound, getOperatorLabel } from '../../utils/alarmRules'
-import { Badge } from '../UI/Badge'
 
 type AnyCondition = TimeCondition | CompoundCondition
 

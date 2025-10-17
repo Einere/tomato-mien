@@ -1,8 +1,6 @@
 import React from 'react'
 import type { TimeCondition } from '../../types'
-import { Button } from '../UI/Button'
-import { Select } from '../UI/Select'
-import { XIcon } from '../UI/Icons'
+import { Button, Select, XIcon } from '../UI'
 import { createConditionByType } from '../../utils/alarmRules'
 import { SpecificTimeInput, TimeIntervalInput, TimeRangeInput } from './ConditionInput'
 

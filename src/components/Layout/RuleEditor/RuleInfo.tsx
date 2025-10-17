@@ -1,6 +1,6 @@
 import React from 'react'
 import type { AlarmRule } from '../../../types/alarm'
-import { InfoIcon } from '../../UI/Icons'
+import { InfoIcon } from '../../UI'
 
 interface RuleInfoProps {
   rule: AlarmRule

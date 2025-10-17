@@ -2,7 +2,7 @@ import React from 'react'
 import type { AlarmRule, TimeCondition, CompoundCondition } from '../../../types/alarm'
 import { NotionStyleConditionBuilder } from '../../ConditionEditor/NotionStyleConditionBuilder'
 import { describeCondition, validateCondition } from '../../../utils/condition'
-import { ClockIcon, CheckIcon, WarningIcon } from '../../UI/Icons'
+import { ClockIcon, CheckIcon, WarningIcon } from '../../UI'
 
 interface ConditionSectionProps {
   rule: AlarmRule
