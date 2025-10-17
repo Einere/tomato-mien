@@ -1,47 +1,25 @@
 # Tomato Mien 🍅🍜
 
-Simple rule-based alarm app
+가벼운 규칙 기반 알리미 앱
 
-## 기능
+# 설치 및 실행 
 
-- **여러 규칙들을 지원**: 원하는 만큼 알람 규칙들을 만들어서 활성화하거나 비활성화하세요.
-- **유연한 커스터마이징**: 원하는 대로 자유롭게 알람 조건을 설정할 수 있습니다.
-- **간단한 조건들**: 특정 시간 내 조건, 일정 시간 간격 조건, 정확한 시간 조건을 지원합니다.
-- **인터넷 연결 불필요**: 인터넷에 연결되어 있지 않아도 앱을 사용할 수 있습니다.
-- **백그라운드 실행**: 앱이 숨겨져 있거나 비활성화 상태여도 알람이 작동합니다.
-- **크로스 플랫폼**: macOS, Windows, Linux 지원합니다.
+## 앱 다운로드
 
-## 다운로드
+(release 탭에서 다운로드 하기)
 
-### macOS
-- [Apple Silicon (M1/M2/M3)](https://github.com/Einere/tomato-mien/releases/latest/download/Tomato-Mien-1.0.0-arm64.dmg)
-- [Intel Mac](https://github.com/Einere/tomato-mien/releases/latest/download/Tomato-Mien-1.0.0.dmg)
+### 🍎 macOS에서 실행 시 Gatekeeper 경고 해결 방법
 
-### Windows
-- [Windows 64-bit](https://github.com/Einere/tomato-mien/releases/latest/download/Tomato-Mien-Setup-1.0.0.exe)
+Tomato Mien은 무료 오픈소스 앱으로 코드 서명이 없어 첫 실행 시 경고가 나타납니다.
 
-### Linux
-- [AppImage 64-bit](https://github.com/Einere/tomato-mien/releases/latest/download/Tomato-Mien-1.0.0.AppImage)
-- [AppImage ARM64](https://github.com/Einere/tomato-mien/releases/latest/download/Tomato-Mien-1.0.0-arm64.AppImage)
+1. 시스템 설정 > 개인정보 보호 및 보안으로 이동
+2. "확인되지 않은 개발자" 영역에서 **"확인되지 않은 Tomato Mien 허용"** 클릭
 
-## 사용법
+> 💡 **참고**: 애플 개발자 멤버쉽 너무 비싸요... 🤑
 
-1. 앱을 실행합니다.
-2. 좌측 패널에서 "새 규칙" 버튼을 클릭하여 알람 규칙을 생성합니다.
-3. 우측 패널에서 알람 조건을 설정합니다.
-   - 시간 범위: 특정 시간대 설정 (예: 9시-18시)
-   - 간격: 일정한 간격으로 알람 (예: 15분마다)
-   - 특정 시간: 정확한 시간에 알람 (예: 14시 25분)
-4. 조건 그룹을 이용해 복잡한 조건을 구성할 수 있습니다.
-5. 규칙을 활성화하면 백그라운드에서 자동으로 알람이 울립니다.
 
-## 개발
+## 직접 빌드
 
-### 요구사항
-- Node.js 18+
-- npm
-
-### 설치 및 실행
 ```bash
 # 의존성 설치
 npm install
@@ -55,25 +33,24 @@ npm run electron:dev
 # 프로덕션 빌드
 npm run build
 
-# 배포용 패키지 생성
-npm run electron:dist
+# Electron 앱 빌드
+npm run electron:build
 ```
 
-## 기술 스택
+# 기능
 
-- **Frontend**: React, TypeScript, Tailwind CSS
-- **Desktop**: Electron
-- **Build**: Vite, electron-builder
-- **Background Processing**: Web Workers API
+- 조건 기반 알림 설정
+- 시간 범위, 간격, 특정 시간 조건 지원
+- AND/OR 논리 연산자 지원
+- 백그라운드 알림
+- 네트워크 연결 불필요
 
-## 라이선스
+# 기술 스택
 
-MIT License
+- FE: React, TypeScript, Tailwind, Electron
+- Build: Vite, electron-builder
+- Background: Web Worker API
 
-## 기여
+# 기여
 
-이슈나 풀 리퀘스트를 환영합니다!
-
-## 자동 업데이트
-
-이 앱은 GitHub Releases를 통해 자동 업데이트를 지원합니다. 새 버전이 출시되면 앱에서 자동으로 알림을 받을 수 있습니다.
+이슈 및 PR은 언제나 환영입니다.
