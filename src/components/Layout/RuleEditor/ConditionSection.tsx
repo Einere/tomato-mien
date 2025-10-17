@@ -2,7 +2,7 @@ import React from 'react'
 import type { AlarmRule, TimeCondition, CompoundCondition } from '../../../types/alarm'
 import { NotionStyleConditionBuilder } from '../../ConditionEditor'
 import { describeCondition, validateCondition } from '../../../utils/condition'
-import { ClockIcon, CheckIcon, WarningIcon, Card } from '../../UI'
+import { ClockIcon, CheckIcon, WarningIcon, Card, HeaderWithIcon, IconWrapper } from '../../UI'
 
 interface ConditionSectionProps {
   rule: AlarmRule
@@ -17,13 +17,7 @@ export const ConditionSection: React.FC<ConditionSectionProps> = ({
 
   return (
     <Card className="mb-6 p-6">
-      <div className="flex items-center mb-4">
-        {/* TODO: 아이콘 + 제목 컴포넌트로 분리하기 */}
-        <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
-          <ClockIcon className="w-4 h-4 text-blue-600" />
-        </div>
-        <h3 className="text-lg font-semibold text-primary">알람 조건</h3>
-      </div>
+      <HeaderWithIcon Icon={<IconWrapper Icon={ClockIcon} className="mr-3" iconClassName="text-blue-600" backgroundColor="bg-blue-100" />} title="알람 조건" />
 
       <NotionStyleConditionBuilder
         condition={rule.condition}

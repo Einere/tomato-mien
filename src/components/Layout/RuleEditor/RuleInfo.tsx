@@ -1,6 +1,6 @@
 import React from 'react'
 import type { AlarmRule } from '../../../types/alarm'
-import { InfoIcon, Card } from '../../UI'
+import { InfoIcon, Card, HeaderWithIcon, IconWrapper } from '../../UI'
 
 interface RuleInfoProps {
   rule: AlarmRule
@@ -9,12 +9,8 @@ interface RuleInfoProps {
 export const RuleInfo: React.FC<RuleInfoProps> = ({ rule }) => {
   return (
     <Card className="p-6">
-      <div className="flex items-center mb-4">
-        <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center mr-3">
-          <InfoIcon className="w-4 h-4 text-gray-600" />
-        </div>
-        <h3 className="text-lg font-semibold text-primary">규칙 정보</h3>
-      </div>
+      <HeaderWithIcon Icon={<IconWrapper Icon={InfoIcon} className="mr-3" />} title="규칙 정보" />
+
 
       <div className="grid grid-cols-2 gap-4 text-sm">
         <div>
