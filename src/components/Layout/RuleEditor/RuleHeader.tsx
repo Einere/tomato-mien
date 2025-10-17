@@ -1,6 +1,7 @@
 import React from 'react'
 import type { AlarmRule } from '../../../types/alarm'
 import { Button } from '../../UI/Button'
+import { ActivationStatus } from '../../UI/ActivationStatus'
 
 interface RuleHeaderProps {
   rule: AlarmRule
@@ -31,19 +32,8 @@ export const RuleHeader: React.FC<RuleHeaderProps> = ({
               className="text-2xl font-semibold text-primary bg-transparent border-none outline-none w-full placeholder-gray-400"
               placeholder="규칙 이름을 입력하세요"
             />
-            {/* TODO: EnabledStatus 컴포넌트로 추상화하기 */}
             <div className="text-sm text-secondary mt-1">
-              {rule.enabled ? (
-                <span className="inline-flex items-center text-green-600">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                  활성화됨
-                </span>
-              ) : (
-                <span className="inline-flex items-center text-muted">
-                  <div className="w-2 h-2 bg-gray-300 rounded-full mr-2"></div>
-                  비활성화됨
-                </span>
-              )}
+              <ActivationStatus enabled={rule.enabled} light={true} />
             </div>
           </div>
           <div className="flex items-center space-x-3">

@@ -22,6 +22,7 @@
     "electron:dist": "npm run build && electron-builder --publish=never"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
     "electron-updater": "^6.6.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"

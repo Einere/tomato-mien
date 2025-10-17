@@ -1,5 +1,6 @@
 import React from 'react'
 import type { AlarmRule } from '../../types/alarm'
+import { ActivationStatus } from '../UI/ActivationStatus'
 
 interface RuleListProps {
   rules: AlarmRule[]
@@ -26,6 +27,7 @@ export const RuleList: React.FC<RuleListProps> = ({
         </p>
       </div>
       <div className="overflow-y-auto">
+        {/* TODO: EmptyRuleList 컴포넌트로 분리 */}
         {rules.length === 0 ? (
           <div className="p-6 text-secondary text-center">
             <div className="text-4xl mb-3">⏰</div>
@@ -35,6 +37,7 @@ export const RuleList: React.FC<RuleListProps> = ({
             </p>
           </div>
         ) : (
+          // TODO: NonEmptyRuleList 컴포넌트로 분리
           rules.map((rule) => (
             <div
               key={rule.id}
@@ -48,11 +51,7 @@ export const RuleList: React.FC<RuleListProps> = ({
                     <span className="mr-2">{rule.enabled ? '🔔' : '🔕'}</span>
                     {rule.name}
                   </h3>
-                  {/* TODO: EnabledStatus 컴포넌트로 활용해 추상화하기 */}
-                  <p className={`text-sm mt-1 ${rule.enabled ? 'text-green-600' : 'text-secondary'
-                    }`}>
-                    {rule.enabled ? '활성화됨' : '비활성화됨'}
-                  </p>
+                  <ActivationStatus enabled={rule.enabled} className='text-sm mt-1' />
                 </div>
                 {/* TODO: ToggleButton 컴포넌트로 추상화하기 */}
                 <button
