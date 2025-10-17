@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import type { CompoundCondition, TimeCondition, LogicalOperator } from '../../types/alarm'
 import { Select, Button, Dropdown, ChevronDownIcon, XIcon, Badge } from '../UI'
-import { SingleCondition } from './SingleCondition'
+import { SingleCondition } from '.'
 import { createDefaultRange, createDefaultCompound, getOperatorLabel } from '../../utils/alarmRules'
 
 type AnyCondition = TimeCondition | CompoundCondition
@@ -56,6 +56,7 @@ export const CompoundConditions: React.FC<CompoundConditionsProps> = ({
 
   return (
     <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+      {/* 헤더 영역 */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           {/* TODO: LogicalOperatorSelect 컴포넌트로 분리하기 */}
@@ -92,6 +93,7 @@ export const CompoundConditions: React.FC<CompoundConditionsProps> = ({
         </div>
       </div>
 
+      {/* 바디 영역 */}
       {isOpen && (
         <div className="mt-4 space-y-3">
           {condition.conditions.map((subCondition, index) => (
@@ -119,6 +121,7 @@ export const CompoundConditions: React.FC<CompoundConditionsProps> = ({
             </div>
           ))}
 
+          {/* 푸터 영역 */}
           {/* 추가 버튼 */}
           {/* TODO: NotionStyleConditionBuilder 컴포넌트에 있는 녀석과 동일하므로, 공통 컴포넌트로 분리하기 */}
           <Dropdown

@@ -4,8 +4,7 @@ import type {
   CompoundCondition,
 } from '../../types/alarm'
 import { Button, Dropdown } from '../UI'
-import { CompoundConditions } from './CompoundConditions'
-import { SingleCondition } from './SingleCondition'
+import { CompoundConditions, SingleCondition } from '.'
 import { 
   createDefaultRange, 
   createDefaultCompound

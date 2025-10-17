@@ -1,6 +1,6 @@
 import React from 'react'
 import type { AlarmRule, TimeCondition, CompoundCondition } from '../../../types/alarm'
-import { NotionStyleConditionBuilder } from '../../ConditionEditor/NotionStyleConditionBuilder'
+import { NotionStyleConditionBuilder } from '../../ConditionEditor'
 import { describeCondition, validateCondition } from '../../../utils/condition'
 import { ClockIcon, CheckIcon, WarningIcon } from '../../UI'
 
