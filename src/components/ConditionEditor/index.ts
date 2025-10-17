@@ -1,4 +1,4 @@
 export * from './CompoundConditions'
-export * from './NotionStyleConditionBuilder'
+export * from './ConditionBuilder'
 export * from './SingleCondition'
 export * from './ConditionInput'
