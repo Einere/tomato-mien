@@ -104,8 +104,6 @@ export const CompoundConditions: React.FC<CompoundConditionsProps> = ({
                   <Badge>{getOperatorLabel(condition.operator)}</Badge>
                 </div>
               )}
-
-              {/* TODO: 타입 가드 함수로 분리하기 */}
               {isCompoundCondition(subCondition) ? (
                 <CompoundConditions
                   condition={subCondition}
