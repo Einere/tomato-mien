@@ -6,6 +6,7 @@ import { Dropdown } from '../UI/Dropdown'
 import { SingleCondition } from './SingleCondition'
 import { ChevronDownIcon, XIcon } from '../UI/Icons'
 import { createDefaultRange, createDefaultCompound, getOperatorLabel } from '../../utils/alarmRules'
+import { Badge } from '../UI/Badge'
 
 type AnyCondition = TimeCondition | CompoundCondition
 
@@ -61,6 +62,7 @@ export const CompoundConditions: React.FC<CompoundConditionsProps> = ({
     <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
+          {/* TODO: LogicalOperatorSelect 컴포넌트로 분리하기 */}
           <Select
             value={condition.operator}
             onChange={(e) => handleOperatorChange(e.target.value as LogicalOperator)}
@@ -100,13 +102,11 @@ export const CompoundConditions: React.FC<CompoundConditionsProps> = ({
             <div key={index} className="relative">
               {index > 0 && (
                 <div className="flex items-center justify-center my-2">
-                  {/* TODO: LogicalOperatorBadge 컴포넌트로 분리하기 */}
-                  <span className="px-2 py-1 bg-gray-200 text-secondary text-xs rounded">
-                    {getOperatorLabel(condition.operator)}
-                  </span>
+                  <Badge>{getOperatorLabel(condition.operator)}</Badge>
                 </div>
               )}
 
+              {/* TODO: 타입 가드 함수로 분리하기 */}
               {'operator' in subCondition ? (
                 <CompoundConditions
                   condition={subCondition}
@@ -124,6 +124,7 @@ export const CompoundConditions: React.FC<CompoundConditionsProps> = ({
           ))}
 
           {/* 추가 버튼 */}
+          {/* TODO: NotionStyleConditionBuilder 컴포넌트에 있는 녀석과 동일하므로, 공통 컴포넌트로 분리하기 */}
           <Dropdown
             trigger={
               <Button
