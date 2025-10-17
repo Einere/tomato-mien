@@ -3,6 +3,7 @@ import type { CompoundCondition, TimeCondition, LogicalOperator } from '../../ty
 import { Select, Button, Dropdown, ChevronDownIcon, XIcon, Badge } from '../UI'
 import { SingleCondition } from '.'
 import { createDefaultRange, createDefaultCompound, getOperatorLabel } from '../../utils/alarmRules'
+import { AddConditionDropdown } from './AddConditionDropdown'
 
 type AnyCondition = TimeCondition | CompoundCondition
 
@@ -122,28 +123,7 @@ export const CompoundConditions: React.FC<CompoundConditionsProps> = ({
           ))}
 
           {/* 푸터 영역 */}
-          {/* 추가 버튼 */}
-          {/* TODO: NotionStyleConditionBuilder 컴포넌트에 있는 녀석과 동일하므로, 공통 컴포넌트로 분리하기 */}
-          <Dropdown
-            trigger={
-              <Button
-                variant="secondary"
-                className="w-full border-2 border-dashed border-gray-300 text-secondary hover:border-gray-400 hover:text-secondary"
-              >
-                + 조건 추가
-              </Button>
-            }
-            items={[
-              {
-                label: '조건 추가',
-                onClick: addCondition
-              },
-              {
-                label: '그룹 추가',
-                onClick: addGroup
-              }
-            ]}
-          />
+          <AddConditionDropdown addCondition={addCondition} addGroup={addGroup} />
         </div>
       )}
     </div>
