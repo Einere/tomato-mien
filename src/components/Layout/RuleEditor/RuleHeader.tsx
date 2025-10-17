@@ -31,6 +31,7 @@ export const RuleHeader: React.FC<RuleHeaderProps> = ({
               className="text-2xl font-semibold text-primary bg-transparent border-none outline-none w-full placeholder-gray-400"
               placeholder="규칙 이름을 입력하세요"
             />
+            {/* TODO: EnabledStatus 컴포넌트로 추상화하기 */}
             <div className="text-sm text-secondary mt-1">
               {rule.enabled ? (
                 <span className="inline-flex items-center text-green-600">

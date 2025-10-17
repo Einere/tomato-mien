@@ -16,10 +16,11 @@ export const RuleInfo: React.FC<RuleInfoProps> = ({ rule }) => {
           </div>
           <h3 className="text-lg font-semibold text-primary">규칙 정보</h3>
         </div>
-        
+
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <p className="text-secondary mb-1">생성일</p>
+            {/* TODO: intl 유틸 함수로 추상화하기 */}
             <p className="text-primary">{new Date(rule.createdAt).toLocaleDateString('ko-KR')}</p>
           </div>
           <div>

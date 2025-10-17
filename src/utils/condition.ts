@@ -40,6 +40,7 @@ export function validateCondition(cond: AnyCondition, basePath = 'condition'): V
     return issues
   }
 
+  // TODO: 조건 타입 별 검증 로직을 별도의 함수로 분리해내기
   if (cond.type === 'range') {
     const start = cond.startHour * 60 + cond.startMinute
     const end = cond.endHour * 60 + cond.endMinute

@@ -23,6 +23,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
   onAddRule,
   alarmService,
 }) => {
+  // TODO: 규칙 관련 로직들을 Context API를 이용하도록 수정하기. 
   const [selectedRuleId, setSelectedRuleId] = useState<string | undefined>()
 
   const selectedRule = rules.find((rule) => rule.id === selectedRuleId)

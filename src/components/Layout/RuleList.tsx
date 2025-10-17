@@ -38,9 +38,8 @@ export const RuleList: React.FC<RuleListProps> = ({
           rules.map((rule) => (
             <div
               key={rule.id}
-              className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors duration-150 ${
-                selectedRuleId === rule.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
-              }`}
+              className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors duration-150 ${selectedRuleId === rule.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
+                }`}
               onClick={() => onRuleSelect(rule.id)}
             >
               <div className="flex items-center justify-between">
@@ -49,25 +48,24 @@ export const RuleList: React.FC<RuleListProps> = ({
                     <span className="mr-2">{rule.enabled ? '🔔' : '🔕'}</span>
                     {rule.name}
                   </h3>
-                  <p className={`text-sm mt-1 ${
-                    rule.enabled ? 'text-green-600' : 'text-secondary'
-                  }`}>
+                  {/* TODO: EnabledStatus 컴포넌트로 활용해 추상화하기 */}
+                  <p className={`text-sm mt-1 ${rule.enabled ? 'text-green-600' : 'text-secondary'
+                    }`}>
                     {rule.enabled ? '활성화됨' : '비활성화됨'}
                   </p>
                 </div>
+                {/* TODO: ToggleButton 컴포넌트로 추상화하기 */}
                 <button
-                  className={`ml-2 relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ${
-                    rule.enabled ? 'bg-green-500' : 'bg-gray-300'
-                  }`}
+                  className={`ml-2 relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ${rule.enabled ? 'bg-green-500' : 'bg-gray-300'
+                    }`}
                   onClick={(e) => {
                     e.stopPropagation()
                     onToggleEnabled(rule.id)
                   }}
                 >
                   <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 shadow-sm ${
-                      rule.enabled ? 'translate-x-6' : 'translate-x-1'
-                    }`}
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 shadow-sm ${rule.enabled ? 'translate-x-6' : 'translate-x-1'
+                      }`}
                   />
                 </button>
               </div>

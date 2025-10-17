@@ -4,6 +4,7 @@ import type { AlarmRule, AlarmStorage, AlarmEvent } from './types/alarm'
 import { WebWorkerAlarmService } from './services/WebWorkerAlarmService'
 
 function App() {
+  // TODO: 규칙 관련 로직들을 Context API를 이용하도록 수정하기.
   const [rules, setRules] = useState<AlarmRule[]>([])
   const [alarmService] = useState(() => WebWorkerAlarmService.getInstance())
 
@@ -132,7 +133,7 @@ function App() {
         rule.id === ruleId ? toggledRule : rule
       )
       saveRules(newRules)
-      
+
       // 개별 규칙만 워커에 업데이트
       alarmService.updateRule(toggledRule)
     }

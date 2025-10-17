@@ -27,6 +27,13 @@ jobs:
     - name: Install dependencies
       run: npm install
       
+    - name: Update version from tag
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        VERSION=${GITHUB_REF#refs/tags/}
+        npm version $VERSION --no-git-tag-version
+        echo "Updated package.json version to $VERSION"
+      
     - name: Build
       run: npm run build
       
@@ -40,9 +47,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: macos-builds
-        path: |
-          release/*.dmg
-          release/*.blockmap
+        path: release/*.dmg
           
     - name: Upload Linux artifacts
       if: matrix.os == 'ubuntu-latest'
@@ -86,29 +91,12 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          macos-builds/*
-          linux-builds/*
-          windows-builds/*
+          macos-builds/*.dmg
+          linux-builds/*.AppImage
+          windows-builds/*.exe
         tag_name: ${{ github.ref_name }}
         name: Tomato Mien ${{ github.ref_name }}
-        body: |
-          ## 🍅🍜 Tomato Mien ${{ github.ref_name }}
-          
-          ### 다운로드
-          - **macOS**: `.dmg` 파일 다운로드 후 설치
-          - **Linux**: `.AppImage` 파일 다운로드 후 실행
-          - **Windows**: `.exe` 파일 다운로드 후 설치
-          
-          ### macOS 사용자 필독
-          첫 실행 시 Gatekeeper 경고가 나타날 수 있습니다. 자세한 해결 방법은 [README](https://github.com/Einere/tomato-mien#-macos에서-실행-시-gatekeeper-경고-해결-방법)를 참조하세요.
-          
-          ### 주요 변경사항
-          - 조건 기반 알람 설정
-          - 백그라운드 알림 실행
-          - 복잡한 시간 조건 지원 (AND/OR 논리)
-          
-          자세한 내용은 [README](https://github.com/Einere/tomato-mien)를 참조하세요.
-        generate_release_notes: false
+        generate_release_notes: true
         draft: false
         prerelease: false
         fail_on_unmatched_files: false
