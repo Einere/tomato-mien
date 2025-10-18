@@ -9,63 +9,63 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    
+
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '22'
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm install
-      
-    - name: Update version from tag
-      if: startsWith(github.ref, 'refs/tags/')
-      shell: bash
-      run: |
-        VERSION=${GITHUB_REF#refs/tags/}
-        npm version $VERSION --no-git-tag-version
-        echo "Updated package.json version to $VERSION"
-      
-    - name: Build
-      run: npm run build
-      
-    - name: Build Electron app
-      run: npm run electron:dist
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Upload macOS artifacts
-      if: matrix.os == 'macos-latest'
-      uses: actions/upload-artifact@v4
-      with:
-        name: macos-builds
-        path: release/*.dmg
-          
-    - name: Upload Linux artifacts
-      if: matrix.os == 'ubuntu-latest'
-      uses: actions/upload-artifact@v4
-      with:
-        name: linux-builds
-        path: |
-          release/*.AppImage
-          
-    - name: Upload Windows artifacts
-      if: matrix.os == 'windows-latest'
-      uses: actions/upload-artifact@v4
-      with:
-        name: windows-builds
-        path: |
-          release/*.exe
-          release/*.nsis
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Update version from tag
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          npm version $VERSION --no-git-tag-version
+          echo "Updated package.json version to $VERSION"
+
+      - name: Build
+        run: npm run build
+
+      - name: Build Electron app
+        run: npm run electron:dist
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload macOS artifacts
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-builds
+          path: release/*.dmg
+
+      - name: Upload Linux artifacts
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-builds
+          path: |
+            release/*.AppImage
+
+      - name: Upload Windows artifacts
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-builds
+          path: |
+            release/*.exe
+            release/*.nsis
 
   release:
     needs: build
@@ -74,32 +74,32 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Download all artifacts
-      uses: actions/download-artifact@v4
-      
-    - name: Debug GitHub Token
-      run: |
-        echo "GitHub Token exists: ${{ secrets.GITHUB_TOKEN != '' }}"
-        echo "Tag: ${{ github.ref_name }}"
-        echo "Repository: ${{ github.repository }}"
-      
-    - name: Create Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: |
-          macos-builds/*.dmg
-          linux-builds/*.AppImage
-          windows-builds/*.exe
-        tag_name: ${{ github.ref_name }}
-        name: Tomato Mien ${{ github.ref_name }}
-        generate_release_notes: true
-        draft: false
-        prerelease: false
-        fail_on_unmatched_files: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Debug GitHub Token
+        run: |
+          echo "GitHub Token exists: ${{ secrets.GITHUB_TOKEN != '' }}"
+          echo "Tag: ${{ github.ref_name }}"
+          echo "Repository: ${{ github.repository }}"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            macos-builds/*.dmg
+            linux-builds/*.AppImage
+            windows-builds/*.exe
+          tag_name: ${{ github.ref_name }}
+          name: Tomato Mien ${{ github.ref_name }}
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+          fail_on_unmatched_files: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

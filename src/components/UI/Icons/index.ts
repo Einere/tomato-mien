@@ -1,7 +1,7 @@
-export { ChevronDownIcon } from './ChevronDownIcon'
-export { XIcon } from './XIcon'
-export { ClockIcon } from './ClockIcon'
-export { CheckIcon } from './CheckIcon'
-export { WarningIcon } from './WarningIcon'
-export { InfoIcon } from './InfoIcon'
-export { IconWrapper } from './IconWrapper'
+export { ChevronDownIcon } from './ChevronDownIcon';
+export { XIcon } from './XIcon';
+export { ClockIcon } from './ClockIcon';
+export { CheckIcon } from './CheckIcon';
+export { WarningIcon } from './WarningIcon';
+export { InfoIcon } from './InfoIcon';
+export { IconWrapper } from './IconWrapper';

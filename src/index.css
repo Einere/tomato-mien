@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "@tailwindcss/forms";
 
 :root {
@@ -30,7 +30,6 @@ body {
 }
 
 @layer components {
-
   /* 텍스트 토큰 */
   .text-primary {
     @apply text-gray-900;
@@ -49,7 +48,7 @@ body {
   }
 
   select {
-    @apply px-4 py-2 pr-8 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+    @apply px-4 py-2 pr-8 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
   }
 
   /* 버튼 상태 클래스 */
