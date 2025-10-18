@@ -17,7 +17,10 @@ export const ConditionSection: React.FC<ConditionSectionProps> = ({
 
   return (
     <Card className="mb-6 p-6">
-      <HeaderWithIcon Icon={<IconWrapper Icon={<ClockIcon className="text-blue-600" />} className="mr-3" backgroundColor="bg-blue-100" size={32} />} title="알람 조건" />
+      <HeaderWithIcon Icon={
+        <IconWrapper Icon={<ClockIcon className="text-blue-600" />}
+          className="mr-3" backgroundColor="bg-blue-100" />
+      } title="알람 조건" />
 
       <NotionStyleConditionBuilder
         condition={rule.condition}
