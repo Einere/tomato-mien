@@ -1,18 +1,19 @@
 import clsx from 'clsx';
-import React, { type JSX } from 'react';
+import React from 'react';
 
 interface IconWrapperProps {
   className?: string;
   outerSize?: number;
   backgroundColor?: string;
-  Icon: JSX.Element;
   shape?: 'circle' | 'square';
 }
 
-export const IconWrapper: React.FC<IconWrapperProps> = ({
+export const IconWrapper: React.FC<
+  React.PropsWithChildren<IconWrapperProps>
+> = ({
   className = '',
   backgroundColor = 'bg-gray-200',
-  Icon,
+  children,
   shape = 'square',
 }) => {
   const shapeClassName = shape === 'circle' ? 'rounded-full' : 'rounded-lg';
@@ -26,7 +27,7 @@ export const IconWrapper: React.FC<IconWrapperProps> = ({
         shapeClassName,
       )}
     >
-      {Icon}
+      {children}
     </div>
   );
 };
