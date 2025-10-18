@@ -1,3 +1,3 @@
-export * from './TimeRangeInput'
-export * from './TimeIntervalInput'
-export * from './SpecificTimeInput'
+export * from './TimeRangeInput';
+export * from './TimeIntervalInput';
+export * from './SpecificTimeInput';

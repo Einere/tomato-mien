@@ -1,9 +1,9 @@
-import type { IntervalCondition, TimeCondition } from "../../../types";
+import type { IntervalCondition, TimeCondition } from '../../../types';
 
 type TimeIntervalInputProps = {
   condition: IntervalCondition;
-  onChange: (condition: TimeCondition) => void
-  showDelete?: boolean
+  onChange: (condition: TimeCondition) => void;
+  showDelete?: boolean;
 };
 
 export function TimeIntervalInput(props: TimeIntervalInputProps) {
@@ -12,14 +12,18 @@ export function TimeIntervalInput(props: TimeIntervalInputProps) {
   return (
     <form>
       <input
-        type="number"
-        min="1"
-        max="720"
+        type='number'
+        min='1'
+        max='720'
         value={condition.intervalMinutes}
-        onChange={(e) => onChange({ ...condition, intervalMinutes: parseInt(e.target.value) || 1 })}
+        onChange={e =>
+          onChange({
+            ...condition,
+            intervalMinutes: parseInt(e.target.value) || 1,
+          })
+        }
       />
-      <span className="text-secondary self-center">&nbsp;분 마다</span>
+      <span className='text-secondary self-center'>&nbsp;분 마다</span>
     </form>
   );
-
 }
