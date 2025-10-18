@@ -3,11 +3,10 @@ import { Toolbar } from './Toolbar';
 import { RuleList } from './RuleList';
 import { RuleEditor } from './RuleEditor';
 import { StatusBar } from './StatusBar';
-import { useAlarm, useAlarmActions } from '../../contexts/AlarmContext';
+import { useAlarm } from '../../contexts/AlarmContext';
 
 export const MainLayout: React.FC = () => {
   const { rules, selectedRuleId, alarmService } = useAlarm();
-  const { selectRule } = useAlarmActions();
 
   const selectedRule = rules.find(rule => rule.id === selectedRuleId);
   const activeRuleCount = alarmService.getActiveRuleCount();
@@ -22,11 +21,7 @@ export const MainLayout: React.FC = () => {
       <div className='flex-1 flex overflow-hidden'>
         {/* 좌측 패널 - 규칙 리스트 */}
         <div className='w-1/4 min-w-64'>
-          <RuleList
-            rules={rules}
-            selectedRuleId={selectedRuleId}
-            onRuleSelect={selectRule}
-          />
+          <RuleList rules={rules} />
         </div>
 
         {/* 우측 패널 - 규칙 편집기 */}

@@ -92,7 +92,6 @@ function alarmReducer(state: AlarmState, action: AlarmAction): AlarmState {
       );
       // 로컬 스토리지에 저장
       saveRulesToStorage(newRules);
-      console.log('new rules', state.rules, action, newRules);
 
       // 개별 규칙만 워커에 업데이트
       const toggledRule = newRules.find(rule => rule.id === action.payload);
