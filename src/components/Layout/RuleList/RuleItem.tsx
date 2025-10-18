@@ -1,19 +1,17 @@
 import clsx from 'clsx';
 import type { AlarmRule } from '../../../types/alarm';
 import { ActivationStatus, ToggleButton } from '../../UI';
+import { useAlarmActions } from '../../../contexts/AlarmContext';
 
 type RuleItemProps = {
   rule: AlarmRule;
   selected?: boolean;
   onRuleSelect: (ruleId: string) => void;
-  onToggleEnabled: (ruleId: string) => void;
 };
-export function RuleItem({
-  rule,
-  selected,
-  onRuleSelect,
-  onToggleEnabled,
-}: RuleItemProps) {
+
+export function RuleItem({ rule, selected, onRuleSelect }: RuleItemProps) {
+  const { toggleRule } = useAlarmActions();
+
   return (
     <li
       role='button'
@@ -35,7 +33,7 @@ export function RuleItem({
         </div>
         <ToggleButton
           enabled={rule.enabled}
-          onToggle={() => onToggleEnabled(rule.id)}
+          onToggle={() => toggleRule(rule.id)}
         />
       </div>
     </li>

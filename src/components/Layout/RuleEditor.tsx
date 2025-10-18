@@ -8,19 +8,15 @@ import { RuleHeader } from './RuleEditor/RuleHeader';
 import { ConditionSection } from './RuleEditor/ConditionSection';
 import { RuleInfo } from './RuleEditor/RuleInfo';
 import { EmptyState } from './RuleEditor/EmptyState';
+import { useAlarmActions } from '../../contexts/AlarmContext';
 
 interface RuleEditorProps {
   rule?: AlarmRule;
-  onSave: (rule: AlarmRule) => void;
-  onDelete: (ruleId: string) => void;
 }
 
-export const RuleEditor: React.FC<RuleEditorProps> = ({
-  rule,
-  onSave,
-  onDelete,
-}) => {
+export const RuleEditor: React.FC<RuleEditorProps> = ({ rule }) => {
   const [editedRule, setEditedRule] = useState<AlarmRule | null>(null);
+  const { updateRule, deleteRule } = useAlarmActions();
 
   useEffect(() => {
     if (rule) {
@@ -41,7 +37,7 @@ export const RuleEditor: React.FC<RuleEditorProps> = ({
   };
 
   const handleSave = () => {
-    onSave(editedRule);
+    updateRule(editedRule);
   };
 
   const handleDelete = () => {
@@ -50,7 +46,7 @@ export const RuleEditor: React.FC<RuleEditorProps> = ({
         `"${editedRule.name}" 규칙을 삭제하시겠습니까?\n\n이 작업은 되돌릴 수 없습니다.`,
       )
     ) {
-      onDelete(editedRule.id);
+      deleteRule(editedRule.id);
     }
   };
 

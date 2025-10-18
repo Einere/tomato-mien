@@ -7,14 +7,12 @@ interface RuleListProps {
   rules: AlarmRule[];
   selectedRuleId?: string;
   onRuleSelect: (ruleId: string) => void;
-  onToggleEnabled: (ruleId: string) => void;
 }
 
 export const RuleList: React.FC<RuleListProps> = ({
   rules,
   selectedRuleId,
   onRuleSelect,
-  onToggleEnabled,
 }) => {
   return (
     <div className='bg-white border-r border-gray-200 h-full shadow-sm'>
@@ -37,7 +35,6 @@ export const RuleList: React.FC<RuleListProps> = ({
               rule={rule}
               selected={rule.id === selectedRuleId}
               onRuleSelect={onRuleSelect}
-              onToggleEnabled={onToggleEnabled}
             />
           ))
         )}
