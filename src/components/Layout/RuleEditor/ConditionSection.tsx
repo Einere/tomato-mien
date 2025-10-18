@@ -31,11 +31,9 @@ export const ConditionSection: React.FC<ConditionSectionProps> = ({
     <Card className='mb-6 p-6'>
       <HeaderWithIcon
         Icon={
-          <IconWrapper
-            Icon={<ClockIcon className='text-blue-600' />}
-            className='mr-3'
-            backgroundColor='bg-blue-100'
-          />
+          <IconWrapper className='mr-3' backgroundColor='bg-blue-100'>
+            <ClockIcon className='text-blue-600' />
+          </IconWrapper>
         }
         title='알람 조건'
       />
@@ -48,11 +46,12 @@ export const ConditionSection: React.FC<ConditionSectionProps> = ({
       <Callout
         Icon={
           <IconWrapper
-            Icon={<CheckIcon size={12} className='text-blue-600' />}
             className='w-5 h-5'
             shape='circle'
             backgroundColor='bg-blue-100'
-          />
+          >
+            <CheckIcon size={12} className='text-blue-600' />
+          </IconWrapper>
         }
         className='mt-4 bg-blue-50 border border-blue-200'
       >
@@ -67,11 +66,12 @@ export const ConditionSection: React.FC<ConditionSectionProps> = ({
         <Callout
           Icon={
             <IconWrapper
-              Icon={<WarningIcon size={12} className='text-yellow-600' />}
               className='w-5 h-5'
               shape='circle'
               backgroundColor='bg-yellow-100'
-            />
+            >
+              <WarningIcon size={12} className='text-yellow-600' />
+            </IconWrapper>
           }
           className='mt-4 bg-yellow-50 border border-yellow-200'
         >

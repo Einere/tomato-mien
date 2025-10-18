@@ -10,7 +10,11 @@ export const RuleInfo: React.FC<RuleInfoProps> = ({ rule }) => {
   return (
     <Card className='p-6'>
       <HeaderWithIcon
-        Icon={<IconWrapper Icon={<InfoIcon />} className='mr-3' />}
+        Icon={
+          <IconWrapper className='mr-3'>
+            <InfoIcon />
+          </IconWrapper>
+        }
         title='규칙 정보'
       />
 
