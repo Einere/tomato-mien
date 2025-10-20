@@ -1,7 +1,7 @@
 import React from 'react';
-import type { AlarmRule } from '../../../types/alarm';
-import { Button, ActivationStatus, Card } from '../../UI';
-import { useRuleEditorActions } from '../../../hooks';
+import type { AlarmRule } from '@/types/alarm';
+import { Button, ActivationStatus, Card } from '@/components/UI';
+import { useRuleEditorActions } from '@/hooks';
 
 interface RuleHeaderProps {
   rule: AlarmRule;

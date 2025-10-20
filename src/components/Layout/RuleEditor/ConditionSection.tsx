@@ -1,7 +1,7 @@
 import React from 'react';
-import type { AlarmRule } from '../../../types/alarm';
-import { NotionStyleConditionBuilder } from '../../ConditionEditor';
-import { describeCondition, validateCondition } from '../../../utils/condition';
+import type { AlarmRule } from '@/types/alarm';
+import { NotionStyleConditionBuilder } from '@/components/ConditionEditor';
+import { describeCondition, validateCondition } from '@/utils/condition';
 import {
   ClockIcon,
   CheckIcon,
@@ -10,8 +10,8 @@ import {
   HeaderWithIcon,
   IconWrapper,
   Callout,
-} from '../../UI';
-import { useRuleEditorActions } from '../../../hooks';
+} from '@/components/UI';
+import { useRuleEditorActions } from '@/hooks';
 
 interface ConditionSectionProps {
   rule: AlarmRule;

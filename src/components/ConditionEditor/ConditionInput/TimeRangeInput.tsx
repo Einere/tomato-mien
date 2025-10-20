@@ -1,4 +1,4 @@
-import type { RangeCondition, TimeCondition } from '../../../types';
+import type { RangeCondition, TimeCondition } from '@/types';
 
 type TimeRangeInputProps = {
   condition: RangeCondition;

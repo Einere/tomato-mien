@@ -4,8 +4,8 @@ import React, {
   useEffect,
   useCallback,
 } from 'react';
-import type { AlarmRule, AlarmStorage, AlarmEvent } from '../types/alarm';
-import { WebWorkerAlarmService } from '../services/WebWorkerAlarmService';
+import type { AlarmRule, AlarmStorage, AlarmEvent } from '@/types/alarm';
+import { WebWorkerAlarmService } from '@/services/WebWorkerAlarmService';
 
 // Context 타입 정의
 interface AlarmState {

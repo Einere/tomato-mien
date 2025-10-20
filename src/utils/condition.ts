@@ -1,4 +1,4 @@
-import type { TimeCondition, CompoundCondition } from '../types/alarm';
+import type { TimeCondition, CompoundCondition } from '@/types/alarm';
 import { isCompoundCondition } from './typeGuards';
 
 export type AnyCondition = TimeCondition | CompoundCondition;

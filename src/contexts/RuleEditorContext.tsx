@@ -3,7 +3,7 @@ import type {
   AlarmRule,
   TimeCondition,
   CompoundCondition,
-} from '../types/alarm';
+} from '@/types/alarm';
 
 // Context 타입 정의
 interface RuleEditorState {

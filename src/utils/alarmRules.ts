@@ -4,7 +4,7 @@ import type {
   SpecificCondition,
   CompoundCondition,
   LogicalOperator,
-} from '../types/alarm';
+} from '@/types/alarm';
 
 // 기본 조건 생성 함수들
 export const createDefaultRange = (): RangeCondition => ({

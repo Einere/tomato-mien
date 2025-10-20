@@ -1,11 +1,8 @@
 import React from 'react';
-import type { TimeCondition, CompoundCondition } from '../../types/alarm';
+import type { TimeCondition, CompoundCondition } from '@/types';
 import { CompoundConditions, SingleCondition } from '.';
-import {
-  createDefaultRange,
-  createDefaultCompound,
-} from '../../utils/alarmRules';
-import { isCompoundCondition, isTimeCondition } from '../../utils/typeGuards';
+import { createDefaultRange, createDefaultCompound } from '@/utils/alarmRules';
+import { isCompoundCondition, isTimeCondition } from '@/utils/typeGuards';
 import { AddConditionDropdown } from './AddConditionDropdown';
 
 type AnyCondition = TimeCondition | CompoundCondition;

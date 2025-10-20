@@ -1,4 +1,4 @@
-import type { AlarmRule, AlarmEvent } from '../types/alarm';
+import type { AlarmRule, AlarmEvent } from '@/types/alarm';
 
 export class WebWorkerAlarmService {
   private static instance: WebWorkerAlarmService;

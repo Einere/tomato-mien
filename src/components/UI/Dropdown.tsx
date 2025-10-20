@@ -1,6 +1,6 @@
 import React, { useState, type ReactNode } from 'react';
 import { Button } from './';
-import { useOutsideClick } from '../../hooks/useOutsideClick';
+import { useOutsideClick } from '@/hooks/useOutsideClick';
 
 export interface DropdownItem {
   label: string;

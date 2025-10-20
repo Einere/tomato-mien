@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { AlarmDispatchContext } from '../contexts/AlarmContext';
+import { AlarmDispatchContext } from '@/contexts/AlarmContext';
 
 export function useAlarmDispatch() {
   const context = useContext(AlarmDispatchContext);

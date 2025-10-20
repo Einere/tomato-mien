@@ -1,5 +1,5 @@
 import React from 'react';
-import type { AlarmRule } from '../../../types/alarm';
+import type { AlarmRule } from '@/types/alarm';
 import { EmptyRuleList } from './EmptyRuleList';
 import { RuleItem } from './RuleItem';
 

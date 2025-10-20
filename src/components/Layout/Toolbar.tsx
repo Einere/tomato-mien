@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button } from '../UI';
-import { useAlarmActions } from '../../hooks';
+import { Button } from '@/components/UI';
+import { useAlarmActions } from '@/hooks';
 
 interface ToolbarProps {
   title: string;

@@ -1,5 +1,5 @@
-import type { SpecificCondition, TimeCondition } from '../../../types';
-import { Select } from '../../UI';
+import type { SpecificCondition, TimeCondition } from '@/types';
+import { Select } from '@/components/UI';
 
 // 시간 옵션 생성 (0-23시)
 const hourOptions = [

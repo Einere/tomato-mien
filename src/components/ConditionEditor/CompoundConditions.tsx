@@ -3,16 +3,16 @@ import type {
   CompoundCondition,
   TimeCondition,
   LogicalOperator,
-} from '../../types/alarm';
-import { Select, Button, ChevronDownIcon, XIcon, Badge } from '../UI';
+} from '@/types';
+import { Select, Button, ChevronDownIcon, XIcon, Badge } from '@/components/UI';
 import { SingleCondition } from '.';
 import {
   createDefaultRange,
   createDefaultCompound,
   getOperatorLabel,
-} from '../../utils/alarmRules';
+} from '@/utils/alarmRules';
 import { AddConditionDropdown } from './AddConditionDropdown';
-import { isCompoundCondition } from '../../utils/typeGuards';
+import { isCompoundCondition } from '@/utils/typeGuards';
 
 type AnyCondition = TimeCondition | CompoundCondition;
 

@@ -3,8 +3,8 @@ import type {
   AlarmRule,
   TimeCondition,
   CompoundCondition,
-} from '../types/alarm';
-import { isCompoundCondition } from '../utils/typeGuards';
+} from '@/types/alarm';
+import { isCompoundCondition } from '@/utils/typeGuards';
 
 interface WorkerMessage {
   type:

@@ -2,7 +2,7 @@ import type {
   AlarmRule,
   TimeCondition,
   CompoundCondition,
-} from '../types/alarm';
+} from '@/types/alarm';
 import { useRuleEditorDispatch } from './useRuleEditorDispatch';
 
 export function useRuleEditorActions() {

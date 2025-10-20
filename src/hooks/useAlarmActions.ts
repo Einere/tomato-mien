@@ -1,4 +1,4 @@
-import type { AlarmRule } from '../types/alarm';
+import type { AlarmRule } from '@/types/alarm';
 import { useAlarmDispatch } from './useAlarmDispatch';
 
 export function useAlarmActions() {

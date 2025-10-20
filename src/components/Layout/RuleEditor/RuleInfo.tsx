@@ -1,6 +1,6 @@
 import React from 'react';
-import type { AlarmRule } from '../../../types/alarm';
-import { InfoIcon, Card, HeaderWithIcon, IconWrapper } from '../../UI';
+import type { AlarmRule } from '@/types/alarm';
+import { InfoIcon, Card, HeaderWithIcon, IconWrapper } from '@/components/UI';
 
 interface RuleInfoProps {
   rule: AlarmRule;

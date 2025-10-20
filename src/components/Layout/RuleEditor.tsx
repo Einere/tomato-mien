@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import type { AlarmRule } from '../../types/alarm';
+import type { AlarmRule } from '@/types/alarm';
 import { RuleHeader } from './RuleEditor/RuleHeader';
 import { ConditionSection } from './RuleEditor/ConditionSection';
 import { RuleInfo } from './RuleEditor/RuleInfo';
 import { EmptyState } from './RuleEditor/EmptyState';
-import { useAlarmActions } from '../../hooks';
-import { useRuleEditor, useRuleEditorActions } from '../../hooks';
+import { useAlarmActions, useRuleEditor, useRuleEditorActions } from '@/hooks';
 
 interface RuleEditorProps {
   rule?: AlarmRule;

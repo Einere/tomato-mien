@@ -3,8 +3,8 @@ import { Toolbar } from './Toolbar';
 import { RuleList } from './RuleList';
 import { RuleEditor } from './RuleEditor';
 import { StatusBar } from './StatusBar';
-import { useAlarm } from '../../hooks';
-import { RuleEditorProvider } from '../../contexts/RuleEditorContext';
+import { useAlarm } from '@/hooks';
+import { RuleEditorProvider } from '@/contexts/RuleEditorContext';
 
 export const MainLayout: React.FC = () => {
   const { rules, selectedRuleId, alarmService } = useAlarm();

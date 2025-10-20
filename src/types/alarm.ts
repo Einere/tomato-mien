@@ -1,6 +1,4 @@
-// 알람 조건의 기본 타입들 (Discriminated Union)
-
-// 범위 조건: 14시-17시
+// 범위 조건
 export interface RangeCondition {
   type: 'range';
   startHour: number; // 0-23
@@ -9,13 +7,13 @@ export interface RangeCondition {
   endMinute: number; // 0-59
 }
 
-// 간격 조건: 매 15분마다
+// 간격 조건
 export interface IntervalCondition {
   type: 'interval';
   intervalMinutes: number; // 분 단위 간격
 }
 
-// 특정 값 조건: 14시, 35분
+// 특정 값 조건
 export interface SpecificCondition {
   type: 'specific';
   hour?: number; // 0-23 (undefined면 모든 시간)

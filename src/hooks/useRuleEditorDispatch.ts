@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { RuleEditorDispatchContext } from '../contexts/RuleEditorContext';
+import { RuleEditorDispatchContext } from '@/contexts/RuleEditorContext';
 
 export function useRuleEditorDispatch() {
   const context = useContext(RuleEditorDispatchContext);

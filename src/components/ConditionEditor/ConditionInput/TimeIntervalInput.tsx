@@ -1,4 +1,4 @@
-import type { IntervalCondition, TimeCondition } from '../../../types';
+import type { IntervalCondition, TimeCondition } from '@/types';
 
 type TimeIntervalInputProps = {
   condition: IntervalCondition;

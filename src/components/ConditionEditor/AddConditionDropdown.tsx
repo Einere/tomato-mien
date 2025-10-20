@@ -1,4 +1,4 @@
-import { Button, Dropdown } from '../UI';
+import { Button, Dropdown } from '@/components/UI';
 
 type AddConditionDropdownProps = {
   addCondition: () => void;
