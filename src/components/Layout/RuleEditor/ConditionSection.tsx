@@ -1,9 +1,5 @@
 import React from 'react';
-import type {
-  AlarmRule,
-  TimeCondition,
-  CompoundCondition,
-} from '../../../types/alarm';
+import type { AlarmRule } from '../../../types/alarm';
 import { NotionStyleConditionBuilder } from '../../ConditionEditor';
 import { describeCondition, validateCondition } from '../../../utils/condition';
 import {
@@ -15,16 +11,14 @@ import {
   IconWrapper,
   Callout,
 } from '../../UI';
+import { useRuleEditorActions } from '../../../hooks';
 
 interface ConditionSectionProps {
   rule: AlarmRule;
-  onConditionChange: (condition: TimeCondition | CompoundCondition) => void;
 }
 
-export const ConditionSection: React.FC<ConditionSectionProps> = ({
-  rule,
-  onConditionChange,
-}) => {
+export const ConditionSection: React.FC<ConditionSectionProps> = ({ rule }) => {
+  const { updateCondition } = useRuleEditorActions();
   const validationErrors = validateCondition(rule.condition);
 
   return (
@@ -39,7 +33,7 @@ export const ConditionSection: React.FC<ConditionSectionProps> = ({
       />
       <NotionStyleConditionBuilder
         condition={rule.condition}
-        onChange={onConditionChange}
+        onChange={updateCondition}
       />
 
       {/* 조건 미리보기 */}

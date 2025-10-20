@@ -3,7 +3,8 @@ import { Toolbar } from './Toolbar';
 import { RuleList } from './RuleList';
 import { RuleEditor } from './RuleEditor';
 import { StatusBar } from './StatusBar';
-import { useAlarm } from '../../contexts/AlarmContext';
+import { useAlarm } from '../../hooks';
+import { RuleEditorProvider } from '../../contexts/RuleEditorContext';
 
 export const MainLayout: React.FC = () => {
   const { rules, selectedRuleId, alarmService } = useAlarm();
@@ -26,7 +27,9 @@ export const MainLayout: React.FC = () => {
 
         {/* 우측 패널 - 규칙 편집기 */}
         <div className='flex-1'>
-          <RuleEditor rule={selectedRule} />
+          <RuleEditorProvider>
+            <RuleEditor rule={selectedRule} />
+          </RuleEditorProvider>
         </div>
       </div>
 

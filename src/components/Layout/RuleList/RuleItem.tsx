@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import type { AlarmRule } from '../../../types/alarm';
 import { ActivationStatus, ToggleButton } from '../../UI';
-import { useAlarmActions, useAlarm } from '../../../contexts/AlarmContext';
+import { useAlarmActions, useAlarm } from '../../../hooks';
 
 type RuleItemProps = {
   rule: AlarmRule;

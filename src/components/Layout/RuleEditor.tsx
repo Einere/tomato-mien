@@ -1,40 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import type {
-  AlarmRule,
-  TimeCondition,
-  CompoundCondition,
-} from '../../types/alarm';
+import React, { useEffect } from 'react';
+import type { AlarmRule } from '../../types/alarm';
 import { RuleHeader } from './RuleEditor/RuleHeader';
 import { ConditionSection } from './RuleEditor/ConditionSection';
 import { RuleInfo } from './RuleEditor/RuleInfo';
 import { EmptyState } from './RuleEditor/EmptyState';
-import { useAlarmActions } from '../../contexts/AlarmContext';
+import { useAlarmActions } from '../../hooks';
+import { useRuleEditor, useRuleEditorActions } from '../../hooks';
 
 interface RuleEditorProps {
   rule?: AlarmRule;
 }
 
 export const RuleEditor: React.FC<RuleEditorProps> = ({ rule }) => {
-  const [editedRule, setEditedRule] = useState<AlarmRule | null>(null);
+  const { editedRule, hasChanges } = useRuleEditor();
+  const { setOriginalRule } = useRuleEditorActions();
   const { updateRule, deleteRule } = useAlarmActions();
 
   useEffect(() => {
-    if (rule) {
-      setEditedRule({ ...rule });
-    }
-  }, [rule]);
+    setOriginalRule(rule || null);
+  }, [rule, setOriginalRule]);
 
   if (!rule || !editedRule) {
     return <EmptyState />;
   }
-
-  const handleNameChange = (name: string) => {
-    setEditedRule({ ...editedRule, name });
-  };
-
-  const handleEnabledChange = (enabled: boolean) => {
-    setEditedRule({ ...editedRule, enabled });
-  };
 
   const handleSave = () => {
     updateRule(editedRule);
@@ -50,35 +38,17 @@ export const RuleEditor: React.FC<RuleEditorProps> = ({ rule }) => {
     }
   };
 
-  const handleConditionChange = (
-    condition: TimeCondition | CompoundCondition,
-  ) => {
-    setEditedRule({ ...editedRule, condition, updatedAt: new Date() });
-  };
-
-  // 변경사항이 있는지 확인
-  const hasChanges = rule
-    ? editedRule.name !== rule.name ||
-      editedRule.enabled !== rule.enabled ||
-      JSON.stringify(editedRule.condition) !== JSON.stringify(rule.condition)
-    : true;
-
   return (
     <div className='bg-gray-50 h-full overflow-y-auto'>
       <div className='p-6 max-w-4xl mx-auto'>
         <RuleHeader
           rule={editedRule}
-          onNameChange={handleNameChange}
-          onEnabledChange={handleEnabledChange}
-          onDelete={handleDelete}
           onSave={handleSave}
+          onDelete={handleDelete}
           hasChanges={hasChanges}
         />
 
-        <ConditionSection
-          rule={editedRule}
-          onConditionChange={handleConditionChange}
-        />
+        <ConditionSection rule={editedRule} />
 
         <RuleInfo rule={editedRule} />
       </div>

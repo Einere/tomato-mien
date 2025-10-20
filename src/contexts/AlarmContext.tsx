@@ -1,6 +1,5 @@
 import React, {
   createContext,
-  useContext,
   useReducer,
   useEffect,
   useCallback,
@@ -216,26 +215,30 @@ export function AlarmProvider({ children }: { children: React.ReactNode }) {
     if (window.electronAPI) {
       const handleMenuAction = (_event: any, action: string) => {
         switch (action) {
-          case 'menu-new-rule':
+          case 'menu-new-rule': {
             handleAddRule();
             break;
-          case 'menu-enable-all-alarms':
+          }
+          case 'menu-enable-all-alarms': {
             const enabledRules = state.rules.map(rule => ({
               ...rule,
               enabled: true,
             }));
             dispatch({ type: 'SET_RULES', payload: enabledRules });
             break;
-          case 'menu-disable-all-alarms':
+          }
+          case 'menu-disable-all-alarms': {
             const disabledRules = state.rules.map(rule => ({
               ...rule,
               enabled: false,
             }));
             dispatch({ type: 'SET_RULES', payload: disabledRules });
             break;
-          case 'menu-about':
+          }
+          case 'menu-about': {
             alert('Tomato Mien v1.0.0\nSimple rule-based alarm app');
             break;
+          }
         }
       };
 
@@ -276,36 +279,5 @@ export function AlarmProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-// 커스텀 훅들
-export function useAlarm() {
-  const context = useContext(AlarmContext);
-  if (!context) {
-    throw new Error('useAlarm must be used within an AlarmProvider');
-  }
-  return context;
-}
-
-export function useAlarmDispatch() {
-  const context = useContext(AlarmDispatchContext);
-  if (!context) {
-    throw new Error('useAlarmDispatch must be used within an AlarmProvider');
-  }
-  return context.dispatch;
-}
-
-// 편의 함수들
-export function useAlarmActions() {
-  const dispatch = useAlarmDispatch();
-
-  return {
-    addRule: (rule: AlarmRule) => dispatch({ type: 'ADD_RULE', payload: rule }),
-    updateRule: (rule: AlarmRule) =>
-      dispatch({ type: 'UPDATE_RULE', payload: rule }),
-    deleteRule: (id: string) => dispatch({ type: 'DELETE_RULE', payload: id }),
-    toggleRule: (id: string) => {
-      dispatch({ type: 'TOGGLE_RULE', payload: id });
-    },
-    selectRule: (id: string | undefined) =>
-      dispatch({ type: 'SELECT_RULE', payload: id }),
-  };
-}
+// Context들을 export하여 다른 파일에서 사용할 수 있도록 함
+export { AlarmContext, AlarmDispatchContext };

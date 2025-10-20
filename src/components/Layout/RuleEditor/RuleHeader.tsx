@@ -1,11 +1,10 @@
 import React from 'react';
 import type { AlarmRule } from '../../../types/alarm';
 import { Button, ActivationStatus, Card } from '../../UI';
+import { useRuleEditorActions } from '../../../hooks';
 
 interface RuleHeaderProps {
   rule: AlarmRule;
-  onNameChange: (name: string) => void;
-  onEnabledChange: (enabled: boolean) => void;
   onDelete: () => void;
   onSave: () => void;
   hasChanges: boolean;
@@ -13,12 +12,12 @@ interface RuleHeaderProps {
 
 export const RuleHeader: React.FC<RuleHeaderProps> = ({
   rule,
-  onNameChange,
-  onEnabledChange,
   onDelete,
   onSave,
   hasChanges,
 }) => {
+  const { updateName, updateEnabled } = useRuleEditorActions();
+
   return (
     <Card className='mb-6 p-6'>
       <div className='flex items-center justify-between'>
@@ -26,7 +25,7 @@ export const RuleHeader: React.FC<RuleHeaderProps> = ({
           <input
             type='text'
             value={rule.name}
-            onChange={e => onNameChange(e.target.value)}
+            onChange={e => updateName(e.target.value)}
             className='text-2xl font-semibold text-primary bg-transparent border-none outline-none w-full placeholder-gray-400'
             placeholder='규칙 이름을 입력하세요'
           />
@@ -36,7 +35,7 @@ export const RuleHeader: React.FC<RuleHeaderProps> = ({
         </div>
         <div className='flex items-center space-x-3'>
           <Button
-            onClick={() => onEnabledChange(!rule.enabled)}
+            onClick={() => updateEnabled(!rule.enabled)}
             variant={rule.enabled ? 'success' : 'secondary'}
           >
             {rule.enabled ? '비활성화' : '활성화'}
