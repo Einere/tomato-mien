@@ -1,6 +1,6 @@
 import React from 'react';
 import type { AlarmRule } from '@/types/alarm';
-import { NotionStyleConditionBuilder } from '@/components/ConditionEditor';
+import { ConditionBuilder } from '@/components/ConditionEditor';
 import { describeCondition, validateCondition } from '@/utils/condition';
 import {
   ClockIcon,
@@ -23,6 +23,7 @@ export const ConditionSection: React.FC<ConditionSectionProps> = ({ rule }) => {
 
   return (
     <Card className='mb-6 p-6'>
+      {/* 헤더 */}
       <HeaderWithIcon
         Icon={
           <IconWrapper className='mr-3' backgroundColor='bg-blue-100'>
@@ -31,10 +32,9 @@ export const ConditionSection: React.FC<ConditionSectionProps> = ({ rule }) => {
         }
         title='알람 조건'
       />
-      <NotionStyleConditionBuilder
-        condition={rule.condition}
-        onChange={updateCondition}
-      />
+
+      {/* 조건 편집 */}
+      <ConditionBuilder condition={rule.condition} onChange={updateCondition} />
 
       {/* 조건 미리보기 */}
       <Callout

@@ -7,14 +7,15 @@ import { AddConditionDropdown } from './AddConditionDropdown';
 
 type AnyCondition = TimeCondition | CompoundCondition;
 
-interface NotionStyleConditionBuilderProps {
+interface ConditionBuilderProps {
   condition: AnyCondition;
   onChange: (condition: AnyCondition) => void;
 }
 
-export const NotionStyleConditionBuilder: React.FC<
-  NotionStyleConditionBuilderProps
-> = ({ condition, onChange }) => {
+export const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
+  condition,
+  onChange,
+}) => {
   // 루트 레벨에서 조건을 추가하는 함수
   const addCondition = () => {
     if (isCompoundCondition(condition)) {
@@ -55,23 +56,19 @@ export const NotionStyleConditionBuilder: React.FC<
     onChange(createDefaultRange());
   };
 
-  const updateCondition = (updated: AnyCondition) => {
-    onChange(updated);
-  };
-
   return (
     <div className='space-y-4'>
       {isCompoundCondition(condition) ? (
         <CompoundConditions
           condition={condition}
-          onChange={updateCondition}
+          onChange={onChange}
           onDelete={handleDelete}
           showDelete={false}
         />
       ) : (
         <SingleCondition
           condition={condition}
-          onChange={updateCondition}
+          onChange={onChange}
           onDelete={handleDelete}
           showDelete={false}
         />

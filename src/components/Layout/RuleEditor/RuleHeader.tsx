@@ -1,22 +1,30 @@
 import React from 'react';
 import type { AlarmRule } from '@/types/alarm';
 import { Button, ActivationStatus, Card } from '@/components/UI';
-import { useRuleEditorActions } from '@/hooks';
+import { useRuleEditorActions, useAlarmActions } from '@/hooks';
 
 interface RuleHeaderProps {
   rule: AlarmRule;
-  onDelete: () => void;
-  onSave: () => void;
   hasChanges: boolean;
 }
 
-export const RuleHeader: React.FC<RuleHeaderProps> = ({
-  rule,
-  onDelete,
-  onSave,
-  hasChanges,
-}) => {
+export const RuleHeader: React.FC<RuleHeaderProps> = ({ rule, hasChanges }) => {
   const { updateName, updateEnabled } = useRuleEditorActions();
+  const { updateRule, deleteRule } = useAlarmActions();
+
+  const handleSave = () => {
+    updateRule(rule);
+  };
+
+  const handleDelete = () => {
+    if (
+      window.confirm(
+        `"${rule.name}" 규칙을 삭제하시겠습니까?\n\n이 작업은 되돌릴 수 없습니다.`,
+      )
+    ) {
+      deleteRule(rule.id);
+    }
+  };
 
   return (
     <Card className='mb-6 p-6'>
@@ -40,11 +48,11 @@ export const RuleHeader: React.FC<RuleHeaderProps> = ({
           >
             {rule.enabled ? '비활성화' : '활성화'}
           </Button>
-          <Button onClick={onDelete} variant='danger'>
+          <Button onClick={handleDelete} variant='danger'>
             삭제
           </Button>
           <Button
-            onClick={onSave}
+            onClick={handleSave}
             disabled={!hasChanges}
             variant='primary'
             className={

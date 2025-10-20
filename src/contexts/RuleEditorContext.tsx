@@ -125,6 +125,7 @@ function hasChanges(
   return (
     editedRule.name !== originalRule.name ||
     editedRule.enabled !== originalRule.enabled ||
+    // TODO: 변경 여부는 dirty 속성을 이용하는 것이 좋을 듯
     JSON.stringify(editedRule.condition) !==
       JSON.stringify(originalRule.condition)
   );
