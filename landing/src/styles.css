@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-tomato-50: #fef2f2;
+  --color-tomato-100: #fee2e2;
+  --color-tomato-200: #fecaca;
+  --color-tomato-300: #fca5a5;
+  --color-tomato-400: #f87171;
+  --color-tomato-500: #ef4444;
+  --color-tomato-600: #dc2626;
+  --color-tomato-700: #b91c1c;
+  --color-tomato-800: #991b1b;
+  --color-tomato-900: #7f1d1d;
+}

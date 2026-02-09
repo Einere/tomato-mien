@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="ko" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tomato Mien - 가벼운 규칙 기반 알리미 앱</title>
+    <meta
+      name="description"
+      content="Tomato Mien은 조건 기반 알림을 설정할 수 있는 가벼운 데스크톱 앱입니다. 시간 범위, 간격, 특정 시간 조건을 AND/OR로 조합하여 나만의 알림 규칙을 만들어보세요."
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Tomato Mien - 가벼운 규칙 기반 알리미 앱" />
+    <meta
+      property="og:description"
+      content="조건 기반 알림을 설정할 수 있는 가벼운 데스크톱 앱. 시간 범위, 간격, 특정 시간 조건을 AND/OR로 조합하세요."
+    />
+    <meta property="og:image" content="assets/icon-rounded.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://einere.github.io/tomato-mien/" />
+
+    <link rel="icon" type="image/png" href="assets/icon-rounded.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body
+    class="bg-white text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100"
+  >
+    <!-- Hero -->
+    <section
+      class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 py-20"
+    >
+      <div
+        class="pointer-events-none absolute inset-0 bg-gradient-to-b from-tomato-50 via-white to-white dark:from-tomato-950/30 dark:via-gray-950 dark:to-gray-950"
+      ></div>
+      <div class="relative z-10 flex flex-col items-center text-center">
+        <img
+          src="assets/icon-rounded.png"
+          alt="Tomato Mien 앱 아이콘"
+          class="mb-8 h-32 w-32 drop-shadow-xl sm:h-40 sm:w-40"
+        />
+        <h1 class="mb-4 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+          Tomato Mien
+        </h1>
+        <p class="mb-8 max-w-md text-lg text-gray-600 sm:text-xl dark:text-gray-400">
+          가벼운 규칙 기반 알리미 앱
+        </p>
+        <div class="flex flex-col gap-4 sm:flex-row">
+          <a
+            href="https://github.com/Einere/tomato-mien/releases/latest"
+            class="inline-flex items-center gap-2 rounded-xl bg-tomato-600 px-8 py-3 text-lg font-semibold text-white shadow-lg transition hover:bg-tomato-700 hover:shadow-xl"
+          >
+            <svg
+              class="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"
+              />
+            </svg>
+            다운로드
+          </a>
+          <a
+            href="https://github.com/Einere/tomato-mien"
+            class="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-8 py-3 text-lg font-semibold transition hover:border-gray-400 hover:bg-gray-50 dark:border-gray-700 dark:hover:border-gray-600 dark:hover:bg-gray-900"
+          >
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+              />
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="px-4 py-20 sm:py-28">
+      <div class="mx-auto max-w-5xl">
+        <h2
+          class="mb-4 text-center text-3xl font-bold tracking-tight sm:text-4xl"
+        >
+          주요 기능
+        </h2>
+        <p
+          class="mx-auto mb-12 max-w-2xl text-center text-gray-600 sm:mb-16 dark:text-gray-400"
+        >
+          유연한 조건 설정으로 원하는 시간에 알림을 받으세요
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2">
+          <!-- Feature 1 -->
+          <div
+            class="rounded-2xl border border-gray-200 bg-gray-50 p-6 transition hover:shadow-md sm:p-8 dark:border-gray-800 dark:bg-gray-900"
+          >
+            <div
+              class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-tomato-100 text-tomato-600 dark:bg-tomato-900/30 dark:text-tomato-400"
+            >
+              <svg
+                class="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                />
+              </svg>
+            </div>
+            <h3 class="mb-2 text-lg font-semibold">조건 기반 알림 설정</h3>
+            <p class="text-gray-600 dark:text-gray-400">
+              단순 타이머가 아닌, 원하는 조건을 직접 설정하여 정확한 시점에
+              알림을 받을 수 있습니다.
+            </p>
+          </div>
+          <!-- Feature 2 -->
+          <div
+            class="rounded-2xl border border-gray-200 bg-gray-50 p-6 transition hover:shadow-md sm:p-8 dark:border-gray-800 dark:bg-gray-900"
+          >
+            <div
+              class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-tomato-100 text-tomato-600 dark:bg-tomato-900/30 dark:text-tomato-400"
+            >
+              <svg
+                class="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+            <h3 class="mb-2 text-lg font-semibold">다양한 시간 조건</h3>
+            <p class="text-gray-600 dark:text-gray-400">
+              시간 범위, 반복 간격, 특정 시각 등 다양한 조건 타입으로 세밀하게
+              알림 규칙을 구성하세요.
+            </p>
+          </div>
+          <!-- Feature 3 -->
+          <div
+            class="rounded-2xl border border-gray-200 bg-gray-50 p-6 transition hover:shadow-md sm:p-8 dark:border-gray-800 dark:bg-gray-900"
+          >
+            <div
+              class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-tomato-100 text-tomato-600 dark:bg-tomato-900/30 dark:text-tomato-400"
+            >
+              <svg
+                class="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 6h16M4 12h16M4 18h7"
+                />
+              </svg>
+            </div>
+            <h3 class="mb-2 text-lg font-semibold">AND/OR 복합 조건</h3>
+            <p class="text-gray-600 dark:text-gray-400">
+              논리 연산자로 여러 조건을 조합하여 복잡한 알림 규칙도 간단하게
+              만들 수 있습니다.
+            </p>
+          </div>
+          <!-- Feature 4 -->
+          <div
+            class="rounded-2xl border border-gray-200 bg-gray-50 p-6 transition hover:shadow-md sm:p-8 dark:border-gray-800 dark:bg-gray-900"
+          >
+            <div
+              class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-tomato-100 text-tomato-600 dark:bg-tomato-900/30 dark:text-tomato-400"
+            >
+              <svg
+                class="h-6 w-6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M18.364 5.636a9 9 0 11-12.728 0M12 3v9"
+                />
+              </svg>
+            </div>
+            <h3 class="mb-2 text-lg font-semibold">백그라운드 알림</h3>
+            <p class="text-gray-600 dark:text-gray-400">
+              네트워크 연결 없이 로컬에서 동작합니다. 가볍고 빠르게, 원하는
+              순간에 알림을 받으세요.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section
+      class="bg-gray-50 px-4 py-20 sm:py-28 dark:bg-gray-900/50"
+    >
+      <div class="mx-auto max-w-5xl">
+        <h2
+          class="mb-4 text-center text-3xl font-bold tracking-tight sm:text-4xl"
+        >
+          앱 미리보기
+        </h2>
+        <p
+          class="mx-auto mb-12 max-w-2xl text-center text-gray-600 sm:mb-16 dark:text-gray-400"
+        >
+          직관적인 인터페이스로 알림 규칙을 손쉽게 관리하세요
+        </p>
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div
+            class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900"
+          >
+            <div
+              class="flex aspect-video items-center justify-center bg-gray-100 dark:bg-gray-800"
+            >
+              <p class="text-sm text-gray-400 dark:text-gray-500">
+                스크린샷 준비 중
+              </p>
+            </div>
+            <div class="p-4">
+              <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+                규칙 목록 및 편집 화면
+              </p>
+            </div>
+          </div>
+          <div
+            class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900"
+          >
+            <div
+              class="flex aspect-video items-center justify-center bg-gray-100 dark:bg-gray-800"
+            >
+              <p class="text-sm text-gray-400 dark:text-gray-500">
+                스크린샷 준비 중
+              </p>
+            </div>
+            <div class="p-4">
+              <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+                조건 설정 화면
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="px-4 py-20 sm:py-28">
+      <div class="mx-auto max-w-5xl">
+        <h2
+          class="mb-4 text-center text-3xl font-bold tracking-tight sm:text-4xl"
+        >
+          설치 방법
+        </h2>
+        <p
+          class="mx-auto mb-12 max-w-2xl text-center text-gray-600 sm:mb-16 dark:text-gray-400"
+        >
+          운영체제에 맞는 설치 파일을 다운로드하세요
+        </p>
+        <div class="grid gap-6 sm:grid-cols-3">
+          <!-- macOS -->
+          <div
+            class="rounded-2xl border border-gray-200 bg-gray-50 p-6 text-center dark:border-gray-800 dark:bg-gray-900"
+          >
+            <div class="mb-4 text-4xl">🍎</div>
+            <h3 class="mb-2 text-lg font-semibold">macOS</h3>
+            <p class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+              .dmg 파일을 다운로드하여 설치하세요
+            </p>
+            <a
+              href="https://github.com/Einere/tomato-mien/releases/latest"
+              class="inline-block rounded-lg bg-tomato-600 px-6 py-2 text-sm font-semibold text-white transition hover:bg-tomato-700"
+            >
+              다운로드
+            </a>
+            <details class="mt-4 text-left">
+              <summary
+                class="cursor-pointer text-xs text-gray-500 dark:text-gray-500"
+              >
+                Gatekeeper 경고 해결
+              </summary>
+              <div class="mt-2 text-xs text-gray-500 dark:text-gray-500">
+                <p>코드 서명이 없어 첫 실행 시 경고가 나타날 수 있습니다.</p>
+                <ol class="mt-1 list-inside list-decimal">
+                  <li>시스템 설정 &gt; 개인정보 보호 및 보안</li>
+                  <li>"확인되지 않은 Tomato Mien 허용" 클릭</li>
+                </ol>
+              </div>
+            </details>
+          </div>
+          <!-- Windows -->
+          <div
+            class="rounded-2xl border border-gray-200 bg-gray-50 p-6 text-center dark:border-gray-800 dark:bg-gray-900"
+          >
+            <div class="mb-4 text-4xl">🪟</div>
+            <h3 class="mb-2 text-lg font-semibold">Windows</h3>
+            <p class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+              .exe 설치 파일을 다운로드하여 실행하세요
+            </p>
+            <a
+              href="https://github.com/Einere/tomato-mien/releases/latest"
+              class="inline-block rounded-lg bg-tomato-600 px-6 py-2 text-sm font-semibold text-white transition hover:bg-tomato-700"
+            >
+              다운로드
+            </a>
+          </div>
+          <!-- Linux -->
+          <div
+            class="rounded-2xl border border-gray-200 bg-gray-50 p-6 text-center dark:border-gray-800 dark:bg-gray-900"
+          >
+            <div class="mb-4 text-4xl">🐧</div>
+            <h3 class="mb-2 text-lg font-semibold">Linux</h3>
+            <p class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+              AppImage를 다운로드하여 실행하세요
+            </p>
+            <a
+              href="https://github.com/Einere/tomato-mien/releases/latest"
+              class="inline-block rounded-lg bg-tomato-600 px-6 py-2 text-sm font-semibold text-white transition hover:bg-tomato-700"
+            >
+              다운로드
+            </a>
+          </div>
+        </div>
+        <!-- Build from source -->
+        <div
+          class="mt-8 rounded-2xl border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900"
+        >
+          <h3 class="mb-3 text-lg font-semibold">직접 빌드</h3>
+          <pre
+            class="overflow-x-auto rounded-lg bg-gray-900 p-4 text-sm text-gray-100 dark:bg-gray-950"
+          ><code>npm install
+npm run build
+npm run electron:build</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+      class="border-t border-gray-200 px-4 py-12 dark:border-gray-800"
+    >
+      <div
+        class="mx-auto flex max-w-5xl flex-col items-center gap-4 text-center text-sm text-gray-500 dark:text-gray-500"
+      >
+        <div class="flex items-center gap-4">
+          <a
+            href="https://github.com/Einere/tomato-mien"
+            class="transition hover:text-gray-900 dark:hover:text-gray-300"
+          >
+            GitHub
+          </a>
+          <span class="text-gray-300 dark:text-gray-700">|</span>
+          <a
+            href="https://github.com/Einere/tomato-mien/issues"
+            class="transition hover:text-gray-900 dark:hover:text-gray-300"
+          >
+            이슈 및 PR 환영
+          </a>
+        </div>
+        <p>MIT License &copy; Einere</p>
+      </div>
+    </footer>
+  </body>
+</html>
