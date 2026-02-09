@@ -3,7 +3,7 @@ name: Deploy Landing Page
 on:
   push:
     branches: [main]
-    paths: ['landing/**']
+    paths: ['docs/**']
   workflow_dispatch:
 
 permissions:
