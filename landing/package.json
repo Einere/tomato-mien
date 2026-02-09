@@ -1,0 +1,13 @@
+{
+  "name": "tomato-mien-landing",
+  "private": true,
+  "scripts": {
+    "dev": "npm run build && concurrently \"npx @tailwindcss/cli -i src/styles.css -o dist/styles.css --watch\" \"serve dist -l 3000\"",
+    "build": "npx @tailwindcss/cli -i src/styles.css -o dist/styles.css --minify && cp src/index.html dist/index.html && cp -r assets dist/assets"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.14",
+    "concurrently": "^9.2.1",
+    "serve": "^14.2.4"
+  }
+}

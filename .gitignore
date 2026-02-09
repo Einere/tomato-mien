@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+landing/node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -99,3 +100,6 @@ temp/
 *.njsproj
 *.sln
 *.sw?
+
+# claude
+.claude
