@@ -1,15 +1,15 @@
-import { useAtomValue } from 'jotai';
-import { filteredRulesAtom } from '@/store';
-import { RuleCard } from './RuleCard';
+import { useAtomValue } from "jotai";
+import { filteredRulesAtom } from "@/store";
+import { RuleCard } from "./RuleCard";
 
 export function RuleCardList() {
   const rules = useAtomValue(filteredRulesAtom);
 
   if (rules.length === 0) {
     return (
-      <div className="px-5 py-12 text-center">
-        <p className="text-sm text-slate-400">No rules yet.</p>
-        <p className="text-xs text-slate-400">
+      <div className='px-5 py-12 text-center'>
+        <p className='text-sm text-slate-400'>No rules yet.</p>
+        <p className='text-xs text-slate-400'>
           Tap "+ Create" to add your first rule.
         </p>
       </div>
@@ -17,8 +17,8 @@ export function RuleCardList() {
   }
 
   return (
-    <div className="flex flex-col gap-2.5 px-5">
-      {rules.map((rule) => (
+    <div className='flex flex-col gap-2.5 px-5'>
+      {rules.map(rule => (
         <RuleCard key={rule.id} rule={rule} />
       ))}
     </div>

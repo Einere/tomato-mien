@@ -3,16 +3,16 @@ import type {
   AlarmRule,
   TimeCondition,
   CompoundCondition,
-} from '@/types/alarm';
-import { isCompoundCondition } from '@/utils/typeGuards';
+} from "@/types/alarm";
+import { isCompoundCondition } from "@/utils/typeGuards";
 
 interface WorkerMessage {
   type:
-    | 'START_ALARM'
-    | 'STOP_ALARM'
-    | 'UPDATE_RULES'
-    | 'UPDATE_RULE'
-    | 'CHECK_ALARM';
+    | "START_ALARM"
+    | "STOP_ALARM"
+    | "UPDATE_RULES"
+    | "UPDATE_RULE"
+    | "CHECK_ALARM";
   data?: any;
 }
 
@@ -30,20 +30,20 @@ class AlarmWorker {
   private lastCheckMinute: number | null = null;
 
   constructor() {
-    self.addEventListener('message', this.handleMessage.bind(this));
+    self.addEventListener("message", this.handleMessage.bind(this));
   }
 
   private handleMessage(event: MessageEvent<WorkerMessage>) {
     const { type, data } = event.data;
 
     switch (type) {
-      case 'START_ALARM':
+      case "START_ALARM":
         this.start();
         break;
-      case 'STOP_ALARM':
+      case "STOP_ALARM":
         this.stop();
         break;
-      case 'UPDATE_RULES':
+      case "UPDATE_RULES":
         this.rules.clear();
         if (data.rules && Array.isArray(data.rules)) {
           data.rules.forEach((rule: AlarmRule) => {
@@ -51,12 +51,12 @@ class AlarmWorker {
           });
         }
         break;
-      case 'UPDATE_RULE':
+      case "UPDATE_RULE":
         if (data.rule) {
           this.rules.set(data.rule.id, data.rule);
         }
         break;
-      case 'CHECK_ALARM':
+      case "CHECK_ALARM":
         this.checkAlarms();
         break;
     }
@@ -116,7 +116,7 @@ class AlarmWorker {
 
     // 마지막 체크 시간을 메인 스레드에 전송
     self.postMessage({
-      type: 'LAST_CHECK_TIME_UPDATE',
+      type: "LAST_CHECK_TIME_UPDATE",
       data: { lastCheckTime: now.toISOString() },
     });
   }
@@ -148,7 +148,7 @@ class AlarmWorker {
       this.evaluateCondition(c, currentHour, currentMinute),
     );
 
-    if (condition.operator === 'AND') {
+    if (condition.operator === "AND") {
       return results.every(result => result);
     } else {
       return results.some(result => result);
@@ -162,19 +162,19 @@ class AlarmWorker {
     currentMinute: number,
   ): boolean {
     switch (condition.type) {
-      case 'range':
+      case "range":
         return this.evaluateRangeCondition(
           condition,
           currentHour,
           currentMinute,
         );
-      case 'interval':
+      case "interval":
         return this.evaluateIntervalCondition(
           condition,
           currentHour,
           currentMinute,
         );
-      case 'specific':
+      case "specific":
         return this.evaluateSpecificCondition(
           condition,
           currentHour,
@@ -235,7 +235,7 @@ class AlarmWorker {
 
     // 메인 스레드에 알람 이벤트 전송
     self.postMessage({
-      type: 'ALARM_TRIGGERED',
+      type: "ALARM_TRIGGERED",
       data: event,
     });
   }

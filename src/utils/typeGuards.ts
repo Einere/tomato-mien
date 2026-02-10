@@ -1,4 +1,4 @@
-import type { TimeCondition, CompoundCondition } from '@/types/alarm';
+import type { TimeCondition, CompoundCondition } from "@/types/alarm";
 
 /**
  * 조건이 복합 조건(CompoundCondition)인지 확인하는 타입 가드 함수
@@ -8,7 +8,7 @@ import type { TimeCondition, CompoundCondition } from '@/types/alarm';
 export function isCompoundCondition(
   condition: TimeCondition | CompoundCondition,
 ): condition is CompoundCondition {
-  return 'operator' in condition;
+  return "operator" in condition;
 }
 
 /**
@@ -19,5 +19,5 @@ export function isCompoundCondition(
 export function isTimeCondition(
   condition: TimeCondition | CompoundCondition,
 ): condition is TimeCondition {
-  return !('operator' in condition);
+  return !("operator" in condition);
 }

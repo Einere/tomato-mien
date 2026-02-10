@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { createStore } from 'jotai';
+import { describe, it, expect } from "vitest";
+import { createStore } from "jotai";
 import {
   rulesAtom,
   addRuleAtom,
@@ -9,64 +9,64 @@ import {
   enableAllRulesAtom,
   disableAllRulesAtom,
   viewAtom,
-} from '@/store';
-import type { AlarmRule } from '@/types/alarm';
+} from "@/store";
+import type { AlarmRule } from "@/types/alarm";
 
 function createTestRule(overrides?: Partial<AlarmRule>): AlarmRule {
   return {
     id: crypto.randomUUID(),
-    name: 'Test Rule',
+    name: "Test Rule",
     enabled: true,
-    condition: { type: 'interval', intervalMinutes: 15 },
+    condition: { type: "interval", intervalMinutes: 15 },
     createdAt: new Date(),
     updatedAt: new Date(),
     ...overrides,
   };
 }
 
-describe('rulesAtom CRUD', () => {
-  it('starts with empty rules', () => {
+describe("rulesAtom CRUD", () => {
+  it("starts with empty rules", () => {
     const store = createStore();
     expect(store.get(rulesAtom)).toEqual([]);
   });
 
-  it('addRuleAtom creates a new rule and navigates to editor', () => {
+  it("addRuleAtom creates a new rule and navigates to editor", () => {
     const store = createStore();
     store.set(addRuleAtom);
 
     const rules = store.get(rulesAtom);
     expect(rules).toHaveLength(1);
-    expect(rules[0].name).toBe('New Rule');
+    expect(rules[0].name).toBe("New Rule");
     expect(rules[0].enabled).toBe(true);
 
     const view = store.get(viewAtom);
-    expect(view).toEqual({ view: 'editor', ruleId: rules[0].id });
+    expect(view).toEqual({ view: "editor", ruleId: rules[0].id });
   });
 
-  it('updateRuleAtom updates an existing rule', () => {
+  it("updateRuleAtom updates an existing rule", () => {
     const store = createStore();
-    const rule = createTestRule({ name: 'Original' });
+    const rule = createTestRule({ name: "Original" });
     store.set(rulesAtom, [rule]);
 
-    store.set(updateRuleAtom, { ...rule, name: 'Updated' });
+    store.set(updateRuleAtom, { ...rule, name: "Updated" });
 
     const rules = store.get(rulesAtom);
-    expect(rules[0].name).toBe('Updated');
+    expect(rules[0].name).toBe("Updated");
   });
 
-  it('deleteRuleAtom removes the rule and navigates to dashboard', () => {
+  it("deleteRuleAtom removes the rule and navigates to dashboard", () => {
     const store = createStore();
     const rule = createTestRule();
     store.set(rulesAtom, [rule]);
-    store.set(viewAtom, { view: 'editor', ruleId: rule.id });
+    store.set(viewAtom, { view: "editor", ruleId: rule.id });
 
     store.set(deleteRuleAtom, rule.id);
 
     expect(store.get(rulesAtom)).toHaveLength(0);
-    expect(store.get(viewAtom)).toBe('dashboard');
+    expect(store.get(viewAtom)).toBe("dashboard");
   });
 
-  it('toggleRuleAtom flips enabled state', () => {
+  it("toggleRuleAtom flips enabled state", () => {
     const store = createStore();
     const rule = createTestRule({ enabled: true });
     store.set(rulesAtom, [rule]);
@@ -78,7 +78,7 @@ describe('rulesAtom CRUD', () => {
     expect(store.get(rulesAtom)[0].enabled).toBe(true);
   });
 
-  it('enableAllRulesAtom enables all rules', () => {
+  it("enableAllRulesAtom enables all rules", () => {
     const store = createStore();
     store.set(rulesAtom, [
       createTestRule({ enabled: false }),
@@ -87,10 +87,10 @@ describe('rulesAtom CRUD', () => {
 
     store.set(enableAllRulesAtom);
     const rules = store.get(rulesAtom);
-    expect(rules.every((r) => r.enabled)).toBe(true);
+    expect(rules.every(r => r.enabled)).toBe(true);
   });
 
-  it('disableAllRulesAtom disables all rules', () => {
+  it("disableAllRulesAtom disables all rules", () => {
     const store = createStore();
     store.set(rulesAtom, [
       createTestRule({ enabled: true }),
@@ -99,6 +99,6 @@ describe('rulesAtom CRUD', () => {
 
     store.set(disableAllRulesAtom);
     const rules = store.get(rulesAtom);
-    expect(rules.every((r) => !r.enabled)).toBe(true);
+    expect(rules.every(r => !r.enabled)).toBe(true);
   });
 });

@@ -1,4 +1,4 @@
-import type { AlarmRule, AlarmEvent } from '@/types/alarm';
+import type { AlarmRule, AlarmEvent } from "@/types/alarm";
 
 export class WebWorkerAlarmService {
   private static instance: WebWorkerAlarmService;
@@ -22,9 +22,9 @@ export class WebWorkerAlarmService {
     try {
       // 원래의 파일 기반 Web Worker 사용
       this.worker = new Worker(
-        new URL('../workers/alarmWorker.ts', import.meta.url),
+        new URL("../workers/alarmWorker.ts", import.meta.url),
         {
-          type: 'module',
+          type: "module",
         },
       );
 
@@ -33,10 +33,10 @@ export class WebWorkerAlarmService {
         const { type, data } = event.data;
 
         switch (type) {
-          case 'ALARM_TRIGGERED':
+          case "ALARM_TRIGGERED":
             this.handleAlarmTriggered(data);
             break;
-          case 'LAST_CHECK_TIME_UPDATE':
+          case "LAST_CHECK_TIME_UPDATE":
             this.lastCheckTime = new Date(data.lastCheckTime);
             break;
         }
@@ -44,26 +44,26 @@ export class WebWorkerAlarmService {
 
       // 워커 에러 처리
       this.worker.onerror = error => {
-        console.error('Alarm Worker Error:', error);
+        console.error("Alarm Worker Error:", error);
       };
     } catch (error) {
-      console.error('Failed to initialize alarm worker:', error);
+      console.error("Failed to initialize alarm worker:", error);
       // 워커 생성 실패 시 폴백으로 기존 방식 사용
       this.fallbackToMainThread();
     }
   }
 
   private fallbackToMainThread() {
-    console.warn('Web Worker not supported, falling back to main thread');
+    console.warn("Web Worker not supported, falling back to main thread");
     // 폴백 로직은 필요시 구현
   }
 
   private handleAlarmTriggered(event: AlarmEvent) {
     // 브라우저 알림
-    if (Notification.permission === 'granted') {
+    if (Notification.permission === "granted") {
       new Notification(event.ruleName, {
         body: event.message,
-        icon: '/vite.svg',
+        icon: "/vite.svg",
         tag: event.ruleId,
       });
     }
@@ -76,7 +76,7 @@ export class WebWorkerAlarmService {
       this.onAlarmTriggered(event);
     }
 
-    console.log('Alarm triggered:', event);
+    console.log("Alarm triggered:", event);
   }
 
   // 알람 소리 재생
@@ -95,7 +95,7 @@ export class WebWorkerAlarmService {
         gainNode.connect(audioContext.destination);
 
         oscillator.frequency.setValueAtTime(500, audioContext.currentTime);
-        oscillator.type = 'sine';
+        oscillator.type = "sine";
 
         gainNode.gain.setValueAtTime(0, audioContext.currentTime);
         gainNode.gain.linearRampToValueAtTime(
@@ -120,7 +120,7 @@ export class WebWorkerAlarmService {
         playPingSound();
       }, 600);
     } catch (error) {
-      console.warn('Failed to play alarm sound:', error);
+      console.warn("Failed to play alarm sound:", error);
       // Web Audio API가 지원되지 않는 경우 대체 방법
       this.playFallbackSound();
     }
@@ -146,10 +146,10 @@ export class WebWorkerAlarmService {
         }
       };
 
-      writeString(0, 'RIFF');
+      writeString(0, "RIFF");
       view.setUint32(4, 36 + samples * 2, true);
-      writeString(8, 'WAVE');
-      writeString(12, 'fmt ');
+      writeString(8, "WAVE");
+      writeString(12, "fmt ");
       view.setUint32(16, 16, true);
       view.setUint16(20, 1, true);
       view.setUint16(22, 1, true);
@@ -157,7 +157,7 @@ export class WebWorkerAlarmService {
       view.setUint32(28, sampleRate * 2, true);
       view.setUint16(32, 2, true);
       view.setUint16(34, 16, true);
-      writeString(36, 'data');
+      writeString(36, "data");
       view.setUint32(40, samples * 2, true);
 
       // 사인파 데이터 생성
@@ -167,27 +167,27 @@ export class WebWorkerAlarmService {
         view.setInt16(44 + i * 2, sample * 32767, true);
       }
 
-      const blob = new Blob([buffer], { type: 'audio/wav' });
+      const blob = new Blob([buffer], { type: "audio/wav" });
       audio.src = URL.createObjectURL(blob);
       audio.play().catch(() => {
-        console.warn('Failed to play fallback alarm sound');
+        console.warn("Failed to play fallback alarm sound");
       });
     } catch (error) {
-      console.warn('Failed to create fallback alarm sound:', error);
+      console.warn("Failed to create fallback alarm sound:", error);
     }
   }
 
   // 알람 서비스 시작
   public start(): void {
     if (this.worker) {
-      this.worker.postMessage({ type: 'START_ALARM' });
+      this.worker.postMessage({ type: "START_ALARM" });
     }
   }
 
   // 알람 서비스 중지
   public stop(): void {
     if (this.worker) {
-      this.worker.postMessage({ type: 'STOP_ALARM' });
+      this.worker.postMessage({ type: "STOP_ALARM" });
     }
   }
 
@@ -196,7 +196,7 @@ export class WebWorkerAlarmService {
     this.rules = rules;
     if (this.worker) {
       this.worker.postMessage({
-        type: 'UPDATE_RULES',
+        type: "UPDATE_RULES",
         data: { rules },
       });
     }
@@ -214,7 +214,7 @@ export class WebWorkerAlarmService {
 
     if (this.worker) {
       this.worker.postMessage({
-        type: 'UPDATE_RULE',
+        type: "UPDATE_RULE",
         data: { rule },
       });
     }
@@ -227,16 +227,16 @@ export class WebWorkerAlarmService {
 
   // 알림 권한 요청
   public async requestNotificationPermission(): Promise<boolean> {
-    if (Notification.permission === 'granted') {
+    if (Notification.permission === "granted") {
       return true;
     }
 
-    if (Notification.permission === 'denied') {
+    if (Notification.permission === "denied") {
       return false;
     }
 
     const permission = await Notification.requestPermission();
-    return permission === 'granted';
+    return permission === "granted";
   }
 
   // 워커 정리

@@ -1,24 +1,28 @@
-import { useSetAtom, useAtomValue } from 'jotai';
-import { clsx } from 'clsx';
-import type { AlarmRule, TimeCondition, CompoundCondition } from '@/types/alarm';
-import { toggleRuleAtom, viewAtom, settingsAtom } from '@/store';
-import { describeCondition } from '@/utils/condition';
-import { isCompoundCondition } from '@/utils/typeGuards';
-import { Card } from '@/components/UI/Card';
-import { Icon } from '@/components/UI/Icon';
-import { Toggle } from '@/components/UI/Toggle';
+import { useSetAtom, useAtomValue } from "jotai";
+import { clsx } from "clsx";
+import type {
+  AlarmRule,
+  TimeCondition,
+  CompoundCondition,
+} from "@/types/alarm";
+import { toggleRuleAtom, viewAtom, settingsAtom } from "@/store";
+import { describeCondition } from "@/utils/condition";
+import { isCompoundCondition } from "@/utils/typeGuards";
+import { Card } from "@/components/UI/Card";
+import { Icon } from "@/components/UI/Icon";
+import { Toggle } from "@/components/UI/Toggle";
 
 function getConditionIcon(
   condition: TimeCondition | CompoundCondition,
 ): string {
-  if (isCompoundCondition(condition)) return 'account_tree';
+  if (isCompoundCondition(condition)) return "account_tree";
   switch (condition.type) {
-    case 'range':
-      return 'schedule';
-    case 'interval':
-      return 'timer';
-    case 'specific':
-      return 'alarm';
+    case "range":
+      return "schedule";
+    case "interval":
+      return "timer";
+    case "specific":
+      return "alarm";
   }
 }
 
@@ -36,39 +40,44 @@ export function RuleCard({ rule }: RuleCardProps) {
 
   return (
     <Card
-      padding="none"
+      padding='none'
       className={clsx(
-        'cursor-pointer transition-shadow hover:shadow-md',
-        !rule.enabled && 'opacity-60',
+        "cursor-pointer transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2",
+        !rule.enabled && "opacity-60",
       )}
-      onClick={() => setView({ view: 'editor', ruleId: rule.id })}
+      role='button'
+      tabIndex={0}
+      onClick={() => setView({ view: "editor", ruleId: rule.id })}
+      onKeyDown={e => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setView({ view: "editor", ruleId: rule.id });
+        }
+      }}
     >
-      <div className="flex items-center gap-3 p-4">
+      <div className='flex items-center gap-3 p-4'>
         <div
           className={clsx(
-            'flex h-10 w-10 shrink-0 items-center justify-center rounded-lg',
+            "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg",
             rule.enabled
-              ? 'bg-tomato-100 text-tomato-600'
-              : 'bg-slate-100 text-slate-400',
+              ? "bg-primary-100 text-primary-600"
+              : "bg-slate-100 text-slate-400",
           )}
         >
-          <Icon name={icon} size="sm" />
+          <Icon name={icon} size='sm' />
         </div>
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold text-slate-900">
+        <div className='min-w-0 flex-1'>
+          <p className='truncate text-sm font-semibold text-slate-900'>
             {rule.name}
           </p>
-          <p className="truncate text-xs text-slate-500">{description}</p>
+          <p className='truncate text-xs text-slate-500'>{description}</p>
         </div>
         <div
-          onClick={(e) => {
+          onClick={e => {
             e.stopPropagation();
           }}
         >
-          <Toggle
-            checked={rule.enabled}
-            onChange={() => toggleRule(rule.id)}
-          />
+          <Toggle checked={rule.enabled} onChange={() => toggleRule(rule.id)} />
         </div>
       </div>
     </Card>

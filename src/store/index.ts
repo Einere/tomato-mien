@@ -4,14 +4,14 @@ export {
   searchQueryAtom,
   sortOrderAtom,
   settingsAtom,
-} from './atoms';
-export type { ViewState, SortOrder } from './atoms';
+} from "./atoms";
+export type { ViewState, SortOrder } from "./atoms";
 
 export {
   activeRuleCountAtom,
   totalRuleCountAtom,
   filteredRulesAtom,
-} from './derived';
+} from "./derived";
 
 export {
   addRuleAtom,
@@ -20,4 +20,4 @@ export {
   toggleRuleAtom,
   enableAllRulesAtom,
   disableAllRulesAtom,
-} from './actions';
+} from "./actions";

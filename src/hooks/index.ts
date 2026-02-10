@@ -1,2 +1,2 @@
-export { useAlarmService } from './useAlarmService';
-export { useElectronMenu } from './useElectronMenu';
+export { useAlarmService } from "./useAlarmService";
+export { useElectronMenu } from "./useElectronMenu";

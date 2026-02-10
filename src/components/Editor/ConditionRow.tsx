@@ -1,9 +1,9 @@
-import type { TimeCondition } from '@/types/alarm';
-import { Badge } from '@/components/UI/Badge';
-import { Icon } from '@/components/UI/Icon';
-import { TimeRangeInput } from './ConditionInputs/TimeRangeInput';
-import { IntervalInput } from './ConditionInputs/IntervalInput';
-import { SpecificTimeInput } from './ConditionInputs/SpecificTimeInput';
+import type { TimeCondition } from "@/types/alarm";
+import { Badge } from "@/components/UI/Badge";
+import { Icon } from "@/components/UI/Icon";
+import { TimeRangeInput } from "./ConditionInputs/TimeRangeInput";
+import { IntervalInput } from "./ConditionInputs/IntervalInput";
+import { SpecificTimeInput } from "./ConditionInputs/SpecificTimeInput";
 
 interface ConditionRowProps {
   condition: TimeCondition;
@@ -11,19 +11,19 @@ interface ConditionRowProps {
   onDelete: () => void;
 }
 
-const typeLabels: Record<TimeCondition['type'], string> = {
-  range: 'Range',
-  interval: 'Interval',
-  specific: 'Specific',
+const typeLabels: Record<TimeCondition["type"], string> = {
+  range: "Range",
+  interval: "Interval",
+  specific: "Specific",
 };
 
 const typeBadgeVariant: Record<
-  TimeCondition['type'],
-  'default' | 'primary' | 'success'
+  TimeCondition["type"],
+  "default" | "primary" | "success"
 > = {
-  range: 'primary',
-  interval: 'success',
-  specific: 'default',
+  range: "primary",
+  interval: "success",
+  specific: "default",
 };
 
 export function ConditionRow({
@@ -32,35 +32,30 @@ export function ConditionRow({
   onDelete,
 }: ConditionRowProps) {
   return (
-    <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-3">
+    <div className='flex items-center gap-2 rounded-lg bg-slate-50 p-3'>
       <Badge variant={typeBadgeVariant[condition.type]}>
         {typeLabels[condition.type]}
       </Badge>
-      <div className="flex-1">
-        {condition.type === 'range' && (
-          <TimeRangeInput
-            condition={condition}
-            onChange={(c) => onChange(c)}
-          />
+      <div className='min-w-0 flex-1'>
+        {condition.type === "range" && (
+          <TimeRangeInput condition={condition} onChange={c => onChange(c)} />
         )}
-        {condition.type === 'interval' && (
-          <IntervalInput
-            condition={condition}
-            onChange={(c) => onChange(c)}
-          />
+        {condition.type === "interval" && (
+          <IntervalInput condition={condition} onChange={c => onChange(c)} />
         )}
-        {condition.type === 'specific' && (
+        {condition.type === "specific" && (
           <SpecificTimeInput
             condition={condition}
-            onChange={(c) => onChange(c)}
+            onChange={c => onChange(c)}
           />
         )}
       </div>
       <button
         onClick={onDelete}
-        className="flex h-7 w-7 shrink-0 items-center justify-center rounded text-slate-400 hover:bg-slate-200 hover:text-slate-600"
+        aria-label='Delete condition'
+        className='flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-lg text-slate-400 hover:bg-slate-200 hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2'
       >
-        <Icon name="close" size="sm" />
+        <Icon name='close' size='sm' />
       </button>
     </div>
   );

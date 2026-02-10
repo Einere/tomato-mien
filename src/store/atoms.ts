@@ -1,13 +1,13 @@
-import { atom } from 'jotai';
-import { atomWithStorage, createJSONStorage } from 'jotai/utils';
-import type { AlarmRule, AppSettings } from '@/types/alarm';
+import { atom } from "jotai";
+import { atomWithStorage, createJSONStorage } from "jotai/utils";
+import type { AlarmRule, AppSettings } from "@/types/alarm";
 
-const DATE_FIELDS = ['createdAt', 'updatedAt'] as const;
+const DATE_FIELDS = ["createdAt", "updatedAt"] as const;
 
 function reviveDate(_key: string, value: unknown): unknown {
   if (
-    typeof value === 'string' &&
-    DATE_FIELDS.some((f) => _key === f) &&
+    typeof value === "string" &&
+    DATE_FIELDS.some(f => _key === f) &&
     /^\d{4}-\d{2}-\d{2}T/.test(value)
   ) {
     return new Date(value);
@@ -20,25 +20,25 @@ const storage = createJSONStorage<AlarmRule[]>(() => localStorage, {
 });
 
 export const rulesAtom = atomWithStorage<AlarmRule[]>(
-  'tomato-mien-rules',
+  "tomato-mien-rules",
   [],
   storage,
 );
 
 export const settingsAtom = atomWithStorage<AppSettings>(
-  'tomato-mien-settings',
-  { timeFormat: '24h' },
+  "tomato-mien-settings",
+  { timeFormat: "24h" },
 );
 
 export type ViewState =
-  | 'dashboard'
-  | 'settings'
-  | { view: 'editor'; ruleId: string | null };
+  | "dashboard"
+  | "settings"
+  | { view: "editor"; ruleId: string | null };
 
-export const viewAtom = atom<ViewState>('dashboard');
+export const viewAtom = atom<ViewState>("dashboard");
 
-export const searchQueryAtom = atom('');
+export const searchQueryAtom = atom("");
 
-export type SortOrder = 'recent' | 'name' | 'active';
+export type SortOrder = "recent" | "name" | "active";
 
-export const sortOrderAtom = atom<SortOrder>('recent');
+export const sortOrderAtom = atom<SortOrder>("recent");

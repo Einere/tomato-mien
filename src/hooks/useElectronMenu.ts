@@ -1,10 +1,6 @@
-import { useEffect } from 'react';
-import { useSetAtom } from 'jotai';
-import {
-  addRuleAtom,
-  enableAllRulesAtom,
-  disableAllRulesAtom,
-} from '@/store';
+import { useEffect } from "react";
+import { useSetAtom } from "jotai";
+import { addRuleAtom, enableAllRulesAtom, disableAllRulesAtom } from "@/store";
 
 export function useElectronMenu() {
   const addRule = useSetAtom(addRuleAtom);
@@ -17,13 +13,13 @@ export function useElectronMenu() {
 
     api.onMenuAction((_event, action) => {
       switch (action) {
-        case 'menu-new-rule':
+        case "menu-new-rule":
           addRule();
           break;
-        case 'menu-enable-all-alarms':
+        case "menu-enable-all-alarms":
           enableAll();
           break;
-        case 'menu-disable-all-alarms':
+        case "menu-disable-all-alarms":
           disableAll();
           break;
       }

@@ -1,1 +1,1 @@
-export * from './alarm';
+export * from "./alarm";
