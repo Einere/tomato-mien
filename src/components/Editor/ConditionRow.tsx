@@ -33,11 +33,11 @@ export function ConditionRow({
   onDelete,
 }: ConditionRowProps) {
   return (
-    <div className='flex items-center gap-2 rounded-lg bg-slate-50 p-3'>
+    <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-3">
       <Badge variant={typeBadgeVariant[condition.type]}>
         {typeLabels[condition.type]}
       </Badge>
-      <div className='min-w-0 flex-1'>
+      <div className="min-w-0 flex-1">
         {condition.type === "range" && (
           <TimeRangeInput condition={condition} onChange={c => onChange(c)} />
         )}
@@ -52,13 +52,13 @@ export function ConditionRow({
         )}
       </div>
       <Button
-        variant='ghost'
-        color='danger'
+        variant="ghost"
+        color="danger"
         onClick={onDelete}
-        aria-label='Delete condition'
-        className='h-7 w-7 shrink-0 p-0'
+        aria-label="Delete condition"
+        className="h-7 w-7 shrink-0 p-0"
       >
-        <Icon name='close' size='sm' />
+        <Icon name="close" size="sm" />
       </Button>
     </div>
   );

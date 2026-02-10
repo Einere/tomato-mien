@@ -16,7 +16,7 @@ export function Icon({ name, className, size = "md" }: IconProps) {
   return (
     <span
       className={clsx(
-        "material-icons-outlined select-none leading-none",
+        "material-icons-outlined leading-none select-none",
         sizeMap[size],
         className,
       )}

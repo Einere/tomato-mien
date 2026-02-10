@@ -19,20 +19,20 @@ export function SettingsView() {
   };
 
   return (
-    <div className='px-5 py-6'>
-      <h1 className='mb-6 text-lg font-bold text-slate-900'>Settings</h1>
+    <div className="px-5 py-6">
+      <h1 className="mb-6 text-lg font-bold text-slate-900">Settings</h1>
 
       <Card>
-        <div className='flex items-center justify-between'>
-          <div className='flex items-center gap-3'>
-            <div className='flex h-9 w-9 items-center justify-center rounded-lg bg-primary-100 text-primary-600'>
-              <Icon name='schedule' size='sm' />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="bg-primary-100 text-primary-600 flex h-9 w-9 items-center justify-center rounded-lg">
+              <Icon name="schedule" size="sm" />
             </div>
             <div>
-              <p className='text-sm font-semibold text-slate-900'>
+              <p className="text-sm font-semibold text-slate-900">
                 시간 표시 형식
               </p>
-              <p className='text-xs text-slate-500'>
+              <p className="text-xs text-slate-500">
                 알람 시간을 표시하는 방식
               </p>
             </div>
@@ -45,22 +45,22 @@ export function SettingsView() {
         </div>
       </Card>
 
-      <div className='mt-4'>
-        <span className='mb-2 block text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+      <div className="mt-4">
+        <span className="mb-2 block text-xs font-semibold tracking-wider text-slate-400 uppercase">
           Preview
         </span>
-        <Card padding='sm'>
-          <div className='flex flex-col gap-2 text-sm text-slate-700'>
-            <div className='flex items-center justify-between'>
-              <span className='text-xs text-slate-500'>특정 시각</span>
+        <Card padding="sm">
+          <div className="flex flex-col gap-2 text-sm text-slate-700">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-slate-500">특정 시각</span>
               <span>{formatTime(14, 30, settings.timeFormat)}</span>
             </div>
-            <div className='flex items-center justify-between'>
-              <span className='text-xs text-slate-500'>시간 범위</span>
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-slate-500">시간 범위</span>
               <span>{formatTimeRange(9, 0, 17, 0, settings.timeFormat)}</span>
             </div>
-            <div className='flex items-center justify-between'>
-              <span className='text-xs text-slate-500'>자정</span>
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-slate-500">자정</span>
               <span>{formatTime(0, 0, settings.timeFormat)}</span>
             </div>
           </div>

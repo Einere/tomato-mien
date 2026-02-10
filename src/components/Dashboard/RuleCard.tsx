@@ -40,12 +40,12 @@ export function RuleCard({ rule }: RuleCardProps) {
 
   return (
     <Card
-      padding='none'
+      padding="none"
       className={clsx(
-        "cursor-pointer transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2",
+        "focus-visible:ring-primary-500 cursor-pointer transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
         !rule.enabled && "opacity-60",
       )}
-      role='button'
+      role="button"
       tabIndex={0}
       onClick={() => setView({ view: "editor", ruleId: rule.id })}
       onKeyDown={e => {
@@ -55,7 +55,7 @@ export function RuleCard({ rule }: RuleCardProps) {
         }
       }}
     >
-      <div className='flex items-center gap-3 p-4'>
+      <div className="flex items-center gap-3 p-4">
         <div
           className={clsx(
             "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg",
@@ -64,13 +64,13 @@ export function RuleCard({ rule }: RuleCardProps) {
               : "bg-slate-100 text-slate-400",
           )}
         >
-          <Icon name={icon} size='sm' />
+          <Icon name={icon} size="sm" />
         </div>
-        <div className='min-w-0 flex-1'>
-          <p className='truncate text-sm font-semibold text-slate-900'>
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-semibold text-slate-900">
             {rule.name}
           </p>
-          <p className='truncate text-xs text-slate-500'>{description}</p>
+          <p className="truncate text-xs text-slate-500">{description}</p>
         </div>
         <div
           onClick={e => {

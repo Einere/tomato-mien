@@ -83,8 +83,9 @@ export class WebWorkerAlarmService {
   private playAlarmSound(): void {
     try {
       // Web Audio API를 사용한 알람 소리 생성
-      const audioContext = new (window.AudioContext ||
-        (window as any).webkitAudioContext)();
+      const audioContext = new (
+        window.AudioContext || (window as any).webkitAudioContext
+      )();
 
       function playPingSound() {
         // 500Hz 주파수로 0.5초간 재생

@@ -13,8 +13,8 @@ export function FilterBar() {
   const [sortOrder, setSortOrder] = useAtom(sortOrderAtom);
 
   return (
-    <div className='mx-5 mb-3 flex items-center justify-between'>
-      <span className='text-[10px] font-semibold tracking-wider text-slate-400 uppercase'>
+    <div className="mx-5 mb-3 flex items-center justify-between">
+      <span className="text-[10px] font-semibold tracking-wider text-slate-400 uppercase">
         Active Logic
       </span>
       <Select

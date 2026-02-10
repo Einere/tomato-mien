@@ -49,29 +49,29 @@ export function ConditionGroup({
   };
 
   return (
-    <Card padding='sm' className='border border-slate-100'>
-      <div className='mb-2 flex items-center justify-between'>
+    <Card padding="sm" className="border border-slate-100">
+      <div className="mb-2 flex items-center justify-between">
         <button
           onClick={toggleOperator}
-          aria-label='Toggle match operator'
-          className='cursor-pointer rounded-lg bg-slate-100 px-2.5 py-1 text-[10px] font-bold tracking-wider text-slate-600 uppercase hover:bg-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2'
+          aria-label="Toggle match operator"
+          className="focus-visible:ring-primary-500 cursor-pointer rounded-lg bg-slate-100 px-2.5 py-1 text-[10px] font-bold tracking-wider text-slate-600 uppercase hover:bg-slate-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
         >
           MATCH {group.operator === "AND" ? "ALL" : "ANY"} ({group.operator})
         </button>
         {onDelete && (
           <Button
-            variant='ghost'
-            color='danger'
+            variant="ghost"
+            color="danger"
             onClick={onDelete}
-            aria-label='Delete condition group'
-            className='h-7 w-7 p-0'
+            aria-label="Delete condition group"
+            className="h-7 w-7 p-0"
           >
-            <Icon name='close' size='sm' />
+            <Icon name="close" size="sm" />
           </Button>
         )}
       </div>
 
-      <div className='flex flex-col gap-2'>
+      <div className="flex flex-col gap-2">
         {group.conditions.map((cond, idx) =>
           isCompoundCondition(cond) ? (
             <ConditionGroup
@@ -91,27 +91,27 @@ export function ConditionGroup({
         )}
       </div>
 
-      <div className='mt-2 flex gap-2'>
+      <div className="mt-2 flex gap-2">
         <Button
-          variant='ghost'
-          className='text-xs'
+          variant="ghost"
+          className="text-xs"
           onClick={() => addCondition("range")}
         >
-          <Icon name='add' size='sm' /> Range
+          <Icon name="add" size="sm" /> Range
         </Button>
         <Button
-          variant='ghost'
-          className='text-xs'
+          variant="ghost"
+          className="text-xs"
           onClick={() => addCondition("interval")}
         >
-          <Icon name='add' size='sm' /> Interval
+          <Icon name="add" size="sm" /> Interval
         </Button>
         <Button
-          variant='ghost'
-          className='text-xs'
+          variant="ghost"
+          className="text-xs"
           onClick={() => addCondition("specific")}
         >
-          <Icon name='add' size='sm' /> Time
+          <Icon name="add" size="sm" /> Time
         </Button>
       </div>
     </Card>

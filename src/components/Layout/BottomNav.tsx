@@ -25,7 +25,7 @@ export function BottomNav() {
   const currentTab = getActiveTab(view);
 
   return (
-    <nav className='flex items-center justify-around border-t border-slate-200 bg-white px-2 pb-safe'>
+    <nav className="pb-safe flex items-center justify-around border-t border-slate-200 bg-white px-2">
       {tabs.map(tab => {
         const isActive = tab.id === currentTab;
         const isPlaceholder = tab.id !== "dashboard" && tab.id !== "settings";
@@ -41,7 +41,7 @@ export function BottomNav() {
               }
             }}
             className={clsx(
-              "flex flex-1 flex-col items-center gap-0.5 py-2 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2",
+              "focus-visible:ring-primary-500 flex flex-1 flex-col items-center gap-0.5 py-2 text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
               isActive && !isPlaceholder
                 ? "text-primary-600"
                 : "text-slate-400",
@@ -50,7 +50,7 @@ export function BottomNav() {
           >
             <Icon
               name={tab.icon}
-              size='sm'
+              size="sm"
               className={clsx(
                 isActive && !isPlaceholder
                   ? "text-primary-600"

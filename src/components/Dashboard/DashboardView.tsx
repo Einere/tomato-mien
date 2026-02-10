@@ -7,7 +7,7 @@ import { SmartSuggestions } from "./SmartSuggestions";
 
 export function DashboardView() {
   return (
-    <div className='pb-4'>
+    <div className="pb-4">
       <DashboardHeader />
       <SearchBar />
       <StatsBar />

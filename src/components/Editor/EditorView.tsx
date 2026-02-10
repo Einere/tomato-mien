@@ -94,7 +94,7 @@ export function EditorView() {
   };
 
   return (
-    <div className='pb-4'>
+    <div className="pb-4">
       <EditorHeader isNew={isNew} />
       <RuleNameInput value={name} onChange={handleNameChange} />
       <LogicTree condition={condition} onChange={handleConditionChange} />
@@ -106,13 +106,13 @@ export function EditorView() {
       />
       <EditorSummary condition={condition} />
       {!isNew && (
-        <div className='px-5 pb-2'>
+        <div className="px-5 pb-2">
           <Button
-            variant='ghost'
-            className='w-full text-danger-600 hover:bg-danger-50'
+            variant="ghost"
+            className="text-danger-600 hover:bg-danger-50 w-full"
             onClick={handleDelete}
           >
-            <Icon name='delete_outline' size='sm' />
+            <Icon name="delete_outline" size="sm" />
             Delete Rule
           </Button>
         </div>

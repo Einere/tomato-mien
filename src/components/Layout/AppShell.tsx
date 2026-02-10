@@ -16,9 +16,9 @@ export function AppShell() {
   const isSettings = view === "settings";
 
   return (
-    <div className={" bg-slate-50"}>
-      <div className='mx-auto flex min-h-screen max-w-xl flex-col '>
-        <main className='flex-1 overflow-y-auto'>
+    <div className="bg-slate-50">
+      <div className="mx-auto flex min-h-screen max-w-xl flex-col">
+        <main className="flex-1 overflow-y-auto">
           {isEditor ? (
             <EditorView />
           ) : isSettings ? (
