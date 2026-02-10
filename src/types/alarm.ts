@@ -42,6 +42,8 @@ export interface AlarmRule {
   condition: TimeCondition | CompoundCondition;
   createdAt: Date;
   updatedAt: Date;
+  isCritical?: boolean;
+  soundName?: string;
 }
 
 // 알람 설정 저장소 인터페이스

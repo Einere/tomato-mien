@@ -13,3 +13,12 @@
   --color-tomato-800: #991b1b;
   --color-tomato-900: #7f1d1d;
 }
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #f8fafc;
+  color: #0f172a;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
