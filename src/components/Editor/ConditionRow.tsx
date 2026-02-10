@@ -1,5 +1,6 @@
 import type { TimeCondition } from "@/types/alarm";
 import { Badge } from "@/components/UI/Badge";
+import { Button } from "@/components/UI/Button";
 import { Icon } from "@/components/UI/Icon";
 import { TimeRangeInput } from "./ConditionInputs/TimeRangeInput";
 import { IntervalInput } from "./ConditionInputs/IntervalInput";
@@ -50,13 +51,15 @@ export function ConditionRow({
           />
         )}
       </div>
-      <button
+      <Button
+        variant='ghost'
+        color='danger'
         onClick={onDelete}
         aria-label='Delete condition'
-        className='flex h-7 w-7 shrink-0 cursor-pointer items-center justify-center rounded-lg text-slate-400 hover:bg-slate-200 hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2'
+        className='h-7 w-7 shrink-0 p-0'
       >
         <Icon name='close' size='sm' />
-      </button>
+      </Button>
     </div>
   );
 }

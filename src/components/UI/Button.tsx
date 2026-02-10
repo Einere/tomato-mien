@@ -1,23 +1,78 @@
+import { cva, type VariantProps } from "class-variance-authority";
 import { clsx } from "clsx";
 import type { ButtonHTMLAttributes } from "react";
 
-type ButtonVariant = "primary" | "secondary" | "ghost";
+const buttonVariants = cva(
+  "inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2",
+  {
+    variants: {
+      variant: {
+        primary: "shadow-sm",
+        secondary: "border shadow-sm",
+        ghost: "",
+      },
+      color: {
+        default: "",
+        danger: "",
+      },
+    },
+    compoundVariants: [
+      // primary
+      {
+        variant: "primary",
+        color: "default",
+        class:
+          "bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800",
+      },
+      {
+        variant: "primary",
+        color: "danger",
+        class:
+          "bg-danger-600 text-white hover:bg-danger-700 active:bg-danger-800",
+      },
+      // secondary
+      {
+        variant: "secondary",
+        color: "default",
+        class:
+          "bg-white text-slate-700 border-slate-200 hover:bg-slate-50 active:bg-slate-100",
+      },
+      {
+        variant: "secondary",
+        color: "danger",
+        class:
+          "bg-white text-danger-600 border-danger-200 hover:bg-danger-50 active:bg-danger-100",
+      },
+      // ghost
+      {
+        variant: "ghost",
+        color: "default",
+        class: "text-slate-600 hover:bg-slate-100 active:bg-slate-200",
+      },
+      {
+        variant: "ghost",
+        color: "danger",
+        class: "text-danger-500 hover:bg-danger-50 active:bg-danger-100",
+      },
+    ],
+    defaultVariants: {
+      variant: "primary",
+      color: "default",
+    },
+  },
+);
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: ButtonVariant;
+type ButtonVariants = VariantProps<typeof buttonVariants>;
+
+interface ButtonProps
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "color">,
+    ButtonVariants {
   loading?: boolean;
 }
 
-const variantStyles: Record<ButtonVariant, string> = {
-  primary:
-    "bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 shadow-sm",
-  secondary:
-    "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 active:bg-slate-100 shadow-sm",
-  ghost: "text-slate-600 hover:bg-slate-100 active:bg-slate-200",
-};
-
 export function Button({
-  variant = "primary",
+  variant,
+  color,
   className,
   children,
   loading = false,
@@ -28,11 +83,7 @@ export function Button({
 
   return (
     <button
-      className={clsx(
-        "inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2",
-        variantStyles[variant],
-        className,
-      )}
+      className={clsx(buttonVariants({ variant, color }), className)}
       disabled={isDisabled}
       aria-busy={loading || undefined}
       {...props}

@@ -59,13 +59,15 @@ export function ConditionGroup({
           MATCH {group.operator === "AND" ? "ALL" : "ANY"} ({group.operator})
         </button>
         {onDelete && (
-          <button
+          <Button
+            variant='ghost'
+            color='danger'
             onClick={onDelete}
             aria-label='Delete condition group'
-            className='flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2'
+            className='h-7 w-7 p-0'
           >
-            <Icon name='delete_outline' size='sm' />
-          </button>
+            <Icon name='close' size='sm' />
+          </Button>
         )}
       </div>
 

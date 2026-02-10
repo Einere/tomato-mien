@@ -25,6 +25,7 @@
     "electron:dist": "npm run build && electron-builder --publish=never"
   },
   "dependencies": {
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.19",
     "electron-updater": "^6.6.2",
