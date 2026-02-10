@@ -59,3 +59,11 @@ export interface AlarmEvent {
   triggeredAt: Date;
   message?: string;
 }
+
+// 시간 형식
+export type TimeFormat = '12h' | '24h';
+
+// 앱 설정
+export interface AppSettings {
+  timeFormat: TimeFormat;
+}

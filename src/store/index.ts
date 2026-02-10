@@ -3,6 +3,7 @@ export {
   viewAtom,
   searchQueryAtom,
   sortOrderAtom,
+  settingsAtom,
 } from './atoms';
 export type { ViewState, SortOrder } from './atoms';
 

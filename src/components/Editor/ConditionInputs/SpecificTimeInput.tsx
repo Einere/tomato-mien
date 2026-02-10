@@ -1,12 +1,9 @@
 import type { SpecificCondition } from '@/types/alarm';
+import { formatTimeValue } from '@/lib/dayjs';
 
 interface SpecificTimeInputProps {
   condition: SpecificCondition;
   onChange: (updated: SpecificCondition) => void;
-}
-
-function pad2(n: number) {
-  return n.toString().padStart(2, '0');
 }
 
 export function SpecificTimeInput({
@@ -15,7 +12,7 @@ export function SpecificTimeInput({
 }: SpecificTimeInputProps) {
   const timeValue =
     condition.hour !== undefined && condition.minute !== undefined
-      ? `${pad2(condition.hour)}:${pad2(condition.minute)}`
+      ? formatTimeValue(condition.hour, condition.minute)
       : '';
 
   return (

@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import { atomWithStorage, createJSONStorage } from 'jotai/utils';
-import type { AlarmRule } from '@/types/alarm';
+import type { AlarmRule, AppSettings } from '@/types/alarm';
 
 const DATE_FIELDS = ['createdAt', 'updatedAt'] as const;
 
@@ -25,8 +25,14 @@ export const rulesAtom = atomWithStorage<AlarmRule[]>(
   storage,
 );
 
+export const settingsAtom = atomWithStorage<AppSettings>(
+  'tomato-mien-settings',
+  { timeFormat: '24h' },
+);
+
 export type ViewState =
   | 'dashboard'
+  | 'settings'
   | { view: 'editor'; ruleId: string | null };
 
 export const viewAtom = atom<ViewState>('dashboard');

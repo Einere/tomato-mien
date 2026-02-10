@@ -1,6 +1,7 @@
 import { useAtom } from 'jotai';
 import { clsx } from 'clsx';
 import { viewAtom } from '@/store';
+import type { ViewState } from '@/store';
 import { Icon } from '@/components/UI/Icon';
 
 const tabs = [
@@ -12,23 +13,22 @@ const tabs = [
 
 type TabId = (typeof tabs)[number]['id'];
 
+function getActiveTab(view: ViewState): TabId {
+  if (view === 'dashboard') return 'dashboard';
+  if (view === 'settings') return 'settings';
+  if (typeof view === 'object' && view.view === 'editor') return 'dashboard';
+  return 'dashboard';
+}
+
 export function BottomNav() {
   const [view, setView] = useAtom(viewAtom);
-
-  const activeTab: TabId =
-    view === 'dashboard' || typeof view === 'string' ? 'dashboard' : 'dashboard';
-  const currentTab: TabId =
-    view === 'dashboard'
-      ? 'dashboard'
-      : typeof view === 'object' && view.view === 'editor'
-        ? 'dashboard'
-        : 'dashboard';
+  const currentTab = getActiveTab(view);
 
   return (
     <nav className="flex items-center justify-around border-t border-slate-200 bg-white px-2 pb-safe">
       {tabs.map((tab) => {
-        const isActive = tab.id === currentTab && tab.id === activeTab;
-        const isPlaceholder = tab.id !== 'dashboard';
+        const isActive = tab.id === currentTab;
+        const isPlaceholder = tab.id !== 'dashboard' && tab.id !== 'settings';
 
         return (
           <button
@@ -36,6 +36,8 @@ export function BottomNav() {
             onClick={() => {
               if (tab.id === 'dashboard') {
                 setView('dashboard');
+              } else if (tab.id === 'settings') {
+                setView('settings');
               }
             }}
             className={clsx(

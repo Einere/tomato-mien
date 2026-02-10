@@ -1,5 +1,6 @@
-import type { TimeCondition, CompoundCondition } from '@/types/alarm';
+import type { TimeCondition, CompoundCondition, TimeFormat } from '@/types/alarm';
 import { isCompoundCondition } from './typeGuards';
+import { formatTime, formatTimeRange } from '@/lib/dayjs';
 
 export type AnyCondition = TimeCondition | CompoundCondition;
 
@@ -8,22 +9,35 @@ export interface ValidationIssue {
   message: string;
 }
 
-export function describeCondition(cond: AnyCondition): string {
+export function describeCondition(
+  cond: AnyCondition,
+  timeFormat: TimeFormat = '24h',
+): string {
   if (isCompoundCondition(cond)) {
-    const childTexts = cond.conditions.map(c => describeCondition(c));
+    const childTexts = cond.conditions.map(c => describeCondition(c, timeFormat));
     const joined = childTexts.join(` ${cond.operator} `);
     return childTexts.length > 1 ? `(${joined})` : joined;
   }
 
   switch (cond.type) {
     case 'range':
-      return `${pad2(cond.startHour)}:${pad2(cond.startMinute)}–${pad2(cond.endHour)}:${pad2(cond.endMinute)}`;
+      return formatTimeRange(
+        cond.startHour,
+        cond.startMinute,
+        cond.endHour,
+        cond.endMinute,
+        timeFormat,
+      );
     case 'interval':
       return `매 ${cond.intervalMinutes}분`;
     case 'specific': {
-      const h = cond.hour !== undefined ? `${pad2(cond.hour)}시` : '모든 시간';
+      const h =
+        cond.hour !== undefined
+          ? formatTime(cond.hour, cond.minute ?? 0, timeFormat)
+          : '모든 시간';
+      if (cond.hour !== undefined) return h;
       const m =
-        cond.minute !== undefined ? `${pad2(cond.minute)}분` : '모든 분';
+        cond.minute !== undefined ? `${cond.minute}분` : '모든 분';
       return `${h} ${m}`;
     }
   }
@@ -88,8 +102,4 @@ export function validateCondition(
   }
 
   return issues;
-}
-
-function pad2(n: number) {
-  return n.toString().padStart(2, '0');
 }

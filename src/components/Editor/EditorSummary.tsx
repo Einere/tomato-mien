@@ -1,4 +1,6 @@
+import { useAtomValue } from 'jotai';
 import type { TimeCondition, CompoundCondition } from '@/types/alarm';
+import { settingsAtom } from '@/store';
 import { describeCondition, validateCondition } from '@/utils/condition';
 import { Card } from '@/components/UI/Card';
 import { Icon } from '@/components/UI/Icon';
@@ -8,7 +10,8 @@ interface EditorSummaryProps {
 }
 
 export function EditorSummary({ condition }: EditorSummaryProps) {
-  const description = describeCondition(condition);
+  const { timeFormat } = useAtomValue(settingsAtom);
+  const description = describeCondition(condition, timeFormat);
   const issues = validateCondition(condition);
 
   return (

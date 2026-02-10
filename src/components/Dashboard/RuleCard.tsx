@@ -1,7 +1,7 @@
-import { useSetAtom } from 'jotai';
+import { useSetAtom, useAtomValue } from 'jotai';
 import { clsx } from 'clsx';
 import type { AlarmRule, TimeCondition, CompoundCondition } from '@/types/alarm';
-import { toggleRuleAtom, viewAtom } from '@/store';
+import { toggleRuleAtom, viewAtom, settingsAtom } from '@/store';
 import { describeCondition } from '@/utils/condition';
 import { isCompoundCondition } from '@/utils/typeGuards';
 import { Card } from '@/components/UI/Card';
@@ -29,8 +29,9 @@ interface RuleCardProps {
 export function RuleCard({ rule }: RuleCardProps) {
   const toggleRule = useSetAtom(toggleRuleAtom);
   const setView = useSetAtom(viewAtom);
+  const { timeFormat } = useAtomValue(settingsAtom);
 
-  const description = describeCondition(rule.condition);
+  const description = describeCondition(rule.condition, timeFormat);
   const icon = getConditionIcon(rule.condition);
 
   return (
