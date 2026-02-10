@@ -26,8 +26,8 @@ export const ConditionSection: React.FC<ConditionSectionProps> = ({ rule }) => {
       {/* 헤더 */}
       <HeaderWithIcon
         Icon={
-          <IconWrapper className='mr-3' backgroundColor='bg-blue-100'>
-            <ClockIcon className='text-blue-600' />
+          <IconWrapper className='mr-3' backgroundColor='bg-tomato-100'>
+            <ClockIcon className='text-tomato-600' />
           </IconWrapper>
         }
         title='알람 조건'
@@ -42,15 +42,17 @@ export const ConditionSection: React.FC<ConditionSectionProps> = ({ rule }) => {
           <IconWrapper
             className='w-5 h-5'
             shape='circle'
-            backgroundColor='bg-blue-100'
+            backgroundColor='bg-tomato-100'
           >
-            <CheckIcon size={12} className='text-blue-600' />
+            <CheckIcon size={12} className='text-tomato-600' />
           </IconWrapper>
         }
-        className='mt-4 bg-blue-50 border border-blue-200'
+        className='mt-4 bg-tomato-50 border border-tomato-200'
       >
-        <p className='text-sm font-medium text-blue-900 mb-1'>조건 미리보기</p>
-        <p className='text-sm text-blue-700'>
+        <p className='text-sm font-medium text-tomato-900 mb-1'>
+          조건 미리보기
+        </p>
+        <p className='text-sm text-tomato-700'>
           {describeCondition(rule.condition)}
         </p>
       </Callout>

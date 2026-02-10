@@ -13,7 +13,7 @@ export const RuleList: React.FC<RuleListProps> = ({ rules }) => {
       {/* 헤더 영역 */}
       <div className='p-4 border-b border-gray-200 bg-gray-50'>
         <h2 className='text-lg font-semibold text-gray-800 flex items-center'>
-          📋 알람 규칙
+          알람 규칙
         </h2>
         <p className='text-sm text-gray-600 mt-1'>총 {rules.length}개 규칙</p>
       </div>

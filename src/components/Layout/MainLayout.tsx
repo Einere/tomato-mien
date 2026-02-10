@@ -14,7 +14,7 @@ export const MainLayout: React.FC = () => {
   const lastCheckTime = alarmService.getLastCheckTime();
 
   return (
-    <div className='h-screen flex flex-col bg-gray-200'>
+    <div className='h-screen flex flex-col bg-gray-50'>
       {/* 툴바 */}
       <Toolbar title='Tomato Mien' />
 

@@ -1,6 +1,19 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/forms";
 
+@theme {
+  --color-tomato-50: #fef2f2;
+  --color-tomato-100: #fee2e2;
+  --color-tomato-200: #fecaca;
+  --color-tomato-300: #fca5a5;
+  --color-tomato-400: #f87171;
+  --color-tomato-500: #ef4444;
+  --color-tomato-600: #dc2626;
+  --color-tomato-700: #b91c1c;
+  --color-tomato-800: #991b1b;
+  --color-tomato-900: #7f1d1d;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -44,16 +57,16 @@ body {
   }
 
   input {
-    @apply border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500;
+    @apply border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-tomato-500;
   }
 
   select {
-    @apply px-4 py-2 pr-8 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+    @apply px-4 py-2 pr-8 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-tomato-500 focus:border-tomato-500;
   }
 
   /* 버튼 상태 클래스 */
   .btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
+    @apply bg-tomato-500 text-white hover:bg-tomato-600 focus:ring-tomato-500;
   }
 
   .btn-secondary {
@@ -74,6 +87,10 @@ body {
 
   .btn-warning {
     @apply bg-yellow-100 text-yellow-700 hover:bg-yellow-200 focus:ring-yellow-500;
+  }
+
+  .btn-outline {
+    @apply border border-tomato-300 text-tomato-600 hover:bg-tomato-50 focus:ring-tomato-500;
   }
 
   /* 버튼 크기 클래스 */
@@ -147,7 +164,11 @@ body {
   }
 
   .icon-container-blue {
-    @apply bg-blue-100;
+    @apply bg-tomato-100;
+  }
+
+  .icon-container-tomato {
+    @apply bg-tomato-100;
   }
 
   .icon-container-gray {

@@ -28,16 +28,16 @@ export const Toolbar: React.FC<ToolbarProps> = ({ title }) => {
   };
 
   return (
-    <div className='bg-gradient-to-r from-blue-800 to-purple-800 text-white px-4 py-3 border-b border-blue-700 shadow-lg'>
+    <div className='bg-white px-4 py-3 border-b border-gray-200 shadow-sm'>
       <div className='flex items-center justify-between'>
         <div className='flex items-center space-x-3'>
-          <div className='text-2xl'>🍅🍜</div>
-          <h1 className='text-xl font-semibold'>{title}</h1>
+          <div className='w-3 h-3 rounded-full bg-tomato-500'></div>
+          <h1 className='text-xl font-semibold text-gray-900'>{title}</h1>
         </div>
         <div className='flex items-center space-x-2'>
           <Button
             onClick={handleAddRule}
-            variant='success'
+            variant='primary'
             size='md'
             className='flex items-center space-x-2'
           >
