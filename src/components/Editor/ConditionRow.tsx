@@ -53,7 +53,6 @@ export function ConditionRow({
       </div>
       <Button
         variant="ghost"
-        color="danger"
         onClick={onDelete}
         aria-label="Delete condition"
         className="h-7 w-7 shrink-0 p-0"

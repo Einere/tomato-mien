@@ -105,23 +105,19 @@ export function EditorView() {
         onSoundChange={handleSoundChange}
       />
       <EditorSummary condition={condition} />
-      {!isNew && (
-        <div className="px-5 pb-2">
-          <Button
-            variant="ghost"
-            className="text-danger-600 hover:bg-danger-50 w-full"
-            onClick={handleDelete}
-          >
-            <Icon name="delete_outline" size="sm" />
-            Delete Rule
-          </Button>
-        </div>
-      )}
       <EditorFooter
         onCancel={handleCancel}
         onSave={handleSave}
         hasChanges={dirty}
       />
+      {!isNew && (
+        <div className="px-5 pb-2">
+          <Button color="danger" className="w-full" onClick={handleDelete}>
+            <Icon name="delete_outline" size="sm" />
+            Delete Rule
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

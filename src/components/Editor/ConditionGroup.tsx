@@ -61,7 +61,6 @@ export function ConditionGroup({
         {onDelete && (
           <Button
             variant="ghost"
-            color="danger"
             onClick={onDelete}
             aria-label="Delete condition group"
             className="h-7 w-7 p-0"
