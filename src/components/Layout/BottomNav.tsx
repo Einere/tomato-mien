@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { clsx } from "clsx";
+import { cn } from "@/lib/cn";
 import { viewAtom } from "@/store";
 import type { ViewState } from "@/store";
 import { Icon } from "@/components/UI/Icon";
@@ -40,7 +40,7 @@ export function BottomNav() {
                 setView("settings");
               }
             }}
-            className={clsx(
+            className={cn(
               "focus-visible:ring-primary-500 flex flex-1 flex-col items-center gap-0.5 py-2 text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
               isActive && !isPlaceholder
                 ? "text-primary-600"
@@ -51,7 +51,7 @@ export function BottomNav() {
             <Icon
               name={tab.icon}
               size="sm"
-              className={clsx(
+              className={cn(
                 isActive && !isPlaceholder
                   ? "text-primary-600"
                   : "text-slate-400",

@@ -1,5 +1,5 @@
 import { useSetAtom, useAtomValue } from "jotai";
-import { clsx } from "clsx";
+import { cn } from "@/lib/cn";
 import type {
   AlarmRule,
   TimeCondition,
@@ -41,7 +41,7 @@ export function RuleCard({ rule }: RuleCardProps) {
   return (
     <Card
       padding="none"
-      className={clsx(
+      className={cn(
         "focus-visible:ring-primary-500 cursor-pointer transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
         !rule.enabled && "opacity-60",
       )}
@@ -57,7 +57,7 @@ export function RuleCard({ rule }: RuleCardProps) {
     >
       <div className="flex items-center gap-3 p-4">
         <div
-          className={clsx(
+          className={cn(
             "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg",
             rule.enabled
               ? "bg-primary-100 text-primary-600"

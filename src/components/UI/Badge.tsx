@@ -1,4 +1,4 @@
-import { clsx } from "clsx";
+import { cn } from "@/lib/cn";
 import type { ReactNode } from "react";
 
 type BadgeVariant = "default" | "primary" | "success";
@@ -22,7 +22,7 @@ export function Badge({
 }: BadgeProps) {
   return (
     <span
-      className={clsx(
+      className={cn(
         "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
         variantStyles[variant],
         className,

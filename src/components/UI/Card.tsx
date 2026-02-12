@@ -1,4 +1,4 @@
-import { clsx } from "clsx";
+import { cn } from "@/lib/cn";
 import type { HTMLAttributes } from "react";
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
@@ -19,7 +19,7 @@ export function Card({
 }: CardProps) {
   return (
     <div
-      className={clsx(
+      className={cn(
         "rounded-xl bg-white shadow-sm",
         paddingStyles[padding],
         className,

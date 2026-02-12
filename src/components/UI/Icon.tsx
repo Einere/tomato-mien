@@ -1,4 +1,4 @@
-import { clsx } from "clsx";
+import { cn } from "@/lib/cn";
 
 interface IconProps {
   name: string;
@@ -15,7 +15,7 @@ const sizeMap = {
 export function Icon({ name, className, size = "md" }: IconProps) {
   return (
     <span
-      className={clsx(
+      className={cn(
         "material-icons-outlined leading-none select-none",
         sizeMap[size],
         className,

@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import { clsx } from "clsx";
+import { cn } from "@/lib/cn";
 import type { ButtonHTMLAttributes } from "react";
 
 const buttonVariants = cva(
@@ -84,7 +84,7 @@ export function Button({
 
   return (
     <button
-      className={clsx(buttonVariants({ variant, color }), className)}
+      className={cn(buttonVariants({ variant, color }), className)}
       disabled={isDisabled}
       aria-busy={loading || undefined}
       {...props}
