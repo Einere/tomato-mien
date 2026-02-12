@@ -1,16 +1,26 @@
-import type {
-  TimeCondition,
-  CompoundCondition,
-  TimeFormat,
-} from "@/types/alarm";
+import type { TimeFormat } from "@/types/alarm";
+import type { AnyCondition } from "@/schemas/alarm";
+import { AnyConditionSchema } from "@/schemas/alarm";
 import { isCompoundCondition } from "./typeGuards";
 import { formatTime, formatTimeRange } from "@/lib/dayjs";
 
-export type AnyCondition = TimeCondition | CompoundCondition;
+export type { AnyCondition } from "@/schemas/alarm";
 
 export interface ValidationIssue {
   path: string; // e.g., conditions[1].startHour
   message: string;
+}
+
+function zodPathToString(zodPath: PropertyKey[], basePath: string): string {
+  let result = basePath;
+  for (const segment of zodPath) {
+    if (typeof segment === "number") {
+      result += `[${segment}]`;
+    } else {
+      result += `.${String(segment)}`;
+    }
+  }
+  return result;
 }
 
 export function describeCondition(
@@ -52,59 +62,11 @@ export function validateCondition(
   cond: AnyCondition,
   basePath = "condition",
 ): ValidationIssue[] {
-  const issues: ValidationIssue[] = [];
+  const result = AnyConditionSchema.safeParse(cond);
+  if (result.success) return [];
 
-  if (isCompoundCondition(cond)) {
-    if (cond.conditions.length === 0) {
-      issues.push({
-        path: basePath,
-        message: "그룹 안에 최소 1개의 조건이 필요합니다.",
-      });
-    }
-    cond.conditions.forEach((c, idx) => {
-      issues.push(...validateCondition(c, `${basePath}.conditions[${idx}]`));
-    });
-    return issues;
-  }
-
-  // TODO: 조건 타입 별 검증 로직을 별도의 함수로 분리해내기
-  if (cond.type === "range") {
-    const start = cond.startHour * 60 + cond.startMinute;
-    const end = cond.endHour * 60 + cond.endMinute;
-    if (start > end) {
-      issues.push({
-        path: basePath,
-        message: "시작 시간이 종료 시간보다 늦습니다.",
-      });
-    }
-  }
-
-  if (cond.type === "interval") {
-    if (!Number.isFinite(cond.intervalMinutes) || cond.intervalMinutes <= 0) {
-      issues.push({ path: basePath, message: "간격은 1분 이상이어야 합니다." });
-    }
-    if (cond.intervalMinutes > 720) {
-      issues.push({
-        path: basePath,
-        message: "간격이 너무 깁니다 (최대 720분 권장).",
-      });
-    }
-  }
-
-  if (cond.type === "specific") {
-    if (cond.hour !== undefined && (cond.hour < 0 || cond.hour > 23)) {
-      issues.push({
-        path: `${basePath}.hour`,
-        message: "시간은 0–23 사이여야 합니다.",
-      });
-    }
-    if (cond.minute !== undefined && (cond.minute < 0 || cond.minute > 59)) {
-      issues.push({
-        path: `${basePath}.minute`,
-        message: "분은 0–59 사이여야 합니다.",
-      });
-    }
-  }
-
-  return issues;
+  return result.error.issues.map(issue => ({
+    path: zodPathToString(issue.path, basePath),
+    message: issue.message,
+  }));
 }

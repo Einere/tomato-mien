@@ -1,28 +1,27 @@
 import { atom } from "jotai";
 import { atomWithStorage, createJSONStorage } from "jotai/utils";
+import { z } from "zod";
+import { AlarmRuleSchema } from "@/schemas/alarm";
 import type { AlarmRule, AppSettings } from "@/types/alarm";
 
-const DATE_FIELDS = ["createdAt", "updatedAt"] as const;
+const AlarmRulesArraySchema = z.array(AlarmRuleSchema);
 
-function reviveDate(_key: string, value: unknown): unknown {
-  if (
-    typeof value === "string" &&
-    DATE_FIELDS.some(f => _key === f) &&
-    /^\d{4}-\d{2}-\d{2}T/.test(value)
-  ) {
-    return new Date(value);
-  }
-  return value;
-}
+const baseStorage = createJSONStorage<AlarmRule[]>(() => localStorage);
 
-const storage = createJSONStorage<AlarmRule[]>(() => localStorage, {
-  reviver: reviveDate,
-});
+const zodStorage: typeof baseStorage = {
+  ...baseStorage,
+  getItem(key, initialValue) {
+    const raw = baseStorage.getItem(key, initialValue);
+    if (raw === null || raw === undefined) return initialValue;
+    const result = AlarmRulesArraySchema.safeParse(raw);
+    return result.success ? result.data : initialValue;
+  },
+};
 
 export const rulesAtom = atomWithStorage<AlarmRule[]>(
   "tomato-mien-rules",
   [],
-  storage,
+  zodStorage,
 );
 
 export const settingsAtom = atomWithStorage<AppSettings>(

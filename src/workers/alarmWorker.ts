@@ -4,7 +4,11 @@ import type {
   TimeCondition,
   CompoundCondition,
 } from "@/types/alarm";
+import { z } from "zod";
+import { AlarmRuleSchema } from "@/schemas/alarm";
 import { isCompoundCondition } from "@/utils/typeGuards";
+
+const AlarmRulesArraySchema = z.array(AlarmRuleSchema);
 
 interface WorkerMessage {
   type:
@@ -43,14 +47,21 @@ class AlarmWorker {
       case "STOP_ALARM":
         this.stop();
         break;
-      case "UPDATE_RULES":
+      case "UPDATE_RULES": {
         this.rules.clear();
-        if (data.rules && Array.isArray(data.rules)) {
-          data.rules.forEach((rule: AlarmRule) => {
+        const parsed = AlarmRulesArraySchema.safeParse(data?.rules);
+        if (parsed.success) {
+          parsed.data.forEach(rule => {
             this.rules.set(rule.id, rule);
           });
+        } else {
+          console.error(
+            "[AlarmWorker] UPDATE_RULES 검증 실패:",
+            parsed.error.issues,
+          );
         }
         break;
+      }
       case "UPDATE_RULE":
         if (data.rule) {
           this.rules.set(data.rule.id, data.rule);
