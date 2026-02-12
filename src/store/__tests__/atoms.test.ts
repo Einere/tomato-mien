@@ -78,6 +78,16 @@ describe("rulesAtom CRUD", () => {
     expect(store.get(rulesAtom)[0].enabled).toBe(true);
   });
 
+  it("toggleRuleAtom does not update updatedAt", () => {
+    const store = createStore();
+    const fixedDate = new Date("2024-01-01T00:00:00Z");
+    const rule = createTestRule({ enabled: true, updatedAt: fixedDate });
+    store.set(rulesAtom, [rule]);
+
+    store.set(toggleRuleAtom, rule.id);
+    expect(store.get(rulesAtom)[0].updatedAt).toEqual(fixedDate);
+  });
+
   it("enableAllRulesAtom enables all rules", () => {
     const store = createStore();
     store.set(rulesAtom, [

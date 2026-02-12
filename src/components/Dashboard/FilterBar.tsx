@@ -4,9 +4,8 @@ import type { SortOrder } from "@/store";
 import { Select } from "@/components/UI/Select";
 
 const sortOptions = [
-  { value: "recent", label: "Recent" },
   { value: "name", label: "Name" },
-  { value: "active", label: "Active first" },
+  { value: "recent", label: "Recently created" },
 ];
 
 export function FilterBar() {

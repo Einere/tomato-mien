@@ -38,6 +38,6 @@ export const viewAtom = atom<ViewState>("dashboard");
 
 export const searchQueryAtom = atom("");
 
-export type SortOrder = "recent" | "name" | "active";
+export type SortOrder = "name" | "recent";
 
-export const sortOrderAtom = atom<SortOrder>("recent");
+export const sortOrderAtom = atom<SortOrder>("name");

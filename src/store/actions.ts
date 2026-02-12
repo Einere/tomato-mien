@@ -38,25 +38,21 @@ export const toggleRuleAtom = atom(null, (get, set, ruleId: string) => {
   set(
     rulesAtom,
     get(rulesAtom).map(r =>
-      r.id === ruleId
-        ? { ...r, enabled: !r.enabled, updatedAt: new Date() }
-        : r,
+      r.id === ruleId ? { ...r, enabled: !r.enabled } : r,
     ),
   );
 });
 
 export const enableAllRulesAtom = atom(null, (get, set) => {
-  const now = new Date();
   set(
     rulesAtom,
-    get(rulesAtom).map(r => ({ ...r, enabled: true, updatedAt: now })),
+    get(rulesAtom).map(r => ({ ...r, enabled: true })),
   );
 });
 
 export const disableAllRulesAtom = atom(null, (get, set) => {
-  const now = new Date();
   set(
     rulesAtom,
-    get(rulesAtom).map(r => ({ ...r, enabled: false, updatedAt: now })),
+    get(rulesAtom).map(r => ({ ...r, enabled: false })),
   );
 });

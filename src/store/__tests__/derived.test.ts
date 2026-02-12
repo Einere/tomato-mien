@@ -74,16 +74,18 @@ describe("derived atoms", () => {
     expect(sorted.map(r => r.name)).toEqual(["Alpha", "Bravo", "Charlie"]);
   });
 
-  it("filteredRulesAtom sorts active first", () => {
+  it("filteredRulesAtom sorts by recently created", () => {
     const store = createStore();
+    const older = new Date("2024-01-01");
+    const newer = new Date("2024-06-01");
     store.set(rulesAtom, [
-      createTestRule({ name: "Disabled", enabled: false }),
-      createTestRule({ name: "Enabled", enabled: true }),
+      createTestRule({ name: "Older", createdAt: older }),
+      createTestRule({ name: "Newer", createdAt: newer }),
     ]);
 
-    store.set(sortOrderAtom, "active");
+    store.set(sortOrderAtom, "recent");
     const sorted = store.get(filteredRulesAtom);
-    expect(sorted[0].name).toBe("Enabled");
-    expect(sorted[1].name).toBe("Disabled");
+    expect(sorted[0].name).toBe("Newer");
+    expect(sorted[1].name).toBe("Older");
   });
 });

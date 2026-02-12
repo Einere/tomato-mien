@@ -19,24 +19,14 @@ export const filteredRulesAtom = atom(get => {
     : [...rules];
 
   switch (sortOrder) {
-    case "recent":
-      filtered.sort(
-        (a, b) =>
-          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
-      );
-      break;
     case "name":
       filtered.sort((a, b) => a.name.localeCompare(b.name));
       break;
-    case "active":
-      filtered.sort((a, b) => {
-        if (a.enabled === b.enabled) {
-          return (
-            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-          );
-        }
-        return a.enabled ? -1 : 1;
-      });
+    case "recent":
+      filtered.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      );
       break;
   }
 
