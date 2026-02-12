@@ -84,7 +84,7 @@ export function EditorView() {
   };
 
   const handleDelete = () => {
-    if (ruleId && window.confirm("이 규칙을 삭제하시겠습니까?")) {
+    if (ruleId && window.confirm("Delete this rule?")) {
       deleteRule(ruleId);
     }
   };

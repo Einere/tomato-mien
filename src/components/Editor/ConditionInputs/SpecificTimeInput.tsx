@@ -2,7 +2,7 @@ import type { SpecificCondition } from "@/types/alarm";
 import { Select } from "@/components/UI/Select";
 
 const HOUR_OPTIONS = [
-  { value: "", label: "매시" },
+  { value: "", label: "Every" },
   ...Array.from({ length: 24 }, (_, i) => ({
     value: String(i),
     label: String(i).padStart(2, "0"),

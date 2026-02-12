@@ -7,14 +7,14 @@ import { Icon } from "@/components/UI/Icon";
 import { formatTime, formatTimeRange } from "@/lib/dayjs";
 
 const timeFormatOptions = [
-  { value: "24h", label: "24시간제" },
-  { value: "12h", label: "12시간제" },
+  { value: "24h", label: "24-hour" },
+  { value: "12h", label: "12-hour" },
 ];
 
 const themeOptions = [
-  { value: "system", label: "시스템" },
-  { value: "light", label: "라이트" },
-  { value: "dark", label: "다크" },
+  { value: "system", label: "System" },
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
 ];
 
 export function SettingsView() {
@@ -40,10 +40,10 @@ export function SettingsView() {
             </div>
             <div>
               <p className="text-body text-foreground font-semibold">
-                시간 표시 형식
+                Time Format
               </p>
               <p className="text-caption text-muted-foreground">
-                알람 시간을 표시하는 방식
+                How alarm times are displayed
               </p>
             </div>
           </div>
@@ -59,9 +59,9 @@ export function SettingsView() {
               <Icon name="dark_mode" size="sm" />
             </div>
             <div>
-              <p className="text-body text-foreground font-semibold">테마</p>
+              <p className="text-body text-foreground font-semibold">Theme</p>
               <p className="text-caption text-muted-foreground">
-                화면 밝기 모드 설정
+                Appearance mode
               </p>
             </div>
           </div>
@@ -81,18 +81,20 @@ export function SettingsView() {
           <div className="text-body text-foreground flex flex-col gap-2">
             <div className="flex items-center justify-between">
               <span className="text-caption text-muted-foreground">
-                특정 시각
+                Specific Time
               </span>
               <span>{formatTime(14, 30, settings.timeFormat)}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-caption text-muted-foreground">
-                시간 범위
+                Time Range
               </span>
               <span>{formatTimeRange(9, 0, 17, 0, settings.timeFormat)}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-caption text-muted-foreground">자정</span>
+              <span className="text-caption text-muted-foreground">
+                Midnight
+              </span>
               <span>{formatTime(0, 0, settings.timeFormat)}</span>
             </div>
           </div>

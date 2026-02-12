@@ -49,5 +49,5 @@ export const createConditionByType = (
 
 // 연산자 라벨 생성 함수
 export const getOperatorLabel = (operator: LogicalOperator): string => {
-  return operator === "AND" ? "그리고" : "또는";
+  return operator === "AND" ? "AND" : "OR";
 };

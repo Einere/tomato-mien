@@ -68,9 +68,7 @@ describe("useElectronMenu confirm", () => {
       renderMenu();
       mock.trigger("menu-enable-all-alarms");
 
-      expect(confirmSpy).toHaveBeenCalledWith(
-        "모든 규칙을 활성화하시겠습니까?",
-      );
+      expect(confirmSpy).toHaveBeenCalledWith("Enable all rules?");
       expect(store.get(rulesAtom).every(r => r.enabled)).toBe(true);
     });
 
@@ -99,9 +97,7 @@ describe("useElectronMenu confirm", () => {
       renderMenu();
       mock.trigger("menu-disable-all-alarms");
 
-      expect(confirmSpy).toHaveBeenCalledWith(
-        "모든 규칙을 비활성화하시겠습니까?",
-      );
+      expect(confirmSpy).toHaveBeenCalledWith("Disable all rules?");
       expect(store.get(rulesAtom).every(r => !r.enabled)).toBe(true);
     });
 

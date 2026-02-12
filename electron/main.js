@@ -89,10 +89,10 @@ app.on("window-all-closed", () => {
 function createMenu() {
   const template = [
     {
-      label: "파일",
+      label: "File",
       submenu: [
         {
-          label: "새 규칙",
+          label: "New Rule",
           accelerator: "CmdOrCtrl+N",
           click: () => {
             mainWindow.webContents.send("menu-new-rule", "menu-new-rule");
@@ -100,7 +100,7 @@ function createMenu() {
         },
         { type: "separator" },
         {
-          label: "종료",
+          label: "Quit",
           accelerator: process.platform === "darwin" ? "Cmd+Q" : "Ctrl+Q",
           click: () => {
             app.quit();
@@ -109,35 +109,35 @@ function createMenu() {
       ],
     },
     {
-      label: "편집",
+      label: "Edit",
       submenu: [
-        { role: "undo", label: "실행 취소" },
-        { role: "redo", label: "다시 실행" },
+        { role: "undo", label: "Undo" },
+        { role: "redo", label: "Redo" },
         { type: "separator" },
-        { role: "cut", label: "잘라내기" },
-        { role: "copy", label: "복사" },
-        { role: "paste", label: "붙여넣기" },
+        { role: "cut", label: "Cut" },
+        { role: "copy", label: "Copy" },
+        { role: "paste", label: "Paste" },
       ],
     },
     {
-      label: "보기",
+      label: "View",
       submenu: [
-        { role: "reload", label: "새로고침" },
-        { role: "forceReload", label: "강제 새로고침" },
-        { role: "toggleDevTools", label: "개발자 도구" },
+        { role: "reload", label: "Reload" },
+        { role: "forceReload", label: "Force Reload" },
+        { role: "toggleDevTools", label: "Developer Tools" },
         { type: "separator" },
-        { role: "resetZoom", label: "실제 크기" },
-        { role: "zoomIn", label: "확대" },
-        { role: "zoomOut", label: "축소" },
+        { role: "resetZoom", label: "Actual Size" },
+        { role: "zoomIn", label: "Zoom In" },
+        { role: "zoomOut", label: "Zoom Out" },
         { type: "separator" },
-        { role: "togglefullscreen", label: "전체 화면" },
+        { role: "togglefullscreen", label: "Full Screen" },
       ],
     },
     {
-      label: "알람",
+      label: "Alarm",
       submenu: [
         {
-          label: "모든 알람 활성화",
+          label: "Enable All Alarms",
           click: () => {
             mainWindow.webContents.send(
               "menu-enable-all-alarms",
@@ -146,7 +146,7 @@ function createMenu() {
           },
         },
         {
-          label: "모든 알람 비활성화",
+          label: "Disable All Alarms",
           click: () => {
             mainWindow.webContents.send(
               "menu-disable-all-alarms",
@@ -157,10 +157,10 @@ function createMenu() {
       ],
     },
     {
-      label: "도움말",
+      label: "Help",
       submenu: [
         {
-          label: "Tomato Mien 정보",
+          label: "About Tomato Mien",
           click: () => {
             mainWindow.webContents.send("menu-about", "menu-about");
           },
@@ -183,9 +183,9 @@ function setupAutoUpdater() {
     dialog
       .showMessageBox(mainWindow, {
         type: "info",
-        title: "업데이트 사용 가능",
-        message: "새로운 버전이 사용 가능합니다. 지금 다운로드하시겠습니까?",
-        buttons: ["다운로드", "나중에"],
+        title: "Update Available",
+        message: "A new version is available. Would you like to download it now?",
+        buttons: ["Download", "Later"],
       })
       .then(result => {
         if (result.response === 0) {
@@ -199,10 +199,10 @@ function setupAutoUpdater() {
     dialog
       .showMessageBox(mainWindow, {
         type: "info",
-        title: "업데이트 준비 완료",
+        title: "Update Ready",
         message:
-          "업데이트가 다운로드되었습니다. 앱을 재시작하여 업데이트를 적용하시겠습니까?",
-        buttons: ["지금 재시작", "나중에"],
+          "Update has been downloaded. Would you like to restart the app to apply it?",
+        buttons: ["Restart Now", "Later"],
       })
       .then(result => {
         if (result.response === 0) {

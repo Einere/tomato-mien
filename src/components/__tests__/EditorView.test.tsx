@@ -43,7 +43,7 @@ describe("EditorView 삭제 confirm", () => {
     renderEditorView(store);
     fireEvent.click(screen.getByRole("button", { name: /delete rule/i }));
 
-    expect(confirmSpy).toHaveBeenCalledWith("이 규칙을 삭제하시겠습니까?");
+    expect(confirmSpy).toHaveBeenCalledWith("Delete this rule?");
   });
 
   it("confirm 승인 시 규칙이 삭제된다", () => {

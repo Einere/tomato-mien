@@ -135,7 +135,7 @@ class AlarmWorker {
       ruleId: rule.id,
       ruleName: rule.name,
       triggeredAt: new Date(),
-      message: `${rule.name} 알람이 울렸습니다!`,
+      message: `${rule.name} alarm triggered!`,
     };
 
     // 메인 스레드에 알람 이벤트 전송

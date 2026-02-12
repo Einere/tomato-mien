@@ -15,7 +15,7 @@ export const RangeConditionSchema = z
   })
   .refine(
     c => c.startHour * 60 + c.startMinute <= c.endHour * 60 + c.endMinute,
-    { message: "시작 시간이 종료 시간보다 늦습니다.", path: [] },
+    { message: "Start time must be before end time.", path: [] },
   );
 
 export const IntervalConditionSchema = z.object({
