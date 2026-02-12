@@ -1,12 +1,8 @@
 // Web Worker for background alarm checking
-import type {
-  AlarmRule,
-  TimeCondition,
-  CompoundCondition,
-} from "@/types/alarm";
+import type { AlarmRule } from "@/types/alarm";
 import { z } from "zod";
 import { AlarmRuleSchema } from "@/schemas/alarm";
-import { isCompoundCondition } from "@/utils/typeGuards";
+import { evaluateCondition } from "@/utils/evaluateCondition";
 
 const AlarmRulesArraySchema = z.array(AlarmRuleSchema);
 
@@ -108,7 +104,7 @@ class AlarmWorker {
     for (const rule of this.rules.values()) {
       if (!rule.enabled) continue;
 
-      const shouldTrigger = this.evaluateCondition(
+      const shouldTrigger = evaluateCondition(
         rule.condition,
         currentHour,
         currentMinute,
@@ -130,109 +126,6 @@ class AlarmWorker {
       type: "LAST_CHECK_TIME_UPDATE",
       data: { lastCheckTime: now.toISOString() },
     });
-  }
-
-  // 조건 평가
-  private evaluateCondition(
-    condition: TimeCondition | CompoundCondition,
-    currentHour: number,
-    currentMinute: number,
-  ): boolean {
-    if (isCompoundCondition(condition)) {
-      return this.evaluateCompoundCondition(
-        condition,
-        currentHour,
-        currentMinute,
-      );
-    } else {
-      return this.evaluateTimeCondition(condition, currentHour, currentMinute);
-    }
-  }
-
-  // 복합 조건 평가
-  private evaluateCompoundCondition(
-    condition: CompoundCondition,
-    currentHour: number,
-    currentMinute: number,
-  ): boolean {
-    const results = condition.conditions.map(c =>
-      this.evaluateCondition(c, currentHour, currentMinute),
-    );
-
-    if (condition.operator === "AND") {
-      return results.every(result => result);
-    } else {
-      return results.some(result => result);
-    }
-  }
-
-  // 시간 조건 평가
-  private evaluateTimeCondition(
-    condition: TimeCondition,
-    currentHour: number,
-    currentMinute: number,
-  ): boolean {
-    switch (condition.type) {
-      case "range":
-        return this.evaluateRangeCondition(
-          condition,
-          currentHour,
-          currentMinute,
-        );
-      case "interval":
-        return this.evaluateIntervalCondition(
-          condition,
-          currentHour,
-          currentMinute,
-        );
-      case "specific":
-        return this.evaluateSpecificCondition(
-          condition,
-          currentHour,
-          currentMinute,
-        );
-    }
-  }
-
-  // 범위 조건 평가
-  private evaluateRangeCondition(
-    condition: any,
-    currentHour: number,
-    currentMinute: number,
-  ): boolean {
-    const currentTime = currentHour * 60 + currentMinute;
-    const startTime = condition.startHour * 60 + condition.startMinute;
-    const endTime = condition.endHour * 60 + condition.endMinute;
-
-    if (startTime <= endTime) {
-      return currentTime >= startTime && currentTime <= endTime;
-    } else {
-      // 자정을 넘나드는 경우 (예: 23:00 - 01:00)
-      return currentTime >= startTime || currentTime <= endTime;
-    }
-  }
-
-  // 간격 조건 평가
-  private evaluateIntervalCondition(
-    condition: any,
-    currentHour: number,
-    currentMinute: number,
-  ): boolean {
-    const currentTime = currentHour * 60 + currentMinute;
-    return currentTime % condition.intervalMinutes === 0;
-  }
-
-  // 특정 값 조건 평가
-  private evaluateSpecificCondition(
-    condition: any,
-    currentHour: number,
-    currentMinute: number,
-  ): boolean {
-    const hourMatch =
-      condition.hour === undefined || condition.hour === currentHour;
-    const minuteMatch =
-      condition.minute === undefined || condition.minute === currentMinute;
-    return hourMatch && minuteMatch;
   }
 
   // 알람 트리거

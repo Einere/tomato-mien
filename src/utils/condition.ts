@@ -47,13 +47,10 @@ export function describeCondition(
     case "interval":
       return `매 ${cond.intervalMinutes}분`;
     case "specific": {
-      const h =
-        cond.hour !== undefined
-          ? formatTime(cond.hour, cond.minute ?? 0, timeFormat)
-          : "모든 시간";
-      if (cond.hour !== undefined) return h;
-      const m = cond.minute !== undefined ? `${cond.minute}분` : "모든 분";
-      return `${h} ${m}`;
+      if (cond.hour !== undefined) {
+        return formatTime(cond.hour, cond.minute ?? 0, timeFormat);
+      }
+      return `매시 ${cond.minute ?? 0}분`;
     }
   }
 }

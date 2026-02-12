@@ -87,15 +87,34 @@ describe("describeCondition", () => {
     });
   });
 
-  describe("specific condition edge cases", () => {
-    it("describes hour-only specific as time with 0 minute", () => {
-      const cond: SpecificCondition = { type: "specific", hour: 9 };
-      expect(describeCondition(cond, "24h")).toBe("09:00");
+  describe("specific condition - 세 가지 케이스", () => {
+    it("매 mm분: hour 생략 시 매시 해당 분에 트리거", () => {
+      const cond: SpecificCondition = { type: "specific", minute: 30 };
+      expect(describeCondition(cond)).toBe("매시 30분");
     });
 
-    it("describes no-hour specific as all time with minute", () => {
-      const cond: SpecificCondition = { type: "specific", minute: 30 };
-      expect(describeCondition(cond)).toContain("모든 시간");
+    it("매 hh시: minute 생략 시 정각(hh:00)으로 표시", () => {
+      const cond: SpecificCondition = { type: "specific", hour: 13 };
+      expect(describeCondition(cond, "24h")).toBe("13:00");
+    });
+
+    it("매 hh시 (12h): minute 생략 시 정각으로 표시", () => {
+      const cond: SpecificCondition = { type: "specific", hour: 13 };
+      expect(describeCondition(cond, "12h")).toBe("오후 1:00");
+    });
+
+    it("hh:mm: hour와 minute 모두 지정 시 해당 시각으로 표시", () => {
+      const cond: SpecificCondition = {
+        type: "specific",
+        hour: 14,
+        minute: 30,
+      };
+      expect(describeCondition(cond, "24h")).toBe("14:30");
+    });
+
+    it("hour, minute 모두 생략 시 매시 정각으로 표시", () => {
+      const cond: SpecificCondition = { type: "specific" };
+      expect(describeCondition(cond)).toBe("매시 0분");
     });
   });
 });
