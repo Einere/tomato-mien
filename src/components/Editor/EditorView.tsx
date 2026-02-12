@@ -33,7 +33,6 @@ export function EditorView() {
     createDefaultCompound("AND"),
   );
   const [isCritical, setIsCritical] = useState(false);
-  const [soundName, setSoundName] = useState("default");
   const [dirty, setDirty] = useState(false);
 
   useEffect(() => {
@@ -41,7 +40,6 @@ export function EditorView() {
       setName(existingRule.name);
       setCondition(existingRule.condition);
       setIsCritical(existingRule.isCritical ?? false);
-      setSoundName(existingRule.soundName ?? "default");
       setDirty(false);
     }
   }, [existingRule]);
@@ -61,11 +59,6 @@ export function EditorView() {
     setDirty(true);
   };
 
-  const handleSoundChange = (v: string) => {
-    setSoundName(v);
-    setDirty(true);
-  };
-
   const handleSave = () => {
     if (!ruleId) return;
     const now = new Date();
@@ -77,7 +70,6 @@ export function EditorView() {
       createdAt: existingRule?.createdAt ?? now,
       updatedAt: now,
       isCritical: isCritical || undefined,
-      soundName: soundName !== "default" ? soundName : undefined,
     };
     updateRule(updated);
     setView("dashboard");
@@ -98,13 +90,11 @@ export function EditorView() {
       <EditorHeader isNew={isNew} />
       <RuleNameInput value={name} onChange={handleNameChange} />
       <LogicTree condition={condition} onChange={handleConditionChange} />
+      <EditorSummary condition={condition} />
       <EditorSettings
         isCritical={isCritical}
-        soundName={soundName}
         onCriticalChange={handleCriticalChange}
-        onSoundChange={handleSoundChange}
       />
-      <EditorSummary condition={condition} />
       <EditorFooter
         onCancel={handleCancel}
         onSave={handleSave}
