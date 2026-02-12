@@ -6,6 +6,8 @@ import { evaluateCondition } from "@/utils/evaluateCondition";
 
 const AlarmRulesArraySchema = z.array(AlarmRuleSchema);
 
+const CHECK_INTERVAL_MS = 60_000;
+
 interface WorkerMessage {
   type:
     | "START_ALARM"
@@ -74,10 +76,9 @@ class AlarmWorker {
       this.stop();
     }
 
-    // 매 분마다 체크
     this.intervalId = self.setInterval(() => {
       this.checkAlarms();
-    }, 60000); // 1분 = 60초 = 60000ms
+    }, CHECK_INTERVAL_MS);
 
     // 즉시 한 번 체크
     this.checkAlarms();

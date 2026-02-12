@@ -1,6 +1,8 @@
 import type { TimeCondition, CompoundCondition } from "@/types/alarm";
 import { isCompoundCondition } from "./typeGuards";
 
+const MINUTES_PER_HOUR = 60;
+
 export function evaluateCondition(
   condition: TimeCondition | CompoundCondition,
   currentHour: number,
@@ -49,9 +51,10 @@ function evaluateRangeCondition(
   currentHour: number,
   currentMinute: number,
 ): boolean {
-  const currentTime = currentHour * 60 + currentMinute;
-  const startTime = condition.startHour * 60 + condition.startMinute;
-  const endTime = condition.endHour * 60 + condition.endMinute;
+  const currentTime = currentHour * MINUTES_PER_HOUR + currentMinute;
+  const startTime =
+    condition.startHour * MINUTES_PER_HOUR + condition.startMinute;
+  const endTime = condition.endHour * MINUTES_PER_HOUR + condition.endMinute;
 
   if (startTime <= endTime) {
     return currentTime >= startTime && currentTime <= endTime;
@@ -65,7 +68,7 @@ function evaluateIntervalCondition(
   currentHour: number,
   currentMinute: number,
 ): boolean {
-  const currentTime = currentHour * 60 + currentMinute;
+  const currentTime = currentHour * MINUTES_PER_HOUR + currentMinute;
   return currentTime % condition.intervalMinutes === 0;
 }
 
