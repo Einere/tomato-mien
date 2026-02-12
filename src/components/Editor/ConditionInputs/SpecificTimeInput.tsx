@@ -1,5 +1,18 @@
 import type { SpecificCondition } from "@/types/alarm";
-import { formatTimeValue } from "@/lib/dayjs";
+import { Select } from "@/components/UI/Select";
+
+const HOUR_OPTIONS = [
+  { value: "", label: "매시" },
+  ...Array.from({ length: 24 }, (_, i) => ({
+    value: String(i),
+    label: String(i).padStart(2, "0"),
+  })),
+];
+
+const MINUTE_OPTIONS = Array.from({ length: 60 }, (_, i) => ({
+  value: String(i),
+  label: String(i).padStart(2, "0"),
+}));
 
 interface SpecificTimeInputProps {
   condition: SpecificCondition;
@@ -10,26 +23,32 @@ export function SpecificTimeInput({
   condition,
   onChange,
 }: SpecificTimeInputProps) {
-  const timeValue =
-    condition.hour !== undefined && condition.minute !== undefined
-      ? formatTimeValue(condition.hour, condition.minute)
-      : "";
+  const hourValue =
+    condition.hour !== undefined ? String(condition.hour) : "";
+  const minuteValue = String(condition.minute ?? 0);
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-xs text-slate-500">At</span>
-      <input
-        type="time"
-        value={timeValue}
-        onChange={e => {
-          const [h, m] = e.target.value.split(":").map(Number);
+      <Select
+        value={hourValue}
+        onChange={v =>
           onChange({
             ...condition,
-            hour: h ?? undefined,
-            minute: m ?? undefined,
-          });
-        }}
-        className="focus:border-primary-500 focus:ring-primary-500 min-w-0 flex-1 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-sm text-slate-700 focus:ring-1"
+            hour: v === "" ? undefined : Number(v),
+          })
+        }
+        options={HOUR_OPTIONS}
+      />
+      <span className="text-xs text-slate-500">:</span>
+      <Select
+        value={minuteValue}
+        onChange={v =>
+          onChange({
+            ...condition,
+            minute: Number(v),
+          })
+        }
+        options={MINUTE_OPTIONS}
       />
     </div>
   );
