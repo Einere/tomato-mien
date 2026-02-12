@@ -1,6 +1,7 @@
 import { useAtom } from "jotai";
 import { searchQueryAtom } from "@/store";
 import { Icon } from "@/components/UI/Icon";
+import { Input } from "@/components/UI/Input";
 
 export function SearchBar() {
   const [query, setQuery] = useAtom(searchQueryAtom);
@@ -12,13 +13,13 @@ export function SearchBar() {
         size="sm"
         className="text-subtle-foreground absolute top-1/2 left-3 -translate-y-1/2"
       />
-      <input
-        type="text"
+      <Input
+        type="search"
         placeholder="Search rules..."
         aria-label="Search rules"
         value={query}
         onChange={e => setQuery(e.target.value)}
-        className="focus-visible:border-primary-500 focus-visible:ring-ring border-border bg-surface text-body text-foreground placeholder:text-subtle-foreground w-full rounded-lg border py-2.5 pr-4 pl-10 focus-visible:ring-1 focus-visible:outline-none"
+        className="w-full py-2.5 pr-4 pl-10"
       />
     </div>
   );

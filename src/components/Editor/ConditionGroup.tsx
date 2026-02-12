@@ -51,13 +51,14 @@ export function ConditionGroup({
   return (
     <Card padding="sm" className="border-border-muted border">
       <div className="mb-2 flex items-center justify-between">
-        <button
+        <Button
+          variant="ghost"
           onClick={toggleOperator}
           aria-label="Toggle match operator"
-          className="focus-visible:ring-ring bg-muted text-overline text-muted-foreground hover:bg-subtle cursor-pointer rounded-lg px-2.5 py-1 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+          className="bg-muted text-overline text-muted-foreground hover:bg-subtle px-2.5 py-1"
         >
           MATCH {group.operator === "AND" ? "ALL" : "ANY"} ({group.operator})
-        </button>
+        </Button>
         {onDelete && (
           <Button
             variant="ghost"

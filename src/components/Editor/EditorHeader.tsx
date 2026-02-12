@@ -1,5 +1,6 @@
 import { useSetAtom } from "jotai";
 import { viewAtom } from "@/store";
+import { Button } from "@/components/UI/Button";
 import { Icon } from "@/components/UI/Icon";
 
 interface EditorHeaderProps {
@@ -11,13 +12,14 @@ export function EditorHeader({ isNew }: EditorHeaderProps) {
 
   return (
     <div className="flex items-center gap-3 px-5 pt-6 pb-4">
-      <button
+      <Button
+        variant="ghost"
         onClick={() => setView("dashboard")}
         aria-label="Back to dashboard"
-        className="focus-visible:ring-ring text-muted-foreground hover:bg-muted flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+        className="h-9 w-9 p-0"
       >
         <Icon name="arrow_back" size="sm" />
-      </button>
+      </Button>
       <h1 className="text-heading-2 text-foreground">
         {isNew ? "New Rule" : "Edit Rule"}
       </h1>

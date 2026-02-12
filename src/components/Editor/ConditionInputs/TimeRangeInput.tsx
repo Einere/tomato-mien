@@ -1,5 +1,6 @@
 import type { RangeCondition } from "@/types/alarm";
 import { formatTimeValue } from "@/lib/dayjs";
+import { Input } from "@/components/UI/Input";
 
 interface TimeRangeInputProps {
   condition: RangeCondition;
@@ -14,24 +15,24 @@ function parseTime(str: string): { hour: number; minute: number } {
 export function TimeRangeInput({ condition, onChange }: TimeRangeInputProps) {
   return (
     <div className="flex items-center gap-2">
-      <input
+      <Input
         type="time"
         value={formatTimeValue(condition.startHour, condition.startMinute)}
         onChange={e => {
           const { hour, minute } = parseTime(e.target.value);
           onChange({ ...condition, startHour: hour, startMinute: minute });
         }}
-        className="focus:border-primary-500 focus:ring-ring border-border bg-surface text-body text-foreground min-w-0 flex-1 rounded-lg border px-2 py-1.5 focus:ring-1"
+        className="min-w-0 flex-1 px-2 py-1.5"
       />
       <span className="text-caption text-subtle-foreground shrink-0">to</span>
-      <input
+      <Input
         type="time"
         value={formatTimeValue(condition.endHour, condition.endMinute)}
         onChange={e => {
           const { hour, minute } = parseTime(e.target.value);
           onChange({ ...condition, endHour: hour, endMinute: minute });
         }}
-        className="focus:border-primary-500 focus:ring-ring border-border bg-surface text-body text-foreground min-w-0 flex-1 rounded-lg border px-2 py-1.5 focus:ring-1"
+        className="min-w-0 flex-1 px-2 py-1.5"
       />
     </div>
   );

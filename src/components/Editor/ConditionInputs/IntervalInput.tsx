@@ -1,4 +1,5 @@
 import type { IntervalCondition } from "@/types/alarm";
+import { Input } from "@/components/UI/Input";
 
 interface IntervalInputProps {
   condition: IntervalCondition;
@@ -9,10 +10,10 @@ export function IntervalInput({ condition, onChange }: IntervalInputProps) {
   return (
     <div className="flex items-center gap-2">
       <span className="text-caption text-muted-foreground">Every</span>
-      <input
+      <Input
         type="number"
         min={1}
-        max={1440}
+        max={720}
         value={condition.intervalMinutes}
         onChange={e => {
           const val = parseInt(e.target.value, 10);
@@ -20,7 +21,7 @@ export function IntervalInput({ condition, onChange }: IntervalInputProps) {
             onChange({ ...condition, intervalMinutes: val });
           }
         }}
-        className="focus:border-primary-500 focus:ring-ring border-border bg-surface text-body text-foreground w-20 rounded-lg border px-2 py-1.5 text-center focus:ring-1"
+        className="w-20 px-2 py-1.5 text-center"
       />
       <span className="text-caption text-muted-foreground">min</span>
     </div>
