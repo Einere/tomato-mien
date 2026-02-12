@@ -11,8 +11,13 @@ export function formatTime(
   minute: number,
   format: TimeFormat,
 ): string {
-  const d = dayjs().hour(hour).minute(minute);
-  return format === "12h" ? d.format("A h:mm") : d.format("HH:mm");
+  if (format === "12h") {
+    const period = hour < 12 ? "AM" : "PM";
+    const h = hour % 12 || 12;
+    const m = minute.toString().padStart(2, "0");
+    return `${h}:${m} ${period}`;
+  }
+  return `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
 }
 
 export function formatTimeRange(
@@ -22,7 +27,7 @@ export function formatTimeRange(
   endM: number,
   format: TimeFormat,
 ): string {
-  return `${formatTime(startH, startM, format)}\u2013${formatTime(endH, endM, format)}`;
+  return `from ${formatTime(startH, startM, format)} to ${formatTime(endH, endM, format)}`;
 }
 
 export function formatTimeValue(hour: number, minute: number): string {

@@ -31,7 +31,8 @@ export function describeCondition(
     const childTexts = cond.conditions.map(c =>
       describeCondition(c, timeFormat),
     );
-    const joined = childTexts.join(` ${cond.operator} `);
+    const connector = cond.operator === "AND" ? " AND " : " OR ";
+    const joined = childTexts.join(connector);
     return childTexts.length > 1 ? `(${joined})` : joined;
   }
 
@@ -45,12 +46,12 @@ export function describeCondition(
         timeFormat,
       );
     case "interval":
-      return `매 ${cond.intervalMinutes}분`;
+      return `every ${cond.intervalMinutes} minutes`;
     case "specific": {
       if (cond.hour !== undefined) {
-        return formatTime(cond.hour, cond.minute ?? 0, timeFormat);
+        return `at ${formatTime(cond.hour, cond.minute ?? 0, timeFormat)}`;
       }
-      return `매시 ${cond.minute ?? 0}분`;
+      return `every hour at minute ${cond.minute ?? 0}`;
     }
   }
 }

@@ -57,6 +57,6 @@ describe("EditorSummary", () => {
         <EditorSummary condition={validCondition} issues={[]} />
       </Provider>,
     );
-    expect(screen.getByText("매 15분")).toBeInTheDocument();
+    expect(screen.getByText("every 15 minutes")).toBeInTheDocument();
   });
 });

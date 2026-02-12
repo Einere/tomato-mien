@@ -17,12 +17,12 @@ describe("describeCondition", () => {
         endHour: 17,
         endMinute: 0,
       };
-      expect(describeCondition(cond)).toBe("09:00\u201317:00");
+      expect(describeCondition(cond)).toBe("from 09:00 to 17:00");
     });
 
     it("describes an interval condition", () => {
       const cond: IntervalCondition = { type: "interval", intervalMinutes: 30 };
-      expect(describeCondition(cond)).toBe("매 30분");
+      expect(describeCondition(cond)).toBe("every 30 minutes");
     });
 
     it("describes a specific condition", () => {
@@ -31,7 +31,7 @@ describe("describeCondition", () => {
         hour: 14,
         minute: 30,
       };
-      expect(describeCondition(cond)).toBe("14:30");
+      expect(describeCondition(cond)).toBe("at 14:30");
     });
 
     it("describes a compound condition with AND", () => {
@@ -43,8 +43,19 @@ describe("describeCondition", () => {
         ],
       };
       const result = describeCondition(cond);
-      expect(result).toContain("AND");
-      expect(result).toContain("매 15분");
+      expect(result).toBe("(every 15 minutes AND at 09:00)");
+    });
+
+    it("describes a compound condition with OR", () => {
+      const cond: CompoundCondition = {
+        operator: "OR",
+        conditions: [
+          { type: "interval", intervalMinutes: 15 },
+          { type: "specific", hour: 9, minute: 0 },
+        ],
+      };
+      const result = describeCondition(cond);
+      expect(result).toBe("(every 15 minutes OR at 09:00)");
     });
   });
 
@@ -58,8 +69,7 @@ describe("describeCondition", () => {
         endMinute: 0,
       };
       const result = describeCondition(cond, "12h");
-      expect(result).toContain("오전 9:00");
-      expect(result).toContain("오후 5:00");
+      expect(result).toBe("from 9:00 AM to 5:00 PM");
     });
 
     it("describes a specific condition in 12h", () => {
@@ -68,53 +78,53 @@ describe("describeCondition", () => {
         hour: 14,
         minute: 30,
       };
-      expect(describeCondition(cond, "12h")).toBe("오후 2:30");
+      expect(describeCondition(cond, "12h")).toBe("at 2:30 PM");
     });
 
     it("describes midnight in 12h", () => {
       const cond: SpecificCondition = { type: "specific", hour: 0, minute: 0 };
-      expect(describeCondition(cond, "12h")).toBe("오전 12:00");
+      expect(describeCondition(cond, "12h")).toBe("at 12:00 AM");
     });
 
     it("describes noon in 12h", () => {
       const cond: SpecificCondition = { type: "specific", hour: 12, minute: 0 };
-      expect(describeCondition(cond, "12h")).toBe("오후 12:00");
+      expect(describeCondition(cond, "12h")).toBe("at 12:00 PM");
     });
 
     it("interval is the same in 12h", () => {
       const cond: IntervalCondition = { type: "interval", intervalMinutes: 15 };
-      expect(describeCondition(cond, "12h")).toBe("매 15분");
+      expect(describeCondition(cond, "12h")).toBe("every 15 minutes");
     });
   });
 
-  describe("specific condition - 세 가지 케이스", () => {
-    it("매 mm분: hour 생략 시 매시 해당 분에 트리거", () => {
+  describe("specific condition - three cases", () => {
+    it("every hour at minute N: when hour is omitted", () => {
       const cond: SpecificCondition = { type: "specific", minute: 30 };
-      expect(describeCondition(cond)).toBe("매시 30분");
+      expect(describeCondition(cond)).toBe("every hour at minute 30");
     });
 
-    it("매 hh시: minute 생략 시 정각(hh:00)으로 표시", () => {
+    it("at HH:00: when minute is omitted (24h)", () => {
       const cond: SpecificCondition = { type: "specific", hour: 13 };
-      expect(describeCondition(cond, "24h")).toBe("13:00");
+      expect(describeCondition(cond, "24h")).toBe("at 13:00");
     });
 
-    it("매 hh시 (12h): minute 생략 시 정각으로 표시", () => {
+    it("at h:00 PM: when minute is omitted (12h)", () => {
       const cond: SpecificCondition = { type: "specific", hour: 13 };
-      expect(describeCondition(cond, "12h")).toBe("오후 1:00");
+      expect(describeCondition(cond, "12h")).toBe("at 1:00 PM");
     });
 
-    it("hh:mm: hour와 minute 모두 지정 시 해당 시각으로 표시", () => {
+    it("at HH:mm: when both hour and minute are specified", () => {
       const cond: SpecificCondition = {
         type: "specific",
         hour: 14,
         minute: 30,
       };
-      expect(describeCondition(cond, "24h")).toBe("14:30");
+      expect(describeCondition(cond, "24h")).toBe("at 14:30");
     });
 
-    it("hour, minute 모두 생략 시 매시 정각으로 표시", () => {
+    it("every hour at minute 0: when both are omitted", () => {
       const cond: SpecificCondition = { type: "specific" };
-      expect(describeCondition(cond)).toBe("매시 0분");
+      expect(describeCondition(cond)).toBe("every hour at minute 0");
     });
   });
 });
