@@ -7,6 +7,7 @@ import type {
   CompoundCondition,
 } from "@/types/alarm";
 import { createDefaultCompound } from "@/utils/alarmRules";
+import { validateCondition } from "@/utils/condition";
 import { EditorHeader } from "./EditorHeader";
 import { RuleNameInput } from "./RuleNameInput";
 import { LogicTree } from "./LogicTree";
@@ -34,6 +35,9 @@ export function EditorView() {
   );
   const [isCritical, setIsCritical] = useState(false);
   const [dirty, setDirty] = useState(false);
+
+  const issues = validateCondition(condition);
+  const isValid = issues.length === 0;
 
   useEffect(() => {
     if (existingRule) {
@@ -90,7 +94,7 @@ export function EditorView() {
       <EditorHeader isNew={isNew} />
       <RuleNameInput value={name} onChange={handleNameChange} />
       <LogicTree condition={condition} onChange={handleConditionChange} />
-      <EditorSummary condition={condition} />
+      <EditorSummary condition={condition} issues={issues} />
       <EditorSettings
         isCritical={isCritical}
         onCriticalChange={handleCriticalChange}
@@ -99,6 +103,7 @@ export function EditorView() {
         onCancel={handleCancel}
         onSave={handleSave}
         hasChanges={dirty}
+        isValid={isValid}
       />
       {!isNew && (
         <div className="px-5 pb-2">
