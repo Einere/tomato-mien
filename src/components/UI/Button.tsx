@@ -3,7 +3,7 @@ import { cn } from "@/lib/cn";
 import type { ButtonHTMLAttributes } from "react";
 
 const buttonVariants = cva(
-  "inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2",
+  "inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-lg px-4 py-2 text-body font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
   {
     variants: {
       variant: {
@@ -35,19 +35,19 @@ const buttonVariants = cva(
         variant: "secondary",
         color: "default",
         class:
-          "bg-white text-slate-700 border-slate-200 hover:bg-slate-50 active:bg-slate-100",
+          "bg-surface text-foreground border-border hover:bg-background active:bg-muted",
       },
       {
         variant: "secondary",
         color: "danger",
         class:
-          "bg-white text-danger-600 border-danger-200 hover:bg-danger-50 active:bg-danger-100",
+          "bg-surface text-danger-600 border-danger-200 hover:bg-danger-50 active:bg-danger-100",
       },
       // ghost
       {
         variant: "ghost",
         color: "default",
-        class: "text-slate-600 hover:bg-slate-100 active:bg-slate-200",
+        class: "text-muted-foreground hover:bg-muted active:bg-subtle",
       },
       {
         variant: "ghost",

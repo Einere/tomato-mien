@@ -13,10 +13,10 @@ export function SmartSuggestions() {
             <Icon name="auto_awesome" size="sm" className="text-white" />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold text-white">
+            <p className="text-body font-semibold text-white">
               Smart Suggestions
             </p>
-            <p className="text-xs text-white/80">
+            <p className="text-caption text-white/80">
               Add interval rules to stay focused during work hours.
             </p>
           </div>

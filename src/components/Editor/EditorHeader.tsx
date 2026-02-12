@@ -14,11 +14,11 @@ export function EditorHeader({ isNew }: EditorHeaderProps) {
       <button
         onClick={() => setView("dashboard")}
         aria-label="Back to dashboard"
-        className="focus-visible:ring-primary-500 flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+        className="focus-visible:ring-ring text-muted-foreground hover:bg-muted flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
       >
         <Icon name="arrow_back" size="sm" />
       </button>
-      <h1 className="text-xl font-bold text-slate-900">
+      <h1 className="text-heading-2 text-foreground">
         {isNew ? "New Rule" : "Edit Rule"}
       </h1>
     </div>

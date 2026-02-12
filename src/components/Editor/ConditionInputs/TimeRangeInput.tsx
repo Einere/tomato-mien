@@ -21,9 +21,9 @@ export function TimeRangeInput({ condition, onChange }: TimeRangeInputProps) {
           const { hour, minute } = parseTime(e.target.value);
           onChange({ ...condition, startHour: hour, startMinute: minute });
         }}
-        className="focus:border-primary-500 focus:ring-primary-500 min-w-0 flex-1 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-sm text-slate-700 focus:ring-1"
+        className="focus:border-primary-500 focus:ring-ring border-border bg-surface text-body text-foreground min-w-0 flex-1 rounded-lg border px-2 py-1.5 focus:ring-1"
       />
-      <span className="shrink-0 text-xs text-slate-400">to</span>
+      <span className="text-caption text-subtle-foreground shrink-0">to</span>
       <input
         type="time"
         value={formatTimeValue(condition.endHour, condition.endMinute)}
@@ -31,7 +31,7 @@ export function TimeRangeInput({ condition, onChange }: TimeRangeInputProps) {
           const { hour, minute } = parseTime(e.target.value);
           onChange({ ...condition, endHour: hour, endMinute: minute });
         }}
-        className="focus:border-primary-500 focus:ring-primary-500 min-w-0 flex-1 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-sm text-slate-700 focus:ring-1"
+        className="focus:border-primary-500 focus:ring-ring border-border bg-surface text-body text-foreground min-w-0 flex-1 rounded-lg border px-2 py-1.5 focus:ring-1"
       />
     </div>
   );

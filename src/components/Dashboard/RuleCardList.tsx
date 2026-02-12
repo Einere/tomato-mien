@@ -8,9 +8,9 @@ export function RuleCardList() {
   if (rules.length === 0) {
     return (
       <div className="px-5 py-12 text-center">
-        <p className="text-sm text-slate-400">No rules yet.</p>
-        <p className="text-xs text-slate-400">
-          Tap "+ Create" to add your first rule.
+        <p className="text-body text-subtle-foreground">No rules yet.</p>
+        <p className="text-caption text-subtle-foreground">
+          Tap &quot;+ Create&quot; to add your first rule.
         </p>
       </div>
     );

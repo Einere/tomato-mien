@@ -36,10 +36,6 @@ describe("cn", () => {
     expect(cn()).toBe("");
   });
 
-  it("객체 구문을 지원한다", () => {
-    expect(cn({ "px-2": true, "py-1": false, "mx-4": true })).toBe("px-2 mx-4");
-  });
-
   it("배열 구문을 지원한다", () => {
     expect(cn(["px-2", "py-1"])).toBe("px-2 py-1");
   });

@@ -23,8 +23,7 @@ export function SpecificTimeInput({
   condition,
   onChange,
 }: SpecificTimeInputProps) {
-  const hourValue =
-    condition.hour !== undefined ? String(condition.hour) : "";
+  const hourValue = condition.hour !== undefined ? String(condition.hour) : "";
   const minuteValue = String(condition.minute ?? 0);
 
   return (
@@ -39,7 +38,7 @@ export function SpecificTimeInput({
         }
         options={HOUR_OPTIONS}
       />
-      <span className="text-xs text-slate-500">:</span>
+      <span className="text-caption text-muted-foreground">:</span>
       <Select
         value={minuteValue}
         onChange={v =>

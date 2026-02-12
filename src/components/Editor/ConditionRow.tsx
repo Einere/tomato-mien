@@ -33,7 +33,7 @@ export function ConditionRow({
   onDelete,
 }: ConditionRowProps) {
   return (
-    <div className="flex items-center gap-2 rounded-lg bg-slate-50 p-3">
+    <div className="bg-background flex items-center gap-2 rounded-lg p-3">
       <Badge variant={typeBadgeVariant[condition.type]}>
         {typeLabels[condition.type]}
       </Badge>

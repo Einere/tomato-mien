@@ -9,18 +9,16 @@ export function StatsBar() {
   return (
     <div className="mx-5 mb-4 grid grid-cols-2 gap-3">
       <Card className="flex flex-col items-center py-3">
-        <span className="text-[10px] font-semibold tracking-wider text-slate-400 uppercase">
+        <span className="text-overline text-subtle-foreground">
           Active Rules
         </span>
-        <span className="text-primary-600 text-2xl font-bold">
-          {activeCount}
-        </span>
+        <span className="text-heading-1 text-primary-600">{activeCount}</span>
       </Card>
       <Card className="flex flex-col items-center py-3">
-        <span className="text-[10px] font-semibold tracking-wider text-slate-400 uppercase">
+        <span className="text-overline text-subtle-foreground">
           Total Rules
         </span>
-        <span className="text-2xl font-bold text-slate-900">{totalCount}</span>
+        <span className="text-heading-1 text-foreground">{totalCount}</span>
       </Card>
     </div>
   );

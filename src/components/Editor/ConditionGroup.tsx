@@ -49,12 +49,12 @@ export function ConditionGroup({
   };
 
   return (
-    <Card padding="sm" className="border border-slate-100">
+    <Card padding="sm" className="border-border-muted border">
       <div className="mb-2 flex items-center justify-between">
         <button
           onClick={toggleOperator}
           aria-label="Toggle match operator"
-          className="focus-visible:ring-primary-500 cursor-pointer rounded-lg bg-slate-100 px-2.5 py-1 text-[10px] font-bold tracking-wider text-slate-600 uppercase hover:bg-slate-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+          className="focus-visible:ring-ring bg-muted text-overline text-muted-foreground hover:bg-subtle cursor-pointer rounded-lg px-2.5 py-1 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
         >
           MATCH {group.operator === "AND" ? "ALL" : "ANY"} ({group.operator})
         </button>

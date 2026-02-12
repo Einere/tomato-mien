@@ -42,7 +42,7 @@ export function RuleCard({ rule }: RuleCardProps) {
     <Card
       padding="none"
       className={cn(
-        "focus-visible:ring-primary-500 cursor-pointer transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
+        "focus-visible:ring-ring cursor-pointer transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
         !rule.enabled && "opacity-60",
       )}
       role="button"
@@ -60,17 +60,19 @@ export function RuleCard({ rule }: RuleCardProps) {
           className={cn(
             "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg",
             rule.enabled
-              ? "bg-primary-100 text-primary-600"
-              : "bg-slate-100 text-slate-400",
+              ? "bg-accent text-accent-foreground"
+              : "bg-muted text-subtle-foreground",
           )}
         >
           <Icon name={icon} size="sm" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold text-slate-900">
+          <p className="text-body text-foreground truncate font-semibold">
             {rule.name}
           </p>
-          <p className="truncate text-xs text-slate-500">{description}</p>
+          <p className="text-caption text-muted-foreground truncate">
+            {description}
+          </p>
         </div>
         <div
           onClick={e => {

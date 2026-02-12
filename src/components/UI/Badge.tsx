@@ -10,7 +10,7 @@ interface BadgeProps {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-  default: "bg-slate-100 text-slate-600",
+  default: "bg-muted text-muted-foreground",
   primary: "bg-primary-100 text-primary-700",
   success: "bg-success-100 text-success-700",
 };
@@ -23,7 +23,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
+        "text-caption inline-flex items-center rounded-full px-2.5 py-0.5 font-medium",
         variantStyles[variant],
         className,
       )}

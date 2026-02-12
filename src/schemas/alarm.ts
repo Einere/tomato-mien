@@ -92,10 +92,15 @@ export const AlarmStorageSchema = z.object({
 
 export const TimeFormatSchema = z.enum(["12h", "24h"]);
 
+// --- Theme ---
+
+export const ThemeSchema = z.enum(["system", "light", "dark"]);
+
 // --- AppSettings ---
 
 export const AppSettingsSchema = z.object({
   timeFormat: TimeFormatSchema,
+  theme: ThemeSchema.optional(),
 });
 
 // --- 타입 추출 ---
@@ -111,4 +116,5 @@ export type AlarmRule = z.infer<typeof AlarmRuleSchema>;
 export type AlarmEvent = z.infer<typeof AlarmEventSchema>;
 export type AlarmStorage = z.infer<typeof AlarmStorageSchema>;
 export type TimeFormat = z.infer<typeof TimeFormatSchema>;
+export type Theme = z.infer<typeof ThemeSchema>;
 export type AppSettings = z.infer<typeof AppSettingsSchema>;

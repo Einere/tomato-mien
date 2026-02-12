@@ -16,7 +16,7 @@ export function EditorSummary({ condition }: EditorSummaryProps) {
 
   return (
     <div className="px-5 pb-4">
-      <span className="mb-2 block text-xs font-semibold tracking-wider text-slate-400 uppercase">
+      <span className="text-overline text-subtle-foreground mb-2 block">
         Summary
       </span>
       <Card padding="sm">
@@ -24,9 +24,9 @@ export function EditorSummary({ condition }: EditorSummaryProps) {
           <Icon
             name="info"
             size="sm"
-            className="mt-0.5 shrink-0 text-slate-400"
+            className="text-subtle-foreground mt-0.5 shrink-0"
           />
-          <p className="text-sm text-slate-700">{description}</p>
+          <p className="text-body text-foreground">{description}</p>
         </div>
         {issues.length > 0 && (
           <div className="mt-3 flex flex-col gap-1">
@@ -37,7 +37,7 @@ export function EditorSummary({ condition }: EditorSummaryProps) {
                   size="sm"
                   className="text-warning-500 mt-0.5 shrink-0"
                 />
-                <p className="text-warning-700 text-xs">{issue.message}</p>
+                <p className="text-caption text-warning-700">{issue.message}</p>
               </div>
             ))}
           </div>

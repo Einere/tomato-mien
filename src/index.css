@@ -68,23 +68,28 @@
   --color-danger-600: oklch(0.586 0.222 18);
   --color-danger-700: oklch(0.514 0.198 17);
 
-  /* Text */
-  --color-text-primary: var(--color-secondary-900);
-  --color-text-secondary: var(--color-secondary-500);
-  --color-text-tertiary: var(--color-secondary-400);
-  --color-text-inverse: oklch(1 0 0);
+  /* ── Semantic: Foreground (Text) ── */
+  --color-foreground: var(--color-secondary-900);
+  --color-muted-foreground: var(--color-secondary-500);
+  --color-subtle-foreground: var(--color-secondary-400);
+  --color-inverse-foreground: oklch(1 0 0);
 
-  /* Background */
-  --color-bg-base: var(--color-secondary-50);
-  --color-bg-surface: oklch(1 0 0);
-  --color-bg-muted: var(--color-secondary-100);
+  /* ── Semantic: Background ── */
+  --color-background: var(--color-secondary-50);
+  --color-surface: oklch(1 0 0);
+  --color-muted: var(--color-secondary-100);
+  --color-subtle: var(--color-secondary-200);
 
-  /* Border */
-  --color-border-default: var(--color-secondary-200);
-  --color-border-light: var(--color-secondary-100);
+  /* ── Semantic: Accent ── */
+  --color-accent: var(--color-primary-100);
+  --color-accent-foreground: var(--color-primary-600);
 
-  /* Focus */
-  --color-ring-focus: var(--color-primary-500);
+  /* ── Semantic: Border ── */
+  --color-border: var(--color-secondary-200);
+  --color-border-muted: var(--color-secondary-100);
+
+  /* ── Semantic: Focus ── */
+  --color-ring: var(--color-primary-500);
 
   /* ── Typography Tokens ── */
   --font-size-heading-1: 1.5rem;
@@ -93,6 +98,35 @@
   --font-size-body: 0.875rem;
   --font-size-caption: 0.75rem;
   --font-size-overline: 0.625rem;
+}
+
+/* ── Dark Mode ── */
+
+.dark {
+  color-scheme: dark;
+
+  /* Foreground */
+  --color-foreground: oklch(0.93 0.006 260);
+  --color-muted-foreground: oklch(0.65 0.015 260);
+  --color-subtle-foreground: oklch(0.50 0.020 260);
+  --color-inverse-foreground: oklch(0.15 0.015 260);
+
+  /* Background */
+  --color-background: oklch(0.145 0.014 260);
+  --color-surface: oklch(0.195 0.014 260);
+  --color-muted: oklch(0.245 0.014 260);
+  --color-subtle: oklch(0.295 0.014 260);
+
+  /* Accent */
+  --color-accent: oklch(0.25 0.055 25.6);
+  --color-accent-foreground: var(--color-primary-400);
+
+  /* Border */
+  --color-border: oklch(0.295 0.014 260);
+  --color-border-muted: oklch(0.245 0.014 260);
+
+  /* Focus */
+  --color-ring: var(--color-primary-400);
 }
 
 /* ── Typography Preset Utilities ── */
@@ -111,7 +145,7 @@
 
 @utility text-heading-3 {
   font-size: var(--font-size-heading-3);
-  line-height: 1.5rem;
+  line-height: 1.75rem;
   font-weight: 700;
 }
 
@@ -133,14 +167,32 @@
   text-transform: uppercase;
 }
 
+/* ── Select Chevron (dark-mode aware) ── */
+
+@utility select-chevron {
+  appearance: none;
+  background-image: var(--icon-chevron-down);
+  background-size: 1.25rem 1.25rem;
+  background-position: right 0.375rem center;
+  background-repeat: no-repeat;
+}
+
+:root {
+  --icon-chevron-down: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%20fill%3D%27%2364748b%27%3E%3Cpath%20fill-rule%3D%27evenodd%27%20d%3D%27M5.23%207.21a.75.75%200%20011.06.02L10%2011.168l3.71-3.938a.75.75%200%20111.08%201.04l-4.25%204.5a.75.75%200%2001-1.08%200l-4.25-4.5a.75.75%200%2001.02-1.06z%27%20clip-rule%3D%27evenodd%27%2F%3E%3C%2Fsvg%3E");
+}
+
+.dark {
+  --icon-chevron-down: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%20fill%3D%27%2394a3b8%27%3E%3Cpath%20fill-rule%3D%27evenodd%27%20d%3D%27M5.23%207.21a.75.75%200%20011.06.02L10%2011.168l3.71-3.938a.75.75%200%20111.08%201.04l-4.25%204.5a.75.75%200%2001-1.08%200l-4.25-4.5a.75.75%200%2001.02-1.06z%27%20clip-rule%3D%27evenodd%27%2F%3E%3C%2Fsvg%3E");
+}
+
 body {
   font-family:
     "Inter",
     system-ui,
     -apple-system,
     sans-serif;
-  background-color: var(--color-secondary-50);
-  color: var(--color-secondary-900);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -8,7 +8,7 @@ interface IntervalInputProps {
 export function IntervalInput({ condition, onChange }: IntervalInputProps) {
   return (
     <div className="flex items-center gap-2">
-      <span className="text-xs text-slate-500">Every</span>
+      <span className="text-caption text-muted-foreground">Every</span>
       <input
         type="number"
         min={1}
@@ -20,9 +20,9 @@ export function IntervalInput({ condition, onChange }: IntervalInputProps) {
             onChange({ ...condition, intervalMinutes: val });
           }
         }}
-        className="focus:border-primary-500 focus:ring-primary-500 w-20 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-center text-sm text-slate-700 focus:ring-1"
+        className="focus:border-primary-500 focus:ring-ring border-border bg-surface text-body text-foreground w-20 rounded-lg border px-2 py-1.5 text-center focus:ring-1"
       />
-      <span className="text-xs text-slate-500">min</span>
+      <span className="text-caption text-muted-foreground">min</span>
     </div>
   );
 }

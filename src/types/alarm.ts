@@ -9,5 +9,6 @@ export type {
   AlarmStorage,
   AlarmEvent,
   TimeFormat,
+  Theme,
   AppSettings,
 } from "@/schemas/alarm";

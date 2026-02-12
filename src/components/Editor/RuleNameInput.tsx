@@ -6,7 +6,7 @@ interface RuleNameInputProps {
 export function RuleNameInput({ value, onChange }: RuleNameInputProps) {
   return (
     <div className="px-5 pb-4">
-      <label className="mb-1.5 block text-xs font-semibold tracking-wider text-slate-400 uppercase">
+      <label className="text-overline text-subtle-foreground mb-1.5 block">
         Rule Name
       </label>
       <input
@@ -14,7 +14,7 @@ export function RuleNameInput({ value, onChange }: RuleNameInputProps) {
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder="Enter rule name..."
-        className="focus:border-primary-500 focus:ring-primary-500 w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:ring-1"
+        className="focus:border-primary-500 focus:ring-ring border-border bg-surface text-body text-foreground placeholder:text-subtle-foreground w-full rounded-lg border px-3 py-2.5 focus:ring-1"
       />
     </div>
   );

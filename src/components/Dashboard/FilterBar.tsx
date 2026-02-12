@@ -14,9 +14,7 @@ export function FilterBar() {
 
   return (
     <div className="mx-5 mb-3 flex items-center justify-between">
-      <span className="text-[10px] font-semibold tracking-wider text-slate-400 uppercase">
-        Active Logic
-      </span>
+      <span className="text-overline text-subtle-foreground">Active Logic</span>
       <Select
         value={sortOrder}
         onChange={v => setSortOrder(v as SortOrder)}

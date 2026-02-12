@@ -42,9 +42,7 @@ export function LogicTree({ condition, onChange }: LogicTreeProps) {
     <div className="px-5 pb-4">
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold tracking-wider text-slate-400 uppercase">
-            Logic
-          </span>
+          <span className="text-overline text-subtle-foreground">Logic</span>
           <Badge>{groupCount} Groups</Badge>
         </div>
         <Button variant="ghost" className="text-xs" onClick={addGroup}>
