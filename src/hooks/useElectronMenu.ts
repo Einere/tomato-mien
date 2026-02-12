@@ -17,10 +17,14 @@ export function useElectronMenu() {
           addRule();
           break;
         case "menu-enable-all-alarms":
-          enableAll();
+          if (window.confirm("모든 규칙을 활성화하시겠습니까?")) {
+            enableAll();
+          }
           break;
         case "menu-disable-all-alarms":
-          disableAll();
+          if (window.confirm("모든 규칙을 비활성화하시겠습니까?")) {
+            disableAll();
+          }
           break;
       }
     });
