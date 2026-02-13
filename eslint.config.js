@@ -25,6 +25,10 @@ export default defineConfig([
     },
     rules: {
       "prettier/prettier": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { ignoreRestSiblings: true },
+      ],
       "react/jsx-curly-brace-presence": [
         "error",
         { props: "never", children: "never" },

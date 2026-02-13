@@ -293,8 +293,7 @@ describe("AlarmRuleSchema", () => {
   });
 
   it("rejects missing required fields", () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { name: _, ...noName } = validRule;
+    const { name, ...noName } = validRule;
     expect(AlarmRuleSchema.safeParse(noName).success).toBe(false);
   });
 

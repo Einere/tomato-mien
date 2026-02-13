@@ -29,7 +29,6 @@ export async function hydrateSingleRowStorage<
     caches.set(key, initialValue);
     return;
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { id, ...data } = row;
   const result = zodSchema.safeParse(data);
   caches.set(key, result.success ? result.data : initialValue);
@@ -131,7 +130,7 @@ export function createDexieSingleRowStorage<T extends Record<string, unknown>>(
             callback(initialValue);
             return;
           }
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
           const { id, ...data } = row;
           const result = zodSchema.safeParse(data);
           const value = result.success ? result.data : initialValue;
