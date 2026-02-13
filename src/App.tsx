@@ -11,6 +11,7 @@ function HydrationGate({ children }: { children: React.ReactNode }) {
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fadeOut, setFadeOut] = useState(false);
+  const [fadeInDone, setFadeInDone] = useState(false);
 
   useEffect(() => {
     runMigration()
@@ -46,7 +47,12 @@ function HydrationGate({ children }: { children: React.ReactNode }) {
         </div>
       )}
       {migrated && (
-        <div className={visible ? "animate-fade-in" : "opacity-0"}>
+        <div
+          className={
+            visible ? (fadeInDone ? "" : "animate-fade-in") : "opacity-0"
+          }
+          onAnimationEnd={() => setFadeInDone(true)}
+        >
           {children}
         </div>
       )}
