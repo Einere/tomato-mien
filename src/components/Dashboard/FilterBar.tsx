@@ -1,5 +1,9 @@
-import { useAtom } from "jotai";
-import { sortOrderAtom } from "@/store";
+import { useAtom, useAtomValue } from "jotai";
+import {
+  sortOrderAtom,
+  activeRuleCountAtom,
+  totalRuleCountAtom,
+} from "@/store";
 import type { SortOrder } from "@/store";
 import { Select } from "@/components/UI/Select";
 
@@ -10,10 +14,14 @@ const sortOptions = [
 
 export function FilterBar() {
   const [sortOrder, setSortOrder] = useAtom(sortOrderAtom);
+  const activeCount = useAtomValue(activeRuleCountAtom);
+  const totalCount = useAtomValue(totalRuleCountAtom);
 
   return (
     <div className="mx-5 mb-3 flex items-center justify-between">
-      <span className="text-overline text-subtle-foreground">Active Logic</span>
+      <span className="text-overline text-subtle-foreground">
+        {activeCount} active / {totalCount} total
+      </span>
       <Select
         value={sortOrder}
         onChange={v => setSortOrder(v as SortOrder)}
