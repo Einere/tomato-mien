@@ -287,9 +287,8 @@ describe("AlarmRuleSchema", () => {
   });
 
   it("accepts optional fields", () => {
-    const data = { ...validRule, isCritical: true, soundName: "chime.mp3" };
+    const data = { ...validRule, soundName: "chime.mp3" };
     const result = AlarmRuleSchema.parse(data);
-    expect(result.isCritical).toBe(true);
     expect(result.soundName).toBe("chime.mp3");
   });
 

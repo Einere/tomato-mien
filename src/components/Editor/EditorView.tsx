@@ -33,7 +33,6 @@ export function EditorView() {
   const [condition, setCondition] = useState<TimeCondition | CompoundCondition>(
     createDefaultCompound("AND"),
   );
-  const [isCritical, setIsCritical] = useState(false);
   const [notificationEnabled, setNotificationEnabled] = useState(true);
   const [dirty, setDirty] = useState(false);
 
@@ -44,7 +43,6 @@ export function EditorView() {
     if (existingRule) {
       setName(existingRule.name);
       setCondition(existingRule.condition);
-      setIsCritical(existingRule.isCritical ?? false);
       setNotificationEnabled(existingRule.notificationEnabled);
       setDirty(false);
     }
@@ -57,11 +55,6 @@ export function EditorView() {
 
   const handleConditionChange = (c: TimeCondition | CompoundCondition) => {
     setCondition(c);
-    setDirty(true);
-  };
-
-  const handleCriticalChange = (v: boolean) => {
-    setIsCritical(v);
     setDirty(true);
   };
 
@@ -80,7 +73,6 @@ export function EditorView() {
       condition,
       createdAt: existingRule?.createdAt ?? now,
       updatedAt: now,
-      isCritical: isCritical || undefined,
       notificationEnabled,
     };
     updateRule(updated);
@@ -104,8 +96,6 @@ export function EditorView() {
       <LogicTree condition={condition} onChange={handleConditionChange} />
       <EditorSummary condition={condition} issues={issues} />
       <EditorSettings
-        isCritical={isCritical}
-        onCriticalChange={handleCriticalChange}
         notificationEnabled={notificationEnabled}
         onNotificationEnabledChange={handleNotificationEnabledChange}
       />
