@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { createStore } from "jotai";
 import {
   rulesAtom,
@@ -11,6 +11,7 @@ import {
   viewAtom,
 } from "@/store";
 import type { AlarmRule } from "@/types/alarm";
+import { db } from "@/db/database";
 
 function createTestRule(overrides?: Partial<AlarmRule>): AlarmRule {
   return {
@@ -24,6 +25,12 @@ function createTestRule(overrides?: Partial<AlarmRule>): AlarmRule {
     ...overrides,
   };
 }
+
+beforeEach(async () => {
+  await db.rules.clear();
+  await db.settings.clear();
+  await db.metadata.clear();
+});
 
 describe("rulesAtom CRUD", () => {
   it("starts with empty rules", () => {

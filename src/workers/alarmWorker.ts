@@ -1,21 +1,11 @@
 // Web Worker for background alarm checking
-import type { AlarmRule } from "@/types/alarm";
-import { z } from "zod";
-import { AlarmRuleSchema } from "@/schemas/alarm";
+import { TomatoMienDB } from "@/db/database";
 import { evaluateCondition } from "@/utils/evaluateCondition";
-
-const AlarmRulesArraySchema = z.array(AlarmRuleSchema);
 
 const CHECK_INTERVAL_MS = 60_000;
 
 interface WorkerMessage {
-  type:
-    | "START_ALARM"
-    | "STOP_ALARM"
-    | "UPDATE_RULES"
-    | "UPDATE_RULE"
-    | "CHECK_ALARM";
-  data?: any;
+  type: "START_ALARM" | "STOP_ALARM" | "CHECK_ALARM";
 }
 
 interface AlarmEvent {
@@ -26,9 +16,9 @@ interface AlarmEvent {
 }
 
 class AlarmWorker {
-  private rules: Map<string, AlarmRule> = new Map(); // ruleId -> AlarmRule
+  private db = new TomatoMienDB();
   private intervalId: number | null = null;
-  private triggeredAlarms: Set<string> = new Set(); // "ruleId:hour:minute" 형태로 저장
+  private triggeredAlarms: Set<string> = new Set(); // "ruleId:hour:minute"
   private lastCheckMinute: number | null = null;
 
   constructor() {
@@ -36,7 +26,7 @@ class AlarmWorker {
   }
 
   private handleMessage(event: MessageEvent<WorkerMessage>) {
-    const { type, data } = event.data;
+    const { type } = event.data;
 
     switch (type) {
       case "START_ALARM":
@@ -44,26 +34,6 @@ class AlarmWorker {
         break;
       case "STOP_ALARM":
         this.stop();
-        break;
-      case "UPDATE_RULES": {
-        this.rules.clear();
-        const parsed = AlarmRulesArraySchema.safeParse(data?.rules);
-        if (parsed.success) {
-          parsed.data.forEach(rule => {
-            this.rules.set(rule.id, rule);
-          });
-        } else {
-          console.error(
-            "[AlarmWorker] UPDATE_RULES 검증 실패:",
-            parsed.error.issues,
-          );
-        }
-        break;
-      }
-      case "UPDATE_RULE":
-        if (data.rule) {
-          this.rules.set(data.rule.id, data.rule);
-        }
         break;
       case "CHECK_ALARM":
         this.checkAlarms();
@@ -80,7 +50,6 @@ class AlarmWorker {
       this.checkAlarms();
     }, CHECK_INTERVAL_MS);
 
-    // 즉시 한 번 체크
     this.checkAlarms();
   }
 
@@ -91,54 +60,54 @@ class AlarmWorker {
     }
   }
 
-  private checkAlarms() {
+  private async checkAlarms() {
     const now = new Date();
     const currentHour = now.getHours();
     const currentMinute = now.getMinutes();
 
-    // 매분마다 triggeredAlarms Set을 초기화 (새로운 분이 시작될 때)
     if (this.lastCheckMinute !== currentMinute) {
       this.triggeredAlarms.clear();
       this.lastCheckMinute = currentMinute;
     }
 
-    for (const rule of this.rules.values()) {
-      if (!rule.enabled) continue;
+    try {
+      const allRules = await this.db.rules.toArray();
+      const enabledRules = allRules.filter(r => r.enabled);
 
-      const shouldTrigger = evaluateCondition(
-        rule.condition,
-        currentHour,
-        currentMinute,
-      );
+      for (const rule of enabledRules) {
+        const shouldTrigger = evaluateCondition(
+          rule.condition,
+          currentHour,
+          currentMinute,
+        );
 
-      if (shouldTrigger) {
-        // 중복 알람 방지: 같은 분에 같은 규칙이 이미 알람을 울렸는지 확인
-        const alarmKey = `${rule.id}:${currentHour}:${currentMinute}`;
+        if (shouldTrigger) {
+          const alarmKey = `${rule.id}:${currentHour}:${currentMinute}`;
 
-        if (!this.triggeredAlarms.has(alarmKey)) {
-          this.triggerAlarm(rule);
-          this.triggeredAlarms.add(alarmKey);
+          if (!this.triggeredAlarms.has(alarmKey)) {
+            this.triggerAlarm(rule.id, rule.name);
+            this.triggeredAlarms.add(alarmKey);
+          }
         }
       }
+    } catch (err) {
+      console.error("[AlarmWorker] checkAlarms error:", err);
     }
 
-    // 마지막 체크 시간을 메인 스레드에 전송
     self.postMessage({
       type: "LAST_CHECK_TIME_UPDATE",
       data: { lastCheckTime: now.toISOString() },
     });
   }
 
-  // 알람 트리거
-  private triggerAlarm(rule: AlarmRule) {
+  private triggerAlarm(ruleId: string, ruleName: string) {
     const event: AlarmEvent = {
-      ruleId: rule.id,
-      ruleName: rule.name,
+      ruleId,
+      ruleName,
       triggeredAt: new Date(),
-      message: `${rule.name} alarm triggered!`,
+      message: `${ruleName} alarm triggered!`,
     };
 
-    // 메인 스레드에 알람 이벤트 전송
     self.postMessage({
       type: "ALARM_TRIGGERED",
       data: event,
@@ -146,5 +115,4 @@ class AlarmWorker {
   }
 }
 
-// 워커 시작
 new AlarmWorker();

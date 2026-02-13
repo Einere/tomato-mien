@@ -25,6 +25,7 @@
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "dayjs": "^1.11.19",
+    "dexie": "^4.3.0",
     "electron-updater": "^6.6.2",
     "jotai": "^2.17.1",
     "react": "^19.1.1",
@@ -54,6 +55,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
+    "fake-indexeddb": "^6.2.5",
     "globals": "^16.4.0",
     "jsdom": "^28.0.0",
     "postcss": "^8.5.6",

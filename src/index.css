@@ -185,6 +185,46 @@
   --icon-chevron-down: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%20fill%3D%27%2394a3b8%27%3E%3Cpath%20fill-rule%3D%27evenodd%27%20d%3D%27M5.23%207.21a.75.75%200%20011.06.02L10%2011.168l3.71-3.938a.75.75%200%20111.08%201.04l-4.25%204.5a.75.75%200%2001-1.08%200l-4.25-4.5a.75.75%200%2001.02-1.06z%27%20clip-rule%3D%27evenodd%27%2F%3E%3C%2Fsvg%3E");
 }
 
+/* ── Splash Screen Animation ── */
+
+@keyframes splash-bg {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@utility animate-splash-bg {
+  background-size: 300% 300%;
+  animation: splash-bg 6s ease infinite;
+}
+
+@keyframes splash-shimmer {
+  0% {
+    transform: translate(0%, 10%) rotate(-20deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(200%, -10%) rotate(-20deg);
+    opacity: 0;
+  }
+}
+
+@utility animate-splash-shimmer {
+  animation: splash-shimmer 3s linear infinite;
+}
+
 body {
   font-family:
     "Inter",

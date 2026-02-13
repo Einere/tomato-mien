@@ -1,10 +1,10 @@
-import type { AlarmRule, AlarmEvent } from "@/types/alarm";
+import type { AlarmEvent } from "@/types/alarm";
+import { db } from "@/db/database";
 import { playAlarmSound } from "./alarmSound";
 
 export class WebWorkerAlarmService {
   private static instance: WebWorkerAlarmService;
   private worker: Worker | null = null;
-  private rules: AlarmRule[] = [];
   private onAlarmTriggered?: (event: AlarmEvent) => void;
   private lastCheckTime: Date | null = null;
 
@@ -54,9 +54,13 @@ export class WebWorkerAlarmService {
     console.warn("Web Worker not supported, falling back to main thread");
   }
 
-  private handleAlarmTriggered(event: AlarmEvent) {
-    const rule = this.rules.find(r => r.id === event.ruleId);
-    if (rule?.notificationEnabled) {
+  private async handleAlarmTriggered(event: AlarmEvent) {
+    try {
+      const rule = await db.rules.get(event.ruleId);
+      if (rule?.notificationEnabled) {
+        this.showNotification(event);
+      }
+    } catch {
       this.showNotification(event);
     }
     playAlarmSound();
@@ -85,32 +89,6 @@ export class WebWorkerAlarmService {
     }
   }
 
-  public updateRules(rules: AlarmRule[]): void {
-    this.rules = rules;
-    if (this.worker) {
-      this.worker.postMessage({
-        type: "UPDATE_RULES",
-        data: { rules },
-      });
-    }
-  }
-
-  public updateRule(rule: AlarmRule): void {
-    const index = this.rules.findIndex(r => r.id === rule.id);
-    if (index !== -1) {
-      this.rules = this.rules.map((r, i) => (i === index ? rule : r));
-    } else {
-      this.rules = [...this.rules, rule];
-    }
-
-    if (this.worker) {
-      this.worker.postMessage({
-        type: "UPDATE_RULE",
-        data: { rule },
-      });
-    }
-  }
-
   public setAlarmCallback(callback: (event: AlarmEvent) => void): void {
     this.onAlarmTriggered = callback;
   }
@@ -133,10 +111,6 @@ export class WebWorkerAlarmService {
       this.worker.terminate();
       this.worker = null;
     }
-  }
-
-  public getActiveRuleCount(): number {
-    return this.rules.filter(rule => rule.enabled).length;
   }
 
   public getLastCheckTime(): Date | null {
