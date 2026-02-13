@@ -69,6 +69,7 @@ export const AlarmRuleSchema = z.object({
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
   isCritical: z.boolean().optional(),
+  notificationEnabled: z.boolean().default(true),
   soundName: z.string().optional(),
 });
 

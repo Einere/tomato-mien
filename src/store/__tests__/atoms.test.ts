@@ -20,6 +20,7 @@ function createTestRule(overrides?: Partial<AlarmRule>): AlarmRule {
     condition: { type: "interval", intervalMinutes: 15 },
     createdAt: new Date(),
     updatedAt: new Date(),
+    notificationEnabled: true,
     ...overrides,
   };
 }
@@ -38,6 +39,7 @@ describe("rulesAtom CRUD", () => {
     expect(rules).toHaveLength(1);
     expect(rules[0].name).toBe("New Rule");
     expect(rules[0].enabled).toBe(true);
+    expect(rules[0].notificationEnabled).toBe(true);
 
     const view = store.get(viewAtom);
     expect(view).toEqual({ view: "editor", ruleId: rules[0].id });

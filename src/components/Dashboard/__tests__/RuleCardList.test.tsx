@@ -13,6 +13,7 @@ function createTestRule(overrides?: Partial<AlarmRule>): AlarmRule {
     condition: { type: "interval", intervalMinutes: 15 },
     createdAt: new Date(),
     updatedAt: new Date(),
+    notificationEnabled: true,
     ...overrides,
   };
 }

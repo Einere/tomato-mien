@@ -55,7 +55,10 @@ export class WebWorkerAlarmService {
   }
 
   private handleAlarmTriggered(event: AlarmEvent) {
-    this.showNotification(event);
+    const rule = this.rules.find(r => r.id === event.ruleId);
+    if (rule?.notificationEnabled) {
+      this.showNotification(event);
+    }
     playAlarmSound();
     this.onAlarmTriggered?.(event);
   }

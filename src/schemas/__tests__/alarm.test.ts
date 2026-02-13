@@ -298,6 +298,23 @@ describe("AlarmRuleSchema", () => {
     const { name: _, ...noName } = validRule;
     expect(AlarmRuleSchema.safeParse(noName).success).toBe(false);
   });
+
+  it("defaults notificationEnabled to true when omitted", () => {
+    const result = AlarmRuleSchema.parse(validRule);
+    expect(result.notificationEnabled).toBe(true);
+  });
+
+  it("accepts explicit notificationEnabled=false", () => {
+    const data = { ...validRule, notificationEnabled: false };
+    const result = AlarmRuleSchema.parse(data);
+    expect(result.notificationEnabled).toBe(false);
+  });
+
+  it("accepts explicit notificationEnabled=true", () => {
+    const data = { ...validRule, notificationEnabled: true };
+    const result = AlarmRuleSchema.parse(data);
+    expect(result.notificationEnabled).toBe(true);
+  });
 });
 
 describe("AlarmEventSchema", () => {

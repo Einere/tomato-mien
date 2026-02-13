@@ -34,6 +34,7 @@ export function EditorView() {
     createDefaultCompound("AND"),
   );
   const [isCritical, setIsCritical] = useState(false);
+  const [notificationEnabled, setNotificationEnabled] = useState(true);
   const [dirty, setDirty] = useState(false);
 
   const issues = validateCondition(condition);
@@ -44,6 +45,7 @@ export function EditorView() {
       setName(existingRule.name);
       setCondition(existingRule.condition);
       setIsCritical(existingRule.isCritical ?? false);
+      setNotificationEnabled(existingRule.notificationEnabled);
       setDirty(false);
     }
   }, [existingRule]);
@@ -63,6 +65,11 @@ export function EditorView() {
     setDirty(true);
   };
 
+  const handleNotificationEnabledChange = (v: boolean) => {
+    setNotificationEnabled(v);
+    setDirty(true);
+  };
+
   const handleSave = () => {
     if (!ruleId) return;
     const now = new Date();
@@ -74,6 +81,7 @@ export function EditorView() {
       createdAt: existingRule?.createdAt ?? now,
       updatedAt: now,
       isCritical: isCritical || undefined,
+      notificationEnabled,
     };
     updateRule(updated);
     setView("dashboard");
@@ -98,6 +106,8 @@ export function EditorView() {
       <EditorSettings
         isCritical={isCritical}
         onCriticalChange={handleCriticalChange}
+        notificationEnabled={notificationEnabled}
+        onNotificationEnabledChange={handleNotificationEnabledChange}
       />
       <EditorFooter
         onCancel={handleCancel}

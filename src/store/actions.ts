@@ -12,6 +12,7 @@ export const addRuleAtom = atom(null, (get, set) => {
     condition: createDefaultCompound("AND"),
     createdAt: now,
     updatedAt: now,
+    notificationEnabled: true,
   };
   set(rulesAtom, [...get(rulesAtom), newRule]);
   set(viewAtom, { view: "editor", ruleId: newRule.id });

@@ -4,11 +4,15 @@ import { Toggle } from "@/components/UI/Toggle";
 interface EditorSettingsProps {
   isCritical: boolean;
   onCriticalChange: (value: boolean) => void;
+  notificationEnabled: boolean;
+  onNotificationEnabledChange: (value: boolean) => void;
 }
 
 export function EditorSettings({
   isCritical,
   onCriticalChange,
+  notificationEnabled,
+  onNotificationEnabledChange,
 }: EditorSettingsProps) {
   return (
     <div className="px-5 pb-4">
@@ -16,16 +20,32 @@ export function EditorSettings({
         Settings
       </span>
       <Card padding="none">
-        <div className="flex items-center justify-between p-4">
-          <div>
-            <p className="text-body text-foreground font-medium">
-              Critical Alert
-            </p>
-            <p className="text-caption text-muted-foreground">
-              Override Do Not Disturb mode
-            </p>
+        <div className="divide-border divide-y">
+          <div className="flex items-center justify-between p-4">
+            <div>
+              <p className="text-body text-foreground font-medium">
+                Notification
+              </p>
+              <p className="text-caption text-muted-foreground">
+                Show in notification center
+              </p>
+            </div>
+            <Toggle
+              checked={notificationEnabled}
+              onChange={onNotificationEnabledChange}
+            />
           </div>
-          <Toggle checked={isCritical} onChange={onCriticalChange} />
+          <div className="flex items-center justify-between p-4">
+            <div>
+              <p className="text-body text-foreground font-medium">
+                Critical Alert
+              </p>
+              <p className="text-caption text-muted-foreground">
+                Override Do Not Disturb mode
+              </p>
+            </div>
+            <Toggle checked={isCritical} onChange={onCriticalChange} />
+          </div>
         </div>
       </Card>
     </div>
