@@ -98,7 +98,7 @@ describe("useViewTransition", () => {
 
   it("View Transition API 미지원 시 콜백을 직접 실행", () => {
     // jsdom에는 startViewTransition이 없으므로 기본적으로 미지원
-    delete (document as Record<string, unknown>).startViewTransition;
+    delete (document as unknown as Record<string, unknown>).startViewTransition;
 
     const { result } = renderHook(() => useViewTransition());
     const callback = vi.fn();
@@ -159,7 +159,7 @@ describe("useViewTransitionList", () => {
     // 기본: reduced-motion 비활성, startViewTransition 미지원 (jsdom)
     const { mql } = createMockMatchMedia(false);
     window.matchMedia = vi.fn().mockReturnValue(mql);
-    delete (document as Record<string, unknown>).startViewTransition;
+    delete (document as unknown as Record<string, unknown>).startViewTransition;
   });
 
   afterEach(() => {

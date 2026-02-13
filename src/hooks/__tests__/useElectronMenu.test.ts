@@ -14,6 +14,7 @@ function createTestRule(overrides?: Partial<AlarmRule>): AlarmRule {
     condition: { type: "interval", intervalMinutes: 15 },
     createdAt: new Date(),
     updatedAt: new Date(),
+    notificationEnabled: true,
     ...overrides,
   };
 }
@@ -44,11 +45,11 @@ describe("useElectronMenu confirm", () => {
     store = createStore();
     confirmSpy = vi.spyOn(window, "confirm");
     mock = createMockElectronAPI();
-    (window as Record<string, unknown>).electronAPI = mock.api;
+    (window as unknown as Record<string, unknown>).electronAPI = mock.api;
   });
 
   afterEach(() => {
-    delete (window as Record<string, unknown>).electronAPI;
+    delete (window as unknown as Record<string, unknown>).electronAPI;
   });
 
   function renderMenu() {
