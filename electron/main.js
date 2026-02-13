@@ -185,7 +185,8 @@ function setupAutoUpdater() {
       .showMessageBox(mainWindow, {
         type: "info",
         title: "Update Available",
-        message: "A new version is available. Would you like to download it now?",
+        message:
+          "A new version is available. Would you like to download it now?",
         buttons: ["Download", "Later"],
       })
       .then(result => {

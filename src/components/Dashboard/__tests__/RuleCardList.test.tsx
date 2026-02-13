@@ -75,9 +75,7 @@ describe("RuleCardList", () => {
 
     const { container } = renderWithStore(store, <RuleCardList />);
 
-    const wrapper = container.querySelector(
-      '[style*="view-transition-name"]',
-    );
+    const wrapper = container.querySelector('[style*="view-transition-name"]');
     expect(wrapper).not.toBeNull();
     expect(wrapper?.getAttribute("style")).toContain(
       "view-transition-name: rule-card-test-id-123",

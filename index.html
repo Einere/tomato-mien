@@ -37,8 +37,10 @@
             get.onsuccess = function () {
               var row = get.result;
               if (!row || !row.theme || row.theme === "system") return;
-              if (row.theme === "dark") document.documentElement.classList.add("dark");
-              if (row.theme === "light") document.documentElement.classList.remove("dark");
+              if (row.theme === "dark")
+                document.documentElement.classList.add("dark");
+              if (row.theme === "light")
+                document.documentElement.classList.remove("dark");
             };
           };
         } catch (_) {}
