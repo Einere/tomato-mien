@@ -112,18 +112,18 @@
   --color-inverse-foreground: oklch(0.15 0.015 260);
 
   /* Background */
-  --color-background: oklch(0.145 0.014 260);
-  --color-surface: oklch(0.195 0.014 260);
-  --color-muted: oklch(0.245 0.014 260);
-  --color-subtle: oklch(0.295 0.014 260);
+  --color-background: oklch(0.205 0.014 260);
+  --color-surface: oklch(0.255 0.014 260);
+  --color-muted: oklch(0.305 0.014 260);
+  --color-subtle: oklch(0.355 0.014 260);
 
   /* Accent */
   --color-accent: oklch(0.25 0.055 25.6);
   --color-accent-foreground: var(--color-primary-400);
 
   /* Border */
-  --color-border: oklch(0.295 0.014 260);
-  --color-border-muted: oklch(0.245 0.014 260);
+  --color-border: oklch(0.355 0.014 260);
+  --color-border-muted: oklch(0.305 0.014 260);
 
   /* Focus */
   --color-ring: var(--color-primary-400);
@@ -183,6 +183,22 @@
 
 .dark {
   --icon-chevron-down: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2020%2020%27%20fill%3D%27%2394a3b8%27%3E%3Cpath%20fill-rule%3D%27evenodd%27%20d%3D%27M5.23%207.21a.75.75%200%20011.06.02L10%2011.168l3.71-3.938a.75.75%200%20111.08%201.04l-4.25%204.5a.75.75%200%2001-1.08%200l-4.25-4.5a.75.75%200%2001.02-1.06z%27%20clip-rule%3D%27evenodd%27%2F%3E%3C%2Fsvg%3E");
+}
+
+/* ── Fade-in Animation ── */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@utility animate-fade-in {
+  animation: fade-in 0.4s ease-out both;
+  will-change: opacity;
 }
 
 /* ── Splash Screen Animation ── */

@@ -3,9 +3,12 @@ import { Provider } from "jotai";
 import { AppShell } from "@/components/Layout/AppShell";
 import { SplashScreen } from "@/components/SplashScreen";
 import { runMigration } from "@/db/migration";
+import { useTheme } from "@/hooks/useTheme";
 
 function HydrationGate({ children }: { children: React.ReactNode }) {
-  const [ready, setReady] = useState(false);
+  useTheme();
+  const [migrated, setMigrated] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fadeOut, setFadeOut] = useState(false);
 
@@ -13,7 +16,7 @@ function HydrationGate({ children }: { children: React.ReactNode }) {
     runMigration()
       .then(() => {
         setFadeOut(true);
-        setTimeout(() => setReady(true), 500);
+        setTimeout(() => setMigrated(true), 500);
       })
       .catch(err => {
         console.error("[HydrationGate] Migration failed:", err);
@@ -21,14 +24,33 @@ function HydrationGate({ children }: { children: React.ReactNode }) {
       });
   }, []);
 
-  if (ready) return <>{children}</>;
+  useEffect(() => {
+    if (!migrated) return;
+    // Children are mounted with opacity-0 (invisible).
+    // Wait two frames so the browser finishes painting the mount,
+    // then start the fade-in animation on a clean frame.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setVisible(true);
+      });
+    });
+  }, [migrated]);
 
   return (
-    <div
-      className={`transition-opacity duration-300 ${fadeOut ? "opacity-0" : "opacity-100"}`}
-    >
-      <SplashScreen error={error} />
-    </div>
+    <>
+      {!visible && (
+        <div
+          className={`transition-opacity duration-300 ${fadeOut ? "opacity-0" : "opacity-100"}`}
+        >
+          <SplashScreen error={error} />
+        </div>
+      )}
+      {migrated && (
+        <div className={visible ? "animate-fade-in" : "opacity-0"}>
+          {children}
+        </div>
+      )}
+    </>
   );
 }
 

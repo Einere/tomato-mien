@@ -18,6 +18,32 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Apply dark mode before React renders to prevent white flash (FOUC)
+      (function () {
+        var mq = window.matchMedia("(prefers-color-scheme: dark)");
+        // Immediate: apply system preference as fallback
+        if (mq.matches) document.documentElement.classList.add("dark");
+
+        // Then read user preference from IndexedDB (async)
+        try {
+          var req = indexedDB.open("tomato-mien");
+          req.onsuccess = function () {
+            var idb = req.result;
+            if (!idb.objectStoreNames.contains("settings")) return;
+            var tx = idb.transaction("settings", "readonly");
+            var store = tx.objectStore("settings");
+            var get = store.get("default");
+            get.onsuccess = function () {
+              var row = get.result;
+              if (!row || !row.theme || row.theme === "system") return;
+              if (row.theme === "dark") document.documentElement.classList.add("dark");
+              if (row.theme === "light") document.documentElement.classList.remove("dark");
+            };
+          };
+        } catch (_) {}
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -7,7 +7,6 @@ import { EditorView } from "@/components/Editor/EditorView";
 import { SettingsView } from "@/components/Settings/SettingsView";
 import { useAlarmService } from "@/hooks/useAlarmService";
 import { useElectronMenu } from "@/hooks/useElectronMenu";
-import { useTheme } from "@/hooks/useTheme";
 
 function CurrentView({ view }: { view: ViewState }) {
   if (typeof view === "object" && view.view === "editor") {
@@ -22,7 +21,6 @@ function CurrentView({ view }: { view: ViewState }) {
 export function AppShell() {
   useAlarmService();
   useElectronMenu();
-  useTheme();
 
   const view = useAtomValue(viewAtom);
 

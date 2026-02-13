@@ -6,7 +6,7 @@ export function SplashScreen({ error }: SplashScreenProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
       {/* Animated gradient background */}
-      <div className="animate-splash-bg from-primary-300 via-primary-600 to-primary-800 dark:from-primary-700 dark:via-primary-900 dark:to-secondary-900 absolute inset-0 bg-gradient-to-br" />
+      <div className="animate-splash-bg from-primary-300 via-primary-600 to-primary-800 dark:from-primary-600 dark:via-primary-800 dark:to-primary-900 absolute inset-0 bg-gradient-to-br" />
 
       {/* Shimmer overlay */}
       <div className="absolute inset-0 overflow-hidden">
