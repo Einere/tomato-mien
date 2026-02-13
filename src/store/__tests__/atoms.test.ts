@@ -9,6 +9,7 @@ import {
   enableAllRulesAtom,
   disableAllRulesAtom,
   viewAtom,
+  editorRuleIdAtom,
 } from "@/store";
 import type { AlarmRule } from "@/types/alarm";
 import { db } from "@/db/database";
@@ -48,8 +49,8 @@ describe("rulesAtom CRUD", () => {
     expect(rules[0].enabled).toBe(true);
     expect(rules[0].notificationEnabled).toBe(true);
 
-    const view = store.get(viewAtom);
-    expect(view).toEqual({ view: "editor", ruleId: rules[0].id });
+    expect(store.get(viewAtom)).toBe("editor");
+    expect(store.get(editorRuleIdAtom)).toBe(rules[0].id);
   });
 
   it("updateRuleAtom updates an existing rule", () => {
@@ -67,11 +68,13 @@ describe("rulesAtom CRUD", () => {
     const store = createStore();
     const rule = createTestRule();
     store.set(rulesAtom, [rule]);
-    store.set(viewAtom, { view: "editor", ruleId: rule.id });
+    store.set(editorRuleIdAtom, rule.id);
+    store.set(viewAtom, "editor");
 
     store.set(deleteRuleAtom, rule.id);
 
     expect(store.get(rulesAtom)).toHaveLength(0);
+    expect(store.get(editorRuleIdAtom)).toBeNull();
     expect(store.get(viewAtom)).toBe("dashboard");
   });
 

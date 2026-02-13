@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Provider, createStore } from "jotai";
 import { EditorView } from "@/components/Editor/EditorView";
-import { rulesAtom, viewAtom } from "@/store";
+import { rulesAtom, viewAtom, editorRuleIdAtom } from "@/store";
 import type { AlarmRule } from "@/types/alarm";
 
 function createTestRule(overrides?: Partial<AlarmRule>): AlarmRule {
@@ -39,7 +39,8 @@ describe("EditorView 삭제 confirm", () => {
     confirmSpy.mockReturnValue(false);
     const rule = createTestRule();
     store.set(rulesAtom, [rule]);
-    store.set(viewAtom, { view: "editor", ruleId: rule.id });
+    store.set(editorRuleIdAtom, rule.id);
+    store.set(viewAtom, "editor");
 
     renderEditorView(store);
     fireEvent.click(screen.getByRole("button", { name: /delete rule/i }));
@@ -51,7 +52,8 @@ describe("EditorView 삭제 confirm", () => {
     confirmSpy.mockReturnValue(true);
     const rule = createTestRule();
     store.set(rulesAtom, [rule]);
-    store.set(viewAtom, { view: "editor", ruleId: rule.id });
+    store.set(editorRuleIdAtom, rule.id);
+    store.set(viewAtom, "editor");
 
     renderEditorView(store);
     fireEvent.click(screen.getByRole("button", { name: /delete rule/i }));
@@ -64,12 +66,14 @@ describe("EditorView 삭제 confirm", () => {
     confirmSpy.mockReturnValue(false);
     const rule = createTestRule();
     store.set(rulesAtom, [rule]);
-    store.set(viewAtom, { view: "editor", ruleId: rule.id });
+    store.set(editorRuleIdAtom, rule.id);
+    store.set(viewAtom, "editor");
 
     renderEditorView(store);
     fireEvent.click(screen.getByRole("button", { name: /delete rule/i }));
 
     expect(store.get(rulesAtom)).toHaveLength(1);
-    expect(store.get(viewAtom)).toEqual({ view: "editor", ruleId: rule.id });
+    expect(store.get(viewAtom)).toBe("editor");
+    expect(store.get(editorRuleIdAtom)).toBe(rule.id);
   });
 });

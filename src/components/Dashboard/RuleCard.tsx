@@ -5,7 +5,12 @@ import type {
   TimeCondition,
   CompoundCondition,
 } from "@/types/alarm";
-import { toggleRuleAtom, viewAtom, settingsAtom } from "@/store";
+import {
+  toggleRuleAtom,
+  viewAtom,
+  editorRuleIdAtom,
+  settingsAtom,
+} from "@/store";
 import { describeCondition } from "@/utils/condition";
 import { isCompoundCondition } from "@/utils/typeGuards";
 import { Card } from "@/components/UI/Card";
@@ -33,6 +38,7 @@ interface RuleCardProps {
 export function RuleCard({ rule }: RuleCardProps) {
   const toggleRule = useSetAtom(toggleRuleAtom);
   const setView = useSetAtom(viewAtom);
+  const setEditorRuleId = useSetAtom(editorRuleIdAtom);
   const { timeFormat } = useAtomValue(settingsAtom);
 
   const description = describeCondition(rule.condition, timeFormat);
@@ -47,11 +53,15 @@ export function RuleCard({ rule }: RuleCardProps) {
       )}
       role="button"
       tabIndex={0}
-      onClick={() => setView({ view: "editor", ruleId: rule.id })}
+      onClick={() => {
+        setEditorRuleId(rule.id);
+        setView("editor");
+      }}
       onKeyDown={e => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          setView({ view: "editor", ruleId: rule.id });
+          setEditorRuleId(rule.id);
+          setView("editor");
         }
       }}
     >

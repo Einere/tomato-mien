@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { rulesAtom, viewAtom } from "./atoms";
+import { rulesAtom, viewAtom, editorRuleIdAtom } from "./atoms";
 import type { AlarmRule } from "@/types/alarm";
 import { createDefaultCompound } from "@/utils/alarmRules";
 
@@ -15,7 +15,8 @@ export const addRuleAtom = atom(null, (get, set) => {
     notificationEnabled: true,
   };
   set(rulesAtom, [...get(rulesAtom), newRule]);
-  set(viewAtom, { view: "editor", ruleId: newRule.id });
+  set(editorRuleIdAtom, newRule.id);
+  set(viewAtom, "editor");
 });
 
 export const updateRuleAtom = atom(null, (get, set, updatedRule: AlarmRule) => {
@@ -32,6 +33,7 @@ export const deleteRuleAtom = atom(null, (get, set, ruleId: string) => {
     rulesAtom,
     get(rulesAtom).filter(r => r.id !== ruleId),
   );
+  set(editorRuleIdAtom, null);
   set(viewAtom, "dashboard");
 });
 

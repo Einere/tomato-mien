@@ -1,6 +1,7 @@
 export {
   rulesAtom,
   viewAtom,
+  editorRuleIdAtom,
   searchQueryAtom,
   sortOrderAtom,
   settingsAtom,

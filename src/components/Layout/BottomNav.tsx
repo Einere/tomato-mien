@@ -6,17 +6,16 @@ import { Icon } from "@/components/UI/Icon";
 
 const tabs = [
   { id: "dashboard", icon: "shield", label: "Rules" },
-  { id: "activity", icon: "timeline", label: "Activity" },
-  { id: "apps", icon: "apps", label: "Apps" },
+  // NOTE: 당장 사용하지 않는 메뉴
+  // { id: "activity", icon: "timeline", label: "Activity" },
+  // { id: "apps", icon: "apps", label: "Apps" },
   { id: "settings", icon: "settings", label: "Settings" },
 ] as const;
 
 type TabId = (typeof tabs)[number]["id"];
 
 function getActiveTab(view: ViewState): TabId {
-  if (view === "dashboard") return "dashboard";
   if (view === "settings") return "settings";
-  if (typeof view === "object" && view.view === "editor") return "dashboard";
   return "dashboard";
 }
 

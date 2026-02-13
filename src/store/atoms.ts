@@ -23,12 +23,11 @@ export const settingsAtom = atomWithStorage<AppSettings>(
   createDexieSingleRowStorage(db.settings, AppSettingsSchema),
 );
 
-export type ViewState =
-  | "dashboard"
-  | "settings"
-  | { view: "editor"; ruleId: string | null };
+export type ViewState = "dashboard" | "settings" | "editor";
 
 export const viewAtom = atom<ViewState>("dashboard");
+
+export const editorRuleIdAtom = atom<string | null>(null);
 
 export const searchQueryAtom = atom("");
 

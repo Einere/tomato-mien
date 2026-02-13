@@ -9,12 +9,8 @@ import { useAlarmService } from "@/hooks/useAlarmService";
 import { useElectronMenu } from "@/hooks/useElectronMenu";
 
 function CurrentView({ view }: { view: ViewState }) {
-  if (typeof view === "object" && view.view === "editor") {
-    return <EditorView />;
-  }
-  if (view === "settings") {
-    return <SettingsView />;
-  }
+  if (view === "editor") return <EditorView />;
+  if (view === "settings") return <SettingsView />;
   return <DashboardView />;
 }
 

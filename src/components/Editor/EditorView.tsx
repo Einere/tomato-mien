@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { useAtomValue, useSetAtom } from "jotai";
-import { rulesAtom, viewAtom, updateRuleAtom, deleteRuleAtom } from "@/store";
+import {
+  rulesAtom,
+  viewAtom,
+  editorRuleIdAtom,
+  updateRuleAtom,
+  deleteRuleAtom,
+} from "@/store";
 import type {
   AlarmRule,
   TimeCondition,
@@ -18,14 +24,12 @@ import { Button } from "@/components/UI/Button";
 import { Icon } from "@/components/UI/Icon";
 
 export function EditorView() {
-  const view = useAtomValue(viewAtom);
+  const ruleId = useAtomValue(editorRuleIdAtom);
   const rules = useAtomValue(rulesAtom);
   const updateRule = useSetAtom(updateRuleAtom);
   const deleteRule = useSetAtom(deleteRuleAtom);
   const setView = useSetAtom(viewAtom);
-
-  const ruleId =
-    typeof view === "object" && view.view === "editor" ? view.ruleId : null;
+  const setEditorRuleId = useSetAtom(editorRuleIdAtom);
   const existingRule = ruleId ? rules.find(r => r.id === ruleId) : undefined;
   const isNew = !existingRule;
 
@@ -76,10 +80,12 @@ export function EditorView() {
       notificationEnabled,
     };
     updateRule(updated);
+    setEditorRuleId(null);
     setView("dashboard");
   };
 
   const handleCancel = () => {
+    setEditorRuleId(null);
     setView("dashboard");
   };
 
