@@ -1,0 +1,10 @@
+{
+  "name": "@tomato-mien/design-tokens",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.css",
+  "exports": {
+    ".": "./src/index.css"
+  },
+  "files": ["src/"]
+}

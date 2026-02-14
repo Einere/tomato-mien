@@ -5,7 +5,7 @@ import {
   totalRuleCountAtom,
 } from "@/store";
 import type { SortOrder } from "@/store";
-import { Select } from "@/components/UI/Select";
+import { Select } from "@tomato-mien/ui";
 
 const sortOptions = [
   { value: "name", label: "Name" },

@@ -1,0 +1,53 @@
+@theme {
+  /* ── Semantic: Foreground (Text) ── */
+  --color-foreground: var(--color-secondary-900);
+  --color-muted-foreground: var(--color-secondary-500);
+  --color-subtle-foreground: var(--color-secondary-400);
+  --color-inverse-foreground: oklch(1 0 0);
+
+  /* ── Semantic: Background ── */
+  --color-background: var(--color-secondary-50);
+  --color-surface: oklch(1 0 0);
+  --color-muted: var(--color-secondary-100);
+  --color-subtle: var(--color-secondary-200);
+
+  /* ── Semantic: Accent ── */
+  --color-accent: var(--color-primary-100);
+  --color-accent-foreground: var(--color-primary-600);
+
+  /* ── Semantic: Border ── */
+  --color-border: var(--color-secondary-200);
+  --color-border-muted: var(--color-secondary-100);
+
+  /* ── Semantic: Focus ── */
+  --color-ring: var(--color-primary-500);
+}
+
+/* ── Dark Mode ── */
+
+.dark {
+  color-scheme: dark;
+
+  /* Foreground */
+  --color-foreground: oklch(0.93 0.006 260);
+  --color-muted-foreground: oklch(0.65 0.015 260);
+  --color-subtle-foreground: oklch(0.5 0.02 260);
+  --color-inverse-foreground: oklch(0.15 0.015 260);
+
+  /* Background */
+  --color-background: oklch(0.205 0.014 260);
+  --color-surface: oklch(0.255 0.014 260);
+  --color-muted: oklch(0.305 0.014 260);
+  --color-subtle: oklch(0.355 0.014 260);
+
+  /* Accent */
+  --color-accent: oklch(0.25 0.055 25.6);
+  --color-accent-foreground: var(--color-primary-400);
+
+  /* Border */
+  --color-border: oklch(0.355 0.014 260);
+  --color-border-muted: oklch(0.305 0.014 260);
+
+  /* Focus */
+  --color-ring: var(--color-primary-400);
+}

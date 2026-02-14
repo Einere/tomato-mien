@@ -1,4 +1,4 @@
-import { Button } from "@/components/UI/Button";
+import { Button } from "@tomato-mien/ui";
 
 interface EditorFooterProps {
   onCancel: () => void;

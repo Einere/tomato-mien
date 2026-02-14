@@ -1,7 +1,6 @@
 import { useAtom } from "jotai";
 import { searchQueryAtom } from "@/store";
-import { Icon } from "@/components/UI/Icon";
-import { Input } from "@/components/UI/Input";
+import { Icon, Input } from "@tomato-mien/ui";
 
 export function SearchBar() {
   const [query, setQuery] = useAtom(searchQueryAtom);

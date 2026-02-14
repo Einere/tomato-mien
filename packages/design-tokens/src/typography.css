@@ -1,0 +1,47 @@
+@theme {
+  /* ── Typography Tokens ── */
+  --font-size-heading-1: 1.5rem;
+  --font-size-heading-2: 1.25rem;
+  --font-size-heading-3: 1.125rem;
+  --font-size-body: 0.875rem;
+  --font-size-caption: 0.75rem;
+  --font-size-overline: 0.625rem;
+}
+
+/* ── Typography Preset Utilities ── */
+
+@utility text-heading-1 {
+  font-size: var(--font-size-heading-1);
+  line-height: 2rem;
+  font-weight: 700;
+}
+
+@utility text-heading-2 {
+  font-size: var(--font-size-heading-2);
+  line-height: 1.75rem;
+  font-weight: 700;
+}
+
+@utility text-heading-3 {
+  font-size: var(--font-size-heading-3);
+  line-height: 1.75rem;
+  font-weight: 700;
+}
+
+@utility text-body {
+  font-size: var(--font-size-body);
+  line-height: 1.25rem;
+}
+
+@utility text-caption {
+  font-size: var(--font-size-caption);
+  line-height: 1rem;
+}
+
+@utility text-overline {
+  font-size: var(--font-size-overline);
+  line-height: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}

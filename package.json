@@ -2,6 +2,7 @@
   "name": "tomato-mien",
   "private": true,
   "version": "2.0.0",
+  "workspaces": ["packages/*"],
   "description": "Simple rule-based alarm app",
   "author": "Einere",
   "type": "module",
@@ -20,9 +21,13 @@
     "electron": "electron .",
     "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && NODE_ENV=development electron .\"",
     "electron:build": "npm run build && electron-builder",
-    "electron:dist": "npm run build && electron-builder --publish=never"
+    "electron:dist": "npm run build && electron-builder --publish=never",
+    "docs:dev": "npm run dev -w @tomato-mien/docs",
+    "docs:build": "npm run build -w @tomato-mien/docs"
   },
   "dependencies": {
+    "@tomato-mien/design-tokens": "*",
+    "@tomato-mien/ui": "*",
     "class-variance-authority": "^0.7.1",
     "dayjs": "^1.11.19",
     "dexie": "^4.3.0",

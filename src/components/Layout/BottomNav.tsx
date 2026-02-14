@@ -2,7 +2,7 @@ import { useAtom } from "jotai";
 import { cn } from "@/lib/cn";
 import { viewAtom } from "@/store";
 import type { ViewState } from "@/store";
-import { Icon } from "@/components/UI/Icon";
+import { Icon } from "@tomato-mien/ui";
 
 const tabs = [
   { id: "dashboard", icon: "rule", label: "Rules" },

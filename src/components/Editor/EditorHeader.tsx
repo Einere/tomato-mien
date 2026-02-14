@@ -1,7 +1,6 @@
 import { useSetAtom } from "jotai";
 import { viewAtom } from "@/store";
-import { Button } from "@/components/UI/Button";
-import { Icon } from "@/components/UI/Icon";
+import { Button, Icon } from "@tomato-mien/ui";
 
 interface EditorHeaderProps {
   isNew: boolean;

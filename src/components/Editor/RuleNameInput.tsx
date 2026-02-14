@@ -1,4 +1,4 @@
-import { Input } from "@/components/UI/Input";
+import { Input } from "@tomato-mien/ui";
 
 interface RuleNameInputProps {
   value: string;

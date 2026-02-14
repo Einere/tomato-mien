@@ -1,4 +1,4 @@
-import { cn } from "@/lib/cn";
+import { cn } from "./cn";
 
 interface SelectOption {
   value: string;

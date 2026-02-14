@@ -1,7 +1,5 @@
 import type { TimeCondition } from "@/types/alarm";
-import { Badge } from "@/components/UI/Badge";
-import { Button } from "@/components/UI/Button";
-import { Icon } from "@/components/UI/Icon";
+import { Badge, Button, Icon } from "@tomato-mien/ui";
 import { TimeRangeInput } from "./ConditionInputs/TimeRangeInput";
 import { IntervalInput } from "./ConditionInputs/IntervalInput";
 import { SpecificTimeInput } from "./ConditionInputs/SpecificTimeInput";

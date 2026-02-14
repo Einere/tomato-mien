@@ -1,5 +1,5 @@
 import type { SpecificCondition } from "@/types/alarm";
-import { Select } from "@/components/UI/Select";
+import { Select } from "@tomato-mien/ui";
 
 const HOUR_OPTIONS = [
   { value: "", label: "Every" },

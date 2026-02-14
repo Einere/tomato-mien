@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/cn";
+import { cn } from "./cn";
 import type { ButtonHTMLAttributes } from "react";
 
 const buttonVariants = cva(
