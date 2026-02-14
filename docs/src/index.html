@@ -18,7 +18,7 @@
       property="og:description"
       content="조건 기반 알림을 설정할 수 있는 가벼운 데스크톱 앱. 시간 범위, 간격, 특정 시간 조건을 AND/OR로 조합하세요."
     />
-    <meta property="og:image" content="assets/icon-rounded.png" />
+    <meta property="og:image" content="assets/screenshots/rules_screen.png" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://einere.github.io/tomato-mien/" />
 
@@ -33,7 +33,7 @@
       class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 py-20"
     >
       <div
-        class="from-tomato-50 dark:from-tomato-950/30 pointer-events-none absolute inset-0 bg-gradient-to-b via-white to-white dark:via-gray-950 dark:to-gray-950"
+        class="from-tomato-200 dark:from-tomato-950/50 pointer-events-none absolute inset-0 bg-gradient-to-b via-white to-white dark:via-gray-950 dark:to-gray-950"
       ></div>
       <div class="relative z-10 flex flex-col items-center text-center">
         <img
@@ -100,7 +100,7 @@
           유연한 조건 설정으로 원하는 시간에 알림을 받으세요
         </p>
         <div class="grid gap-6 sm:grid-cols-2">
-          <!-- Feature 1 -->
+          <!-- Feature 1: 트리거 & 필터 -->
           <div
             class="rounded-2xl border border-gray-200 bg-gray-50 p-6 transition hover:shadow-md sm:p-8 dark:border-gray-800 dark:bg-gray-900"
           >
@@ -121,13 +121,13 @@
                 />
               </svg>
             </div>
-            <h3 class="mb-2 text-lg font-semibold">조건 기반 알림 설정</h3>
+            <h3 class="mb-2 text-lg font-semibold">트리거 & 필터 조합</h3>
             <p class="text-gray-600 dark:text-gray-400">
-              단순 타이머가 아닌, 원하는 조건을 직접 설정하여 정확한 시점에
-              알림을 받을 수 있습니다.
+              트리거(반복 간격, 특정 시각)로 알림 시점을 정하고, 필터(시간
+              범위)로 동작 조건을 제한하세요.
             </p>
           </div>
-          <!-- Feature 2 -->
+          <!-- Feature 2: 다양한 시간 조건 -->
           <div
             class="rounded-2xl border border-gray-200 bg-gray-50 p-6 transition hover:shadow-md sm:p-8 dark:border-gray-800 dark:bg-gray-900"
           >
@@ -150,11 +150,11 @@
             </div>
             <h3 class="mb-2 text-lg font-semibold">다양한 시간 조건</h3>
             <p class="text-gray-600 dark:text-gray-400">
-              시간 범위, 반복 간격, 특정 시각 등 다양한 조건 타입으로 세밀하게
-              알림 규칙을 구성하세요.
+              매 N분 간격, 특정 시각, 시간 범위 등 다양한 조건 타입으로
+              세밀하게 알림 규칙을 구성하세요.
             </p>
           </div>
-          <!-- Feature 3 -->
+          <!-- Feature 3: 규칙 관리 -->
           <div
             class="rounded-2xl border border-gray-200 bg-gray-50 p-6 transition hover:shadow-md sm:p-8 dark:border-gray-800 dark:bg-gray-900"
           >
@@ -171,17 +171,17 @@
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  d="M4 6h16M4 12h16M4 18h7"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                 />
               </svg>
             </div>
-            <h3 class="mb-2 text-lg font-semibold">AND/OR 복합 조건</h3>
+            <h3 class="mb-2 text-lg font-semibold">규칙 관리 대시보드</h3>
             <p class="text-gray-600 dark:text-gray-400">
-              논리 연산자로 여러 조건을 조합하여 복잡한 알림 규칙도 간단하게
-              만들 수 있습니다.
+              검색과 정렬로 규칙을 빠르게 찾고, 토글 한 번으로 활성/비활성을
+              전환하세요.
             </p>
           </div>
-          <!-- Feature 4 -->
+          <!-- Feature 4: 백그라운드 알림 -->
           <div
             class="rounded-2xl border border-gray-200 bg-gray-50 p-6 transition hover:shadow-md sm:p-8 dark:border-gray-800 dark:bg-gray-900"
           >
@@ -225,36 +225,49 @@
         >
           직관적인 인터페이스로 알림 규칙을 손쉽게 관리하세요
         </p>
-        <div class="grid gap-6 sm:grid-cols-2">
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <div
             class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900"
           >
-            <div
-              class="flex aspect-video items-center justify-center bg-gray-100 dark:bg-gray-800"
-            >
-              <p class="text-sm text-gray-400 dark:text-gray-500">
-                스크린샷 준비 중
-              </p>
-            </div>
+            <img
+              src="assets/screenshots/splash_screen.png"
+              alt="Tomato Mien 스플래시 화면 - 토마토 그라데이션 로고"
+              class="w-full"
+              loading="lazy"
+            />
             <div class="p-4">
               <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
-                규칙 목록 및 편집 화면
+                스플래시
               </p>
             </div>
           </div>
           <div
             class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900"
           >
-            <div
-              class="flex aspect-video items-center justify-center bg-gray-100 dark:bg-gray-800"
-            >
-              <p class="text-sm text-gray-400 dark:text-gray-500">
-                스크린샷 준비 중
-              </p>
-            </div>
+            <img
+              src="assets/screenshots/rules_screen.png"
+              alt="Tomato Mien 규칙 목록 화면 - 검색, 필터, 토글 기능이 있는 대시보드"
+              class="w-full"
+              loading="lazy"
+            />
             <div class="p-4">
               <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
-                조건 설정 화면
+                규칙 목록
+              </p>
+            </div>
+          </div>
+          <div
+            class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900"
+          >
+            <img
+              src="assets/screenshots/settings_screen.png"
+              alt="Tomato Mien 설정 화면 - 시간 포맷, 테마, 미리보기 설정"
+              class="w-full"
+              loading="lazy"
+            />
+            <div class="p-4">
+              <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+                설정
               </p>
             </div>
           </div>
