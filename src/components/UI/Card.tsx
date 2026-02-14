@@ -1,16 +1,30 @@
-import clsx from 'clsx';
-import type { PropsWithChildren } from 'react';
+import { cn } from "@/lib/cn";
+import type { HTMLAttributes } from "react";
+
+interface CardProps extends HTMLAttributes<HTMLDivElement> {
+  padding?: "none" | "sm" | "md";
+}
+
+const paddingStyles = {
+  none: "",
+  sm: "p-3",
+  md: "p-4",
+} as const;
 
 export function Card({
-  children,
   className,
-}: PropsWithChildren<{ className?: string }>) {
+  padding = "md",
+  children,
+  ...props
+}: CardProps) {
   return (
     <div
-      className={clsx(
-        'bg-white rounded-lg shadow-sm border border-gray-200',
+      className={cn(
+        "bg-surface rounded-xl shadow-sm",
+        paddingStyles[padding],
         className,
       )}
+      {...props}
     >
       {children}
     </div>

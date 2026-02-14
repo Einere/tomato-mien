@@ -1,95 +1,105 @@
-import type { TimeCondition, CompoundCondition } from '@/types/alarm';
-import { isCompoundCondition } from './typeGuards';
-
-export type AnyCondition = TimeCondition | CompoundCondition;
+import type {
+  TimeCondition,
+  TimeFormat,
+  TriggerCondition,
+  FilterCondition,
+} from "@/types/alarm";
+import { TimeConditionSchema } from "@/schemas/alarm";
+import { formatTime, formatTimeRange } from "@/lib/dayjs";
 
 export interface ValidationIssue {
-  path: string; // e.g., conditions[1].startHour
+  path: string; // e.g., triggers[0].intervalMinutes
   message: string;
 }
 
-export function describeCondition(cond: AnyCondition): string {
-  if (isCompoundCondition(cond)) {
-    const childTexts = cond.conditions.map(c => describeCondition(c));
-    const joined = childTexts.join(` ${cond.operator} `);
-    return childTexts.length > 1 ? `(${joined})` : joined;
-  }
-
-  switch (cond.type) {
-    case 'range':
-      return `${pad2(cond.startHour)}:${pad2(cond.startMinute)}–${pad2(cond.endHour)}:${pad2(cond.endMinute)}`;
-    case 'interval':
-      return `매 ${cond.intervalMinutes}분`;
-    case 'specific': {
-      const h = cond.hour !== undefined ? `${pad2(cond.hour)}시` : '모든 시간';
-      const m =
-        cond.minute !== undefined ? `${pad2(cond.minute)}분` : '모든 분';
-      return `${h} ${m}`;
+function zodPathToString(zodPath: PropertyKey[], basePath: string): string {
+  let result = basePath;
+  for (const segment of zodPath) {
+    if (typeof segment === "number") {
+      result += `[${segment}]`;
+    } else {
+      result += `.${String(segment)}`;
     }
   }
+  return result;
+}
+
+export function describeCondition(
+  cond: TimeCondition,
+  timeFormat: TimeFormat = "24h",
+): string {
+  switch (cond.type) {
+    case "range":
+      return formatTimeRange(
+        cond.startHour,
+        cond.startMinute,
+        cond.endHour,
+        cond.endMinute,
+        timeFormat,
+      );
+    case "interval":
+      return `every ${cond.intervalMinutes} minutes`;
+    case "specific": {
+      if (cond.hour !== undefined) {
+        return `at ${formatTime(cond.hour, cond.minute ?? 0, timeFormat)}`;
+      }
+      return `every hour at minute ${cond.minute ?? 0}`;
+    }
+  }
+}
+
+export function describeRule(
+  triggers: TriggerCondition[],
+  filters: FilterCondition[],
+  timeFormat: TimeFormat = "24h",
+): string {
+  const triggerTexts = triggers.map(t => describeCondition(t, timeFormat));
+  const triggerPart =
+    triggerTexts.length > 1
+      ? triggerTexts.join(" or ")
+      : (triggerTexts[0] ?? "");
+
+  if (filters.length === 0) return triggerPart;
+
+  const filterTexts = filters.map(f => describeCondition(f, timeFormat));
+  const filterPart = filterTexts.join(", ");
+
+  return `${triggerPart} (${filterPart})`;
 }
 
 export function validateCondition(
-  cond: AnyCondition,
-  basePath = 'condition',
+  cond: TimeCondition,
+  basePath = "condition",
+): ValidationIssue[] {
+  const result = TimeConditionSchema.safeParse(cond);
+  if (result.success) return [];
+
+  return result.error.issues.map(issue => ({
+    path: zodPathToString(issue.path, basePath),
+    message: issue.message,
+  }));
+}
+
+export function validateRule(
+  triggers: TriggerCondition[],
+  filters: FilterCondition[],
 ): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
 
-  if (isCompoundCondition(cond)) {
-    if (cond.conditions.length === 0) {
-      issues.push({
-        path: basePath,
-        message: '그룹 안에 최소 1개의 조건이 필요합니다.',
-      });
-    }
-    cond.conditions.forEach((c, idx) => {
-      issues.push(...validateCondition(c, `${basePath}.conditions[${idx}]`));
+  if (triggers.length === 0) {
+    issues.push({
+      path: "triggers",
+      message: "At least one trigger is required.",
     });
-    return issues;
   }
 
-  // TODO: 조건 타입 별 검증 로직을 별도의 함수로 분리해내기
-  if (cond.type === 'range') {
-    const start = cond.startHour * 60 + cond.startMinute;
-    const end = cond.endHour * 60 + cond.endMinute;
-    if (start > end) {
-      issues.push({
-        path: basePath,
-        message: '시작 시간이 종료 시간보다 늦습니다.',
-      });
-    }
-  }
+  triggers.forEach((t, i) => {
+    issues.push(...validateCondition(t, `triggers[${i}]`));
+  });
 
-  if (cond.type === 'interval') {
-    if (!Number.isFinite(cond.intervalMinutes) || cond.intervalMinutes <= 0) {
-      issues.push({ path: basePath, message: '간격은 1분 이상이어야 합니다.' });
-    }
-    if (cond.intervalMinutes > 720) {
-      issues.push({
-        path: basePath,
-        message: '간격이 너무 깁니다 (최대 720분 권장).',
-      });
-    }
-  }
-
-  if (cond.type === 'specific') {
-    if (cond.hour !== undefined && (cond.hour < 0 || cond.hour > 23)) {
-      issues.push({
-        path: `${basePath}.hour`,
-        message: '시간은 0–23 사이여야 합니다.',
-      });
-    }
-    if (cond.minute !== undefined && (cond.minute < 0 || cond.minute > 59)) {
-      issues.push({
-        path: `${basePath}.minute`,
-        message: '분은 0–59 사이여야 합니다.',
-      });
-    }
-  }
+  filters.forEach((f, i) => {
+    issues.push(...validateCondition(f, `filters[${i}]`));
+  });
 
   return issues;
-}
-
-function pad2(n: number) {
-  return n.toString().padStart(2, '0');
 }

@@ -1,2 +1,1 @@
-export * from './alarm';
-export * from './ui';
+export * from "./alarm";

@@ -1,34 +1,40 @@
-import React from 'react';
+import { cn } from "@/lib/cn";
 
 interface SelectOption {
   value: string;
   label: string;
 }
 
-interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+interface SelectProps {
+  value: string;
+  onChange: (value: string) => void;
   options: SelectOption[];
-  placeholder?: string;
+  disabled?: boolean;
   className?: string;
 }
 
-export const Select: React.FC<SelectProps> = ({
+export function Select({
+  value,
+  onChange,
   options,
-  placeholder,
-  className = '',
-  ...props
-}) => {
+  disabled = false,
+  className,
+}: SelectProps) {
   return (
-    <select className={className} {...props}>
-      {placeholder && (
-        <option value='' disabled>
-          {placeholder}
-        </option>
+    <select
+      value={value}
+      onChange={e => onChange(e.target.value)}
+      disabled={disabled}
+      className={cn(
+        "focus-visible:border-primary-500 focus-visible:ring-ring border-border bg-surface select-chevron text-body text-foreground cursor-pointer rounded-lg border py-1.5 pr-8 pl-3 shadow-sm focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+        className,
       )}
-      {options.map(option => (
-        <option key={option.value} value={option.value}>
-          {option.label}
+    >
+      {options.map(opt => (
+        <option key={opt.value} value={opt.value}>
+          {opt.label}
         </option>
       ))}
     </select>
   );
-};
+}
