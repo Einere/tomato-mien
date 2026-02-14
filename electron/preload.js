@@ -25,4 +25,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
 
   // 플랫폼 정보
   platform: process.platform,
+
+  // 알림
+  showNotification: (title, options) =>
+    ipcRenderer.invoke("show-notification", title, options),
+  requestNotificationPermission: () =>
+    ipcRenderer.invoke("request-notification-permission"),
 });

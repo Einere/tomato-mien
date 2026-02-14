@@ -58,23 +58,34 @@ export class WebWorkerAlarmService {
     try {
       const rule = await db.rules.get(event.ruleId);
       if (rule?.notificationEnabled) {
-        this.showNotification(event);
+        await this.showNotification(event);
       }
     } catch {
-      this.showNotification(event);
+      await this.showNotification(event);
     }
     playAlarmSound();
     this.onAlarmTriggered?.(event);
   }
 
-  private showNotification(event: AlarmEvent): void {
-    if (Notification.permission !== "granted") return;
+  private async showNotification(event: AlarmEvent): Promise<void> {
+    const title = event.ruleName;
+    const options = { body: event.message, icon: "/vite.svg" };
 
-    new Notification(event.ruleName, {
-      body: event.message,
-      icon: "/vite.svg",
-      tag: event.ruleId,
-    });
+    if (window.electronAPI?.showNotification) {
+      try {
+        const result = await window.electronAPI.showNotification(
+          title,
+          options,
+        );
+        if (result.success) return;
+      } catch {
+        // Electron IPC 실패 시 Web Notification 폴백
+      }
+    }
+
+    if (Notification.permission === "granted") {
+      new Notification(title, { ...options, tag: event.ruleId });
+    }
   }
 
   public start(): void {
@@ -94,6 +105,10 @@ export class WebWorkerAlarmService {
   }
 
   public async requestNotificationPermission(): Promise<boolean> {
+    if (window.electronAPI?.requestNotificationPermission) {
+      return window.electronAPI.requestNotificationPermission();
+    }
+
     if (Notification.permission === "granted") {
       return true;
     }

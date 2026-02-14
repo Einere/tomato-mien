@@ -1,4 +1,12 @@
-import { app, BrowserWindow, Menu, shell, dialog } from "electron";
+import {
+  app,
+  BrowserWindow,
+  Menu,
+  shell,
+  dialog,
+  ipcMain,
+  Notification,
+} from "electron";
 import pkg from "electron-updater";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -73,6 +81,9 @@ app.whenReady().then(() => {
   // 메뉴 설정
   createMenu();
 
+  // 알림 IPC 설정
+  setupNotificationIPC();
+
   // 자동 업데이트 설정 (프로덕션에서만)
   if (!isDev) {
     setupAutoUpdater();
@@ -85,6 +96,39 @@ app.on("window-all-closed", () => {
     app.quit();
   }
 });
+
+// 알림 IPC 설정
+function setupNotificationIPC() {
+  ipcMain.handle("show-notification", (_event, title, options = {}) => {
+    try {
+      if (!Notification.isSupported()) {
+        return { success: false, error: "Notification not supported" };
+      }
+
+      const notificationOptions = {
+        title,
+        body: options.body,
+        silent: options.silent,
+      };
+
+      if (options.icon) {
+        notificationOptions.icon = isDev
+          ? path.join(__dirname, "../public", options.icon)
+          : path.join(__dirname, "../dist", options.icon);
+      }
+
+      const notification = new Notification(notificationOptions);
+      notification.show();
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  });
+
+  ipcMain.handle("request-notification-permission", () => {
+    return Notification.isSupported();
+  });
+}
 
 // 메뉴 생성
 function createMenu() {
