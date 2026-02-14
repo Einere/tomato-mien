@@ -20,11 +20,11 @@ const typeLabels: Record<TimeCondition["type"], string> = {
 
 const typeBadgeVariant: Record<
   TimeCondition["type"],
-  "default" | "primary" | "success"
+  "default" | "primary" | "success" | "warning" | "danger"
 > = {
   range: "primary",
   interval: "success",
-  specific: "default",
+  specific: "warning",
 };
 
 export function ConditionRow({

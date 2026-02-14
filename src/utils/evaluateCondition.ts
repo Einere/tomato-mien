@@ -1,37 +1,25 @@
-import type { TimeCondition, CompoundCondition } from "@/types/alarm";
-import { isCompoundCondition } from "./typeGuards";
+import type {
+  TimeCondition,
+  TriggerCondition,
+  FilterCondition,
+} from "@/types/alarm";
 
 const MINUTES_PER_HOUR = 60;
 
-export function evaluateCondition(
-  condition: TimeCondition | CompoundCondition,
+export function evaluateRule(
+  triggers: TriggerCondition[],
+  filters: FilterCondition[],
   currentHour: number,
   currentMinute: number,
 ): boolean {
-  if (isCompoundCondition(condition)) {
-    return evaluateCompoundCondition(condition, currentHour, currentMinute);
-  } else {
-    return evaluateTimeCondition(condition, currentHour, currentMinute);
-  }
-}
-
-function evaluateCompoundCondition(
-  condition: CompoundCondition,
-  currentHour: number,
-  currentMinute: number,
-): boolean {
-  const results = condition.conditions.map(c =>
-    evaluateCondition(c, currentHour, currentMinute),
+  const filtersPass = filters.every(f =>
+    evaluateCondition(f, currentHour, currentMinute),
   );
-
-  if (condition.operator === "AND") {
-    return results.every(result => result);
-  } else {
-    return results.some(result => result);
-  }
+  if (!filtersPass) return false;
+  return triggers.some(t => evaluateCondition(t, currentHour, currentMinute));
 }
 
-function evaluateTimeCondition(
+export function evaluateCondition(
   condition: TimeCondition,
   currentHour: number,
   currentMinute: number,

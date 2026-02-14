@@ -1,19 +1,24 @@
 import { useAtomValue } from "jotai";
-import type { TimeCondition, CompoundCondition } from "@/types/alarm";
+import type { TriggerCondition, FilterCondition } from "@/types/alarm";
 import { settingsAtom } from "@/store";
-import { describeCondition } from "@/utils/condition";
+import { describeRule } from "@/utils/condition";
 import type { ValidationIssue } from "@/utils/condition";
 import { Card } from "@/components/UI/Card";
 import { Icon } from "@/components/UI/Icon";
 
 interface EditorSummaryProps {
-  condition: TimeCondition | CompoundCondition;
+  triggers: TriggerCondition[];
+  filters: FilterCondition[];
   issues: ValidationIssue[];
 }
 
-export function EditorSummary({ condition, issues }: EditorSummaryProps) {
+export function EditorSummary({
+  triggers,
+  filters,
+  issues,
+}: EditorSummaryProps) {
   const { timeFormat } = useAtomValue(settingsAtom);
-  const description = describeCondition(condition, timeFormat);
+  const description = describeRule(triggers, filters, timeFormat);
 
   return (
     <div className="px-5 pb-4">
@@ -21,7 +26,7 @@ export function EditorSummary({ condition, issues }: EditorSummaryProps) {
         Summary
       </span>
       <Card padding="sm">
-        <div className="flex items-start gap-2">
+        <div className="flex items-center gap-2">
           <Icon
             name="info"
             size="sm"

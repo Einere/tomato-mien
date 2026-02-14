@@ -1,10 +1,14 @@
 import { describe, it, expect } from "vitest";
-import { describeCondition, validateCondition } from "@/utils/condition";
+import {
+  describeCondition,
+  describeRule,
+  validateCondition,
+  validateRule,
+} from "@/utils/condition";
 import type {
   RangeCondition,
   IntervalCondition,
   SpecificCondition,
-  CompoundCondition,
 } from "@/types/alarm";
 
 describe("describeCondition", () => {
@@ -32,30 +36,6 @@ describe("describeCondition", () => {
         minute: 30,
       };
       expect(describeCondition(cond)).toBe("at 14:30");
-    });
-
-    it("describes a compound condition with AND", () => {
-      const cond: CompoundCondition = {
-        operator: "AND",
-        conditions: [
-          { type: "interval", intervalMinutes: 15 },
-          { type: "specific", hour: 9, minute: 0 },
-        ],
-      };
-      const result = describeCondition(cond);
-      expect(result).toBe("(every 15 minutes AND at 09:00)");
-    });
-
-    it("describes a compound condition with OR", () => {
-      const cond: CompoundCondition = {
-        operator: "OR",
-        conditions: [
-          { type: "interval", intervalMinutes: 15 },
-          { type: "specific", hour: 9, minute: 0 },
-        ],
-      };
-      const result = describeCondition(cond);
-      expect(result).toBe("(every 15 minutes OR at 09:00)");
     });
   });
 
@@ -129,6 +109,63 @@ describe("describeCondition", () => {
   });
 });
 
+describe("describeRule", () => {
+  it("triggers만 있으면 트리거 설명만 반환", () => {
+    expect(describeRule([{ type: "interval", intervalMinutes: 15 }], [])).toBe(
+      "every 15 minutes",
+    );
+  });
+
+  it("여러 triggers를 or로 연결", () => {
+    expect(
+      describeRule(
+        [
+          { type: "interval", intervalMinutes: 15 },
+          { type: "specific", hour: 14, minute: 30 },
+        ],
+        [],
+      ),
+    ).toBe("every 15 minutes or at 14:30");
+  });
+
+  it("triggers + filters", () => {
+    expect(
+      describeRule(
+        [{ type: "interval", intervalMinutes: 15 }],
+        [
+          {
+            type: "range",
+            startHour: 9,
+            startMinute: 0,
+            endHour: 17,
+            endMinute: 0,
+          },
+        ],
+      ),
+    ).toBe("every 15 minutes (from 09:00 to 17:00)");
+  });
+
+  it("여러 triggers + 여러 filters", () => {
+    expect(
+      describeRule(
+        [
+          { type: "interval", intervalMinutes: 15 },
+          { type: "specific", hour: 14, minute: 30 },
+        ],
+        [
+          {
+            type: "range",
+            startHour: 9,
+            startMinute: 0,
+            endHour: 17,
+            endMinute: 0,
+          },
+        ],
+      ),
+    ).toBe("every 15 minutes or at 14:30 (from 09:00 to 17:00)");
+  });
+});
+
 describe("validateCondition", () => {
   it("returns no issues for valid interval", () => {
     const cond: IntervalCondition = { type: "interval", intervalMinutes: 15 };
@@ -153,15 +190,53 @@ describe("validateCondition", () => {
     expect(issues.length).toBeGreaterThan(0);
   });
 
-  it("returns issue for empty compound", () => {
-    const cond: CompoundCondition = { operator: "AND", conditions: [] };
-    const issues = validateCondition(cond);
-    expect(issues.length).toBeGreaterThan(0);
-  });
-
   it("returns issue for invalid specific hour", () => {
     const cond: SpecificCondition = { type: "specific", hour: 25, minute: 0 };
     const issues = validateCondition(cond);
+    expect(issues.length).toBeGreaterThan(0);
+  });
+});
+
+describe("validateRule", () => {
+  it("triggers가 비어 있으면 이슈 반환", () => {
+    const issues = validateRule([], []);
+    expect(issues.some(i => i.path === "triggers")).toBe(true);
+  });
+
+  it("유효한 triggers + filters면 이슈 없음", () => {
+    const issues = validateRule(
+      [{ type: "interval", intervalMinutes: 15 }],
+      [
+        {
+          type: "range",
+          startHour: 9,
+          startMinute: 0,
+          endHour: 17,
+          endMinute: 0,
+        },
+      ],
+    );
+    expect(issues).toEqual([]);
+  });
+
+  it("잘못된 trigger가 있으면 이슈 반환", () => {
+    const issues = validateRule([{ type: "interval", intervalMinutes: 0 }], []);
+    expect(issues.length).toBeGreaterThan(0);
+  });
+
+  it("잘못된 filter가 있으면 이슈 반환", () => {
+    const issues = validateRule(
+      [{ type: "interval", intervalMinutes: 15 }],
+      [
+        {
+          type: "range",
+          startHour: 17,
+          startMinute: 0,
+          endHour: 9,
+          endMinute: 0,
+        },
+      ],
+    );
     expect(issues.length).toBeGreaterThan(0);
   });
 });

@@ -1,13 +1,14 @@
-import type { TimeFormat } from "@/types/alarm";
-import type { AnyCondition } from "@/schemas/alarm";
-import { AnyConditionSchema } from "@/schemas/alarm";
-import { isCompoundCondition } from "./typeGuards";
+import type {
+  TimeCondition,
+  TimeFormat,
+  TriggerCondition,
+  FilterCondition,
+} from "@/types/alarm";
+import { TimeConditionSchema } from "@/schemas/alarm";
 import { formatTime, formatTimeRange } from "@/lib/dayjs";
 
-export type { AnyCondition } from "@/schemas/alarm";
-
 export interface ValidationIssue {
-  path: string; // e.g., conditions[1].startHour
+  path: string; // e.g., triggers[0].intervalMinutes
   message: string;
 }
 
@@ -24,18 +25,9 @@ function zodPathToString(zodPath: PropertyKey[], basePath: string): string {
 }
 
 export function describeCondition(
-  cond: AnyCondition,
+  cond: TimeCondition,
   timeFormat: TimeFormat = "24h",
 ): string {
-  if (isCompoundCondition(cond)) {
-    const childTexts = cond.conditions.map(c =>
-      describeCondition(c, timeFormat),
-    );
-    const connector = cond.operator === "AND" ? " AND " : " OR ";
-    const joined = childTexts.join(connector);
-    return childTexts.length > 1 ? `(${joined})` : joined;
-  }
-
   switch (cond.type) {
     case "range":
       return formatTimeRange(
@@ -56,15 +48,58 @@ export function describeCondition(
   }
 }
 
+export function describeRule(
+  triggers: TriggerCondition[],
+  filters: FilterCondition[],
+  timeFormat: TimeFormat = "24h",
+): string {
+  const triggerTexts = triggers.map(t => describeCondition(t, timeFormat));
+  const triggerPart =
+    triggerTexts.length > 1
+      ? triggerTexts.join(" or ")
+      : (triggerTexts[0] ?? "");
+
+  if (filters.length === 0) return triggerPart;
+
+  const filterTexts = filters.map(f => describeCondition(f, timeFormat));
+  const filterPart = filterTexts.join(", ");
+
+  return `${triggerPart} (${filterPart})`;
+}
+
 export function validateCondition(
-  cond: AnyCondition,
+  cond: TimeCondition,
   basePath = "condition",
 ): ValidationIssue[] {
-  const result = AnyConditionSchema.safeParse(cond);
+  const result = TimeConditionSchema.safeParse(cond);
   if (result.success) return [];
 
   return result.error.issues.map(issue => ({
     path: zodPathToString(issue.path, basePath),
     message: issue.message,
   }));
+}
+
+export function validateRule(
+  triggers: TriggerCondition[],
+  filters: FilterCondition[],
+): ValidationIssue[] {
+  const issues: ValidationIssue[] = [];
+
+  if (triggers.length === 0) {
+    issues.push({
+      path: "triggers",
+      message: "At least one trigger is required.",
+    });
+  }
+
+  triggers.forEach((t, i) => {
+    issues.push(...validateCondition(t, `triggers[${i}]`));
+  });
+
+  filters.forEach((f, i) => {
+    issues.push(...validateCondition(f, `filters[${i}]`));
+  });
+
+  return issues;
 }

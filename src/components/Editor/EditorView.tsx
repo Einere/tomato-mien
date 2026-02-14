@@ -9,11 +9,11 @@ import {
 } from "@/store";
 import type {
   AlarmRule,
-  TimeCondition,
-  CompoundCondition,
+  TriggerCondition,
+  FilterCondition,
 } from "@/types/alarm";
-import { createDefaultCompound } from "@/utils/alarmRules";
-import { validateCondition } from "@/utils/condition";
+import { createDefaultInterval } from "@/utils/alarmRules";
+import { validateRule } from "@/utils/condition";
 import { EditorHeader } from "./EditorHeader";
 import { RuleNameInput } from "./RuleNameInput";
 import { LogicTree } from "./LogicTree";
@@ -34,19 +34,21 @@ export function EditorView() {
   const isNew = !existingRule;
 
   const [name, setName] = useState("");
-  const [condition, setCondition] = useState<TimeCondition | CompoundCondition>(
-    createDefaultCompound("AND"),
-  );
+  const [triggers, setTriggers] = useState<TriggerCondition[]>([
+    createDefaultInterval(),
+  ]);
+  const [filters, setFilters] = useState<FilterCondition[]>([]);
   const [notificationEnabled, setNotificationEnabled] = useState(true);
   const [dirty, setDirty] = useState(false);
 
-  const issues = validateCondition(condition);
+  const issues = validateRule(triggers, filters);
   const isValid = issues.length === 0;
 
   useEffect(() => {
     if (existingRule) {
       setName(existingRule.name);
-      setCondition(existingRule.condition);
+      setTriggers(existingRule.triggers);
+      setFilters(existingRule.filters);
       setNotificationEnabled(existingRule.notificationEnabled);
       setDirty(false);
     }
@@ -57,8 +59,13 @@ export function EditorView() {
     setDirty(true);
   };
 
-  const handleConditionChange = (c: TimeCondition | CompoundCondition) => {
-    setCondition(c);
+  const handleTriggersChange = (t: TriggerCondition[]) => {
+    setTriggers(t);
+    setDirty(true);
+  };
+
+  const handleFiltersChange = (f: FilterCondition[]) => {
+    setFilters(f);
     setDirty(true);
   };
 
@@ -74,7 +81,8 @@ export function EditorView() {
       id: ruleId,
       name: name || "Untitled Rule",
       enabled: existingRule?.enabled ?? true,
-      condition,
+      triggers,
+      filters,
       createdAt: existingRule?.createdAt ?? now,
       updatedAt: now,
       notificationEnabled,
@@ -99,8 +107,13 @@ export function EditorView() {
     <div className="pb-4">
       <EditorHeader isNew={isNew} />
       <RuleNameInput value={name} onChange={handleNameChange} />
-      <LogicTree condition={condition} onChange={handleConditionChange} />
-      <EditorSummary condition={condition} issues={issues} />
+      <LogicTree
+        triggers={triggers}
+        filters={filters}
+        onTriggersChange={handleTriggersChange}
+        onFiltersChange={handleFiltersChange}
+      />
+      <EditorSummary triggers={triggers} filters={filters} issues={issues} />
       <EditorSettings
         notificationEnabled={notificationEnabled}
         onNotificationEnabledChange={handleNotificationEnabledChange}

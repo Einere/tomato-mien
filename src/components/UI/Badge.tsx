@@ -1,7 +1,7 @@
 import { cn } from "@/lib/cn";
 import type { ReactNode } from "react";
 
-type BadgeVariant = "default" | "primary" | "success";
+type BadgeVariant = "default" | "primary" | "success" | "warning" | "danger";
 
 interface BadgeProps {
   children: ReactNode;
@@ -13,6 +13,8 @@ const variantStyles: Record<BadgeVariant, string> = {
   default: "bg-muted text-muted-foreground",
   primary: "bg-primary-100 text-primary-700",
   success: "bg-success-100 text-success-700",
+  warning: "bg-warning-100 text-warning-700",
+  danger: "bg-danger-100 text-danger-700",
 };
 
 export function Badge({

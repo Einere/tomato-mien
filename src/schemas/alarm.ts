@@ -35,29 +35,14 @@ export const TimeConditionSchema = z.union([
   SpecificConditionSchema,
 ]);
 
-// --- 논리 연산자 ---
+// --- ECA 패턴: Trigger / Filter ---
 
-export const LogicalOperatorSchema = z.enum(["AND", "OR"]);
+export const TriggerConditionSchema = z.union([
+  IntervalConditionSchema,
+  SpecificConditionSchema,
+]);
 
-// --- 복합 조건 (재귀) ---
-
-export type CompoundCondition = {
-  operator: z.infer<typeof LogicalOperatorSchema>;
-  conditions: (TimeCondition | CompoundCondition)[];
-};
-
-export const CompoundConditionSchema: z.ZodType<CompoundCondition> = z.lazy(
-  () =>
-    z.object({
-      operator: LogicalOperatorSchema,
-      conditions: z.array(AnyConditionSchema).min(1),
-    }),
-);
-
-// --- 조합 타입 ---
-
-export const AnyConditionSchema: z.ZodType<TimeCondition | CompoundCondition> =
-  z.lazy(() => z.union([TimeConditionSchema, CompoundConditionSchema]));
+export const FilterConditionSchema = RangeConditionSchema;
 
 // --- AlarmRule ---
 
@@ -65,7 +50,8 @@ export const AlarmRuleSchema = z.object({
   id: z.string(),
   name: z.string(),
   enabled: z.boolean(),
-  condition: AnyConditionSchema,
+  triggers: z.array(TriggerConditionSchema).min(1),
+  filters: z.array(FilterConditionSchema).default([]),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
   notificationEnabled: z.boolean().default(true),
@@ -109,9 +95,8 @@ export type RangeCondition = z.infer<typeof RangeConditionSchema>;
 export type IntervalCondition = z.infer<typeof IntervalConditionSchema>;
 export type SpecificCondition = z.infer<typeof SpecificConditionSchema>;
 export type TimeCondition = z.infer<typeof TimeConditionSchema>;
-export type LogicalOperator = z.infer<typeof LogicalOperatorSchema>;
-// CompoundCondition은 위에서 수동 정의
-export type AnyCondition = TimeCondition | CompoundCondition;
+export type TriggerCondition = z.infer<typeof TriggerConditionSchema>;
+export type FilterCondition = z.infer<typeof FilterConditionSchema>;
 export type AlarmRule = z.infer<typeof AlarmRuleSchema>;
 export type AlarmEvent = z.infer<typeof AlarmEventSchema>;
 export type AlarmStorage = z.infer<typeof AlarmStorageSchema>;

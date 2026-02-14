@@ -1,6 +1,6 @@
 // Web Worker for background alarm checking
 import { TomatoMienDB } from "@/db/database";
-import { evaluateCondition } from "@/utils/evaluateCondition";
+import { evaluateRule } from "@/utils/evaluateCondition";
 
 const CHECK_INTERVAL_MS = 60_000;
 
@@ -75,8 +75,9 @@ class AlarmWorker {
       const enabledRules = allRules.filter(r => r.enabled);
 
       for (const rule of enabledRules) {
-        const shouldTrigger = evaluateCondition(
-          rule.condition,
+        const shouldTrigger = evaluateRule(
+          rule.triggers,
+          rule.filters,
           currentHour,
           currentMinute,
         );

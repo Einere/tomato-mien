@@ -1,29 +1,21 @@
 import { useSetAtom, useAtomValue } from "jotai";
 import { cn } from "@/lib/cn";
-import type {
-  AlarmRule,
-  TimeCondition,
-  CompoundCondition,
-} from "@/types/alarm";
+import type { AlarmRule, TriggerCondition } from "@/types/alarm";
 import {
   toggleRuleAtom,
   viewAtom,
   editorRuleIdAtom,
   settingsAtom,
 } from "@/store";
-import { describeCondition } from "@/utils/condition";
-import { isCompoundCondition } from "@/utils/typeGuards";
+import { describeRule } from "@/utils/condition";
 import { Card } from "@/components/UI/Card";
 import { Icon } from "@/components/UI/Icon";
 import { Toggle } from "@/components/UI/Toggle";
 
-function getConditionIcon(
-  condition: TimeCondition | CompoundCondition,
-): string {
-  if (isCompoundCondition(condition)) return "account_tree";
-  switch (condition.type) {
-    case "range":
-      return "schedule";
+function getConditionIcon(triggers: TriggerCondition[]): string {
+  if (triggers.length === 0) return "timer";
+  const first = triggers[0];
+  switch (first.type) {
     case "interval":
       return "timer";
     case "specific":
@@ -41,8 +33,8 @@ export function RuleCard({ rule }: RuleCardProps) {
   const setEditorRuleId = useSetAtom(editorRuleIdAtom);
   const { timeFormat } = useAtomValue(settingsAtom);
 
-  const description = describeCondition(rule.condition, timeFormat);
-  const icon = getConditionIcon(rule.condition);
+  const description = describeRule(rule.triggers, rule.filters, timeFormat);
+  const icon = getConditionIcon(rule.triggers);
 
   return (
     <Card

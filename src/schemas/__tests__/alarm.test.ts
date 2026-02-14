@@ -4,8 +4,8 @@ import {
   IntervalConditionSchema,
   SpecificConditionSchema,
   TimeConditionSchema,
-  CompoundConditionSchema,
-  AnyConditionSchema,
+  TriggerConditionSchema,
+  FilterConditionSchema,
   AlarmRuleSchema,
   AlarmStorageSchema,
   AlarmEventSchema,
@@ -182,78 +182,59 @@ describe("TimeConditionSchema", () => {
   });
 });
 
-describe("CompoundConditionSchema", () => {
-  it("accepts a compound condition with one child", () => {
-    const data = {
-      operator: "AND",
-      conditions: [{ type: "interval", intervalMinutes: 15 }],
-    };
-    expect(CompoundConditionSchema.parse(data)).toEqual(data);
-  });
-
-  it("accepts nested compound conditions", () => {
-    const data = {
-      operator: "OR",
-      conditions: [
-        {
-          operator: "AND",
-          conditions: [
-            { type: "interval", intervalMinutes: 30 },
-            { type: "specific", hour: 9 },
-          ],
-        },
-        {
-          type: "range",
-          startHour: 12,
-          startMinute: 0,
-          endHour: 13,
-          endMinute: 0,
-        },
-      ],
-    };
-    expect(CompoundConditionSchema.parse(data)).toEqual(data);
-  });
-
-  it("rejects empty conditions array", () => {
-    const result = CompoundConditionSchema.safeParse({
-      operator: "AND",
-      conditions: [],
-    });
-    expect(result.success).toBe(false);
-  });
-
-  it("rejects invalid operator", () => {
-    const result = CompoundConditionSchema.safeParse({
-      operator: "XOR",
-      conditions: [{ type: "interval", intervalMinutes: 10 }],
-    });
-    expect(result.success).toBe(false);
-  });
-});
-
-describe("AnyConditionSchema", () => {
-  it("accepts a time condition", () => {
+describe("TriggerConditionSchema", () => {
+  it("accepts an interval condition", () => {
     expect(
-      AnyConditionSchema.safeParse({
+      TriggerConditionSchema.safeParse({
         type: "interval",
         intervalMinutes: 10,
       }).success,
     ).toBe(true);
   });
 
-  it("accepts a compound condition", () => {
+  it("accepts a specific condition", () => {
     expect(
-      AnyConditionSchema.safeParse({
-        operator: "OR",
-        conditions: [{ type: "specific", hour: 8, minute: 0 }],
+      TriggerConditionSchema.safeParse({
+        type: "specific",
+        hour: 8,
+        minute: 0,
       }).success,
     ).toBe(true);
   });
 
-  it("rejects completely invalid data", () => {
-    expect(AnyConditionSchema.safeParse({ foo: "bar" }).success).toBe(false);
-    expect(AnyConditionSchema.safeParse(42).success).toBe(false);
-    expect(AnyConditionSchema.safeParse(null).success).toBe(false);
+  it("rejects a range condition", () => {
+    expect(
+      TriggerConditionSchema.safeParse({
+        type: "range",
+        startHour: 9,
+        startMinute: 0,
+        endHour: 17,
+        endMinute: 0,
+      }).success,
+    ).toBe(false);
+  });
+});
+
+describe("FilterConditionSchema", () => {
+  it("accepts a range condition", () => {
+    expect(
+      FilterConditionSchema.safeParse({
+        type: "range",
+        startHour: 9,
+        startMinute: 0,
+        endHour: 17,
+        endMinute: 0,
+      }).success,
+    ).toBe(true);
+  });
+
+  it("rejects an interval condition", () => {
+    expect(
+      FilterConditionSchema.safeParse({
+        type: "interval",
+        intervalMinutes: 15,
+      }).success,
+    ).toBe(false);
   });
 });
 
@@ -262,7 +243,8 @@ describe("AlarmRuleSchema", () => {
     id: "abc-123",
     name: "Morning Alarm",
     enabled: true,
-    condition: { type: "specific", hour: 7, minute: 0 },
+    triggers: [{ type: "specific", hour: 7, minute: 0 }],
+    filters: [],
     createdAt: new Date("2024-01-01T00:00:00Z"),
     updatedAt: new Date("2024-01-01T00:00:00Z"),
   };
@@ -313,6 +295,17 @@ describe("AlarmRuleSchema", () => {
     const result = AlarmRuleSchema.parse(data);
     expect(result.notificationEnabled).toBe(true);
   });
+
+  it("rejects empty triggers array", () => {
+    const data = { ...validRule, triggers: [] };
+    expect(AlarmRuleSchema.safeParse(data).success).toBe(false);
+  });
+
+  it("defaults filters to empty array when omitted", () => {
+    const { filters, ...noFilters } = validRule;
+    const result = AlarmRuleSchema.parse(noFilters);
+    expect(result.filters).toEqual([]);
+  });
 });
 
 describe("AlarmEventSchema", () => {
@@ -345,7 +338,8 @@ describe("AlarmStorageSchema", () => {
           id: "1",
           name: "Rule",
           enabled: true,
-          condition: { type: "interval", intervalMinutes: 10 },
+          triggers: [{ type: "interval", intervalMinutes: 10 }],
+          filters: [],
           createdAt: "2024-01-01T00:00:00Z",
           updatedAt: "2024-01-01T00:00:00Z",
         },

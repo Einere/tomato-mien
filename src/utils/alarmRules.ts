@@ -2,8 +2,6 @@ import type {
   RangeCondition,
   IntervalCondition,
   SpecificCondition,
-  CompoundCondition,
-  LogicalOperator,
 } from "@/types/alarm";
 
 // 기본 조건 생성 함수들
@@ -26,13 +24,6 @@ export const createDefaultSpecific = (): SpecificCondition => ({
   minute: 30,
 });
 
-export const createDefaultCompound = (
-  operator: LogicalOperator = "AND",
-): CompoundCondition => ({
-  operator,
-  conditions: [createDefaultRange()],
-});
-
 // 조건 타입 변경 함수
 export const createConditionByType = (
   type: "range" | "interval" | "specific",
@@ -45,9 +36,4 @@ export const createConditionByType = (
     case "specific":
       return createDefaultSpecific();
   }
-};
-
-// 연산자 라벨 생성 함수
-export const getOperatorLabel = (operator: LogicalOperator): string => {
-  return operator === "AND" ? "AND" : "OR";
 };

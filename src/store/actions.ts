@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { rulesAtom, viewAtom, editorRuleIdAtom } from "./atoms";
 import type { AlarmRule } from "@/types/alarm";
-import { createDefaultCompound } from "@/utils/alarmRules";
+import { createDefaultInterval } from "@/utils/alarmRules";
 
 export const addRuleAtom = atom(null, (get, set) => {
   const now = new Date();
@@ -9,7 +9,8 @@ export const addRuleAtom = atom(null, (get, set) => {
     id: crypto.randomUUID(),
     name: "New Rule",
     enabled: true,
-    condition: createDefaultCompound("AND"),
+    triggers: [createDefaultInterval()],
+    filters: [],
     createdAt: now,
     updatedAt: now,
     notificationEnabled: true,
