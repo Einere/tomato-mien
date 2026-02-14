@@ -1,8 +1,57 @@
+import { useEffect, useState } from "react";
+
+const LOADING_MESSAGES = [
+  "Boiling water",
+  "Cooking noodles",
+  "Making tomato sauce",
+  "Slicing tomatoes",
+  "Sprinkling pepper",
+  "Setting the table",
+  "Adjusting the heat",
+  "Tasting the broth",
+  "Setting the timer",
+  "Smells delicious",
+  "Chopping cilantro",
+  "Slicing celery",
+  "Frying spring rolls",
+  "Brewing milk tea",
+];
+
+const DOT_CYCLE = [".", "..", "..."];
+const DOT_INTERVAL_MS = 800;
+
+function pickRandomMessage(): string {
+  return LOADING_MESSAGES[Math.floor(Math.random() * LOADING_MESSAGES.length)];
+}
+
+function useLoadingMessage(): string {
+  const [message, setMessage] = useState(pickRandomMessage);
+  const [dotIndex, setDotIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setDotIndex(prev => {
+        const next = (prev + 1) % DOT_CYCLE.length;
+        if (next === 0) {
+          setMessage(pickRandomMessage());
+        }
+        return next;
+      });
+    }, DOT_INTERVAL_MS);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  return `${message}${DOT_CYCLE[dotIndex]}`;
+}
+
 interface SplashScreenProps {
   error?: string | null;
 }
 
 export function SplashScreen({ error }: SplashScreenProps) {
+  const loadingText = useLoadingMessage();
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
       {/* Animated gradient background */}
@@ -18,7 +67,7 @@ export function SplashScreen({ error }: SplashScreenProps) {
           Tomato Mien
         </h1>
         <p className="text-white/80">v{__APP_VERSION__}</p>
-        <div className="h-1 w-16 animate-pulse rounded-full bg-white/60" />
+        <p className="h-6 text-sm text-white/70">{loadingText}</p>
         {error && (
           <div className="bg-danger-600/90 mt-4 max-w-sm rounded-lg px-4 py-3 text-sm text-white shadow-lg">
             {error}
