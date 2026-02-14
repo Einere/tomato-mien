@@ -5,7 +5,7 @@ import type { ViewState } from "@/store";
 import { Icon } from "@/components/UI/Icon";
 
 const tabs = [
-  { id: "dashboard", icon: "shield", label: "Rules" },
+  { id: "dashboard", icon: "rule", label: "Rules" },
   // NOTE: 당장 사용하지 않는 메뉴
   // { id: "activity", icon: "timeline", label: "Activity" },
   // { id: "apps", icon: "apps", label: "Apps" },
