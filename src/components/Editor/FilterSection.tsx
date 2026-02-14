@@ -1,9 +1,6 @@
 import type { FilterCondition } from "@/types/alarm";
 import { createDefaultRange } from "@/utils/alarmRules";
-import { Badge } from "@/components/UI/Badge";
-import { Button } from "@/components/UI/Button";
-import { Icon } from "@/components/UI/Icon";
-import { Panel } from "@/components/UI/Panel";
+import { Badge, Button, Icon, Panel } from "@tomato-mien/ui";
 import { ConditionRow } from "./ConditionRow";
 
 interface FilterSectionProps {

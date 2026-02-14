@@ -2,10 +2,10 @@ import { useAtom } from "jotai";
 import { cn } from "@/lib/cn";
 import { viewAtom } from "@/store";
 import type { ViewState } from "@/store";
-import { Icon } from "@/components/UI/Icon";
+import { Icon } from "@tomato-mien/ui";
 
 const tabs = [
-  { id: "dashboard", icon: "shield", label: "Rules" },
+  { id: "dashboard", icon: "rule", label: "Rules" },
   // NOTE: 당장 사용하지 않는 메뉴
   // { id: "activity", icon: "timeline", label: "Activity" },
   // { id: "apps", icon: "apps", label: "Apps" },

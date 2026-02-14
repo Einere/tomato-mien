@@ -1,5 +1,5 @@
 import type { IntervalCondition } from "@/types/alarm";
-import { Input } from "@/components/UI/Input";
+import { Input } from "@tomato-mien/ui";
 
 interface IntervalInputProps {
   condition: IntervalCondition;

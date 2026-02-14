@@ -1,5 +1,4 @@
-import { Card } from "@/components/UI/Card";
-import { Toggle } from "@/components/UI/Toggle";
+import { Card, Toggle } from "@tomato-mien/ui";
 
 interface EditorSettingsProps {
   notificationEnabled: boolean;

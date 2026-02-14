@@ -6,16 +6,33 @@ import {
   dialog,
   ipcMain,
   Notification,
+  protocol,
+  net,
 } from "electron";
 import pkg from "electron-updater";
 import path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 
 const { autoUpdater } = pkg;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const isDev = process.env.NODE_ENV === "development";
+
+// file:// 프로토콜의 IndexedDB 제한을 우회하기 위해 커스텀 프로토콜 등록
+// app.whenReady() 이전에 호출해야 함
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: "app",
+    privileges: {
+      standard: true,
+      secure: true,
+      supportFetchAPI: true,
+      corsEnabled: true,
+      stream: true,
+    },
+  },
+]);
 
 let mainWindow;
 
@@ -47,7 +64,7 @@ function createWindow() {
     // 개발 도구 열기
     mainWindow.webContents.openDevTools();
   } else {
-    mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
+    mainWindow.loadURL("app://app/index.html");
   }
 
   // 윈도우가 준비되면 표시
@@ -69,6 +86,20 @@ function createWindow() {
 
 // 앱이 준비되면 윈도우 생성
 app.whenReady().then(() => {
+  // 프로덕션: 커스텀 프로토콜 핸들러 등록 (file:// 대신 app:// 사용)
+  if (!isDev) {
+    protocol.handle("app", request => {
+      const { pathname } = new URL(request.url);
+      const filePath = path.join(
+        __dirname,
+        "..",
+        "dist",
+        decodeURIComponent(pathname),
+      );
+      return net.fetch(pathToFileURL(filePath).href);
+    });
+  }
+
   createWindow();
 
   // macOS에서 독 아이콘 클릭 시 윈도우 재생성

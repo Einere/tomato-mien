@@ -1,7 +1,6 @@
 import { useSetAtom } from "jotai";
 import { addRuleAtom } from "@/store";
-import { Button } from "@/components/UI/Button";
-import { Icon } from "@/components/UI/Icon";
+import { Button, Icon } from "@tomato-mien/ui";
 
 export function DashboardHeader() {
   const addRule = useSetAtom(addRuleAtom);

@@ -1,6 +1,6 @@
 import type { RangeCondition } from "@/types/alarm";
 import { formatTimeValue } from "@/lib/dayjs";
-import { Input } from "@/components/UI/Input";
+import { Input } from "@tomato-mien/ui";
 
 interface TimeRangeInputProps {
   condition: RangeCondition;

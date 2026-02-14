@@ -20,8 +20,7 @@ import { LogicTree } from "./LogicTree";
 import { EditorSettings } from "./EditorSettings";
 import { EditorSummary } from "./EditorSummary";
 import { EditorFooter } from "./EditorFooter";
-import { Button } from "@/components/UI/Button";
-import { Icon } from "@/components/UI/Icon";
+import { Button, Icon } from "@tomato-mien/ui";
 
 export function EditorView() {
   const ruleId = useAtomValue(editorRuleIdAtom);

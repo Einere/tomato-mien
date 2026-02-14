@@ -3,8 +3,7 @@ import type { TriggerCondition, FilterCondition } from "@/types/alarm";
 import { settingsAtom } from "@/store";
 import { describeRule } from "@/utils/condition";
 import type { ValidationIssue } from "@/utils/condition";
-import { Card } from "@/components/UI/Card";
-import { Icon } from "@/components/UI/Icon";
+import { Card, Icon } from "@tomato-mien/ui";
 
 interface EditorSummaryProps {
   triggers: TriggerCondition[];

@@ -1,4 +1,4 @@
-import { cn } from "@/lib/cn";
+import { cn } from "./cn";
 import type { ReactNode } from "react";
 
 type BadgeVariant = "default" | "primary" | "success" | "warning" | "danger";

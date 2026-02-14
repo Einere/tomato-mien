@@ -27,7 +27,8 @@
     /* Path mapping */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@tomato-mien/ui": ["packages/ui/src/index.ts"]
     }
   },
   "include": ["src"]

@@ -1,0 +1,67 @@
+@theme {
+  /* Tomato (hue: 25.6) — 메인 컬러 #e03c3c (600) 기준 */
+  --color-tomato-50: oklch(0.971 0.015 25.6);
+  --color-tomato-100: oklch(0.935 0.033 25.6);
+  --color-tomato-200: oklch(0.885 0.061 25.6);
+  --color-tomato-300: oklch(0.81 0.108 25.6);
+  --color-tomato-400: oklch(0.715 0.178 25.6);
+  --color-tomato-500: oklch(0.64 0.205 25.6);
+  --color-tomato-600: oklch(0.603 0.201 25.6);
+  --color-tomato-700: oklch(0.51 0.175 25.6);
+  --color-tomato-800: oklch(0.42 0.14 25.6);
+  --color-tomato-900: oklch(0.34 0.1 25.6);
+
+  /* Primary (tomato alias) */
+  --color-primary-50: var(--color-tomato-50);
+  --color-primary-100: var(--color-tomato-100);
+  --color-primary-200: var(--color-tomato-200);
+  --color-primary-300: var(--color-tomato-300);
+  --color-primary-400: var(--color-tomato-400);
+  --color-primary-500: var(--color-tomato-500);
+  --color-primary-600: var(--color-tomato-600);
+  --color-primary-700: var(--color-tomato-700);
+  --color-primary-800: var(--color-tomato-800);
+  --color-primary-900: var(--color-tomato-900);
+
+  /* Secondary (hue: 248–266, slate 계열) */
+  --color-secondary-50: oklch(0.984 0.003 248);
+  --color-secondary-100: oklch(0.968 0.007 248);
+  --color-secondary-200: oklch(0.929 0.013 256);
+  --color-secondary-300: oklch(0.869 0.02 253);
+  --color-secondary-400: oklch(0.711 0.035 257);
+  --color-secondary-500: oklch(0.554 0.041 257);
+  --color-secondary-600: oklch(0.446 0.037 257);
+  --color-secondary-700: oklch(0.372 0.039 257);
+  --color-secondary-800: oklch(0.28 0.037 260);
+  --color-secondary-900: oklch(0.208 0.04 266);
+
+  /* Success (hue: 162–166, emerald 계열) */
+  --color-success-50: oklch(0.979 0.021 166);
+  --color-success-100: oklch(0.951 0.051 163);
+  --color-success-200: oklch(0.905 0.09 164);
+  --color-success-300: oklch(0.845 0.13 165);
+  --color-success-400: oklch(0.773 0.154 163);
+  --color-success-500: oklch(0.696 0.149 162);
+  --color-success-600: oklch(0.596 0.127 163);
+  --color-success-700: oklch(0.508 0.105 166);
+
+  /* Warning (hue: 49–96, amber 계열) */
+  --color-warning-50: oklch(0.987 0.021 95);
+  --color-warning-100: oklch(0.962 0.058 96);
+  --color-warning-200: oklch(0.924 0.115 96);
+  --color-warning-300: oklch(0.879 0.153 92);
+  --color-warning-400: oklch(0.837 0.164 84);
+  --color-warning-500: oklch(0.769 0.165 70);
+  --color-warning-600: oklch(0.666 0.157 58);
+  --color-warning-700: oklch(0.555 0.146 49);
+
+  /* Danger (hue: 10–18, rose 계열) */
+  --color-danger-50: oklch(0.969 0.015 12);
+  --color-danger-100: oklch(0.941 0.03 13);
+  --color-danger-200: oklch(0.892 0.056 10);
+  --color-danger-300: oklch(0.81 0.106 12);
+  --color-danger-400: oklch(0.719 0.169 13);
+  --color-danger-500: oklch(0.645 0.215 16);
+  --color-danger-600: oklch(0.586 0.222 18);
+  --color-danger-700: oklch(0.514 0.198 17);
+}

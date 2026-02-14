@@ -33,4 +33,4 @@ export const searchQueryAtom = atom("");
 
 export type SortOrder = "name" | "recent";
 
-export const sortOrderAtom = atom<SortOrder>("name");
+export const sortOrderAtom = atom<SortOrder>("recent");

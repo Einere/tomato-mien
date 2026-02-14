@@ -8,9 +8,7 @@ import {
   settingsAtom,
 } from "@/store";
 import { describeRule } from "@/utils/condition";
-import { Card } from "@/components/UI/Card";
-import { Icon } from "@/components/UI/Icon";
-import { Toggle } from "@/components/UI/Toggle";
+import { Card, Icon, Toggle } from "@tomato-mien/ui";
 
 function getConditionIcon(triggers: TriggerCondition[]): string {
   if (triggers.length === 0) return "timer";

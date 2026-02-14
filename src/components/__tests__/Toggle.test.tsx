@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { Toggle } from "@/components/UI/Toggle";
+import { Toggle } from "@tomato-mien/ui";
 
 describe("Toggle", () => {
   it("renders as unchecked", () => {

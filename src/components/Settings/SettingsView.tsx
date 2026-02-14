@@ -1,9 +1,7 @@
 import { useAtom } from "jotai";
 import { settingsAtom } from "@/store";
 import type { TimeFormat, Theme } from "@/types/alarm";
-import { Card } from "@/components/UI/Card";
-import { Select } from "@/components/UI/Select";
-import { Icon } from "@/components/UI/Icon";
+import { Card, Select, Icon } from "@tomato-mien/ui";
 import { formatTime, formatTimeRange } from "@/lib/dayjs";
 
 const timeFormatOptions = [
