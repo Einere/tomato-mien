@@ -43,10 +43,40 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Install Apple certificate
+        if: matrix.os == 'macos-latest'
+        env:
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+        run: |
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          KEYCHAIN_PASSWORD=$(openssl rand -base64 32)
+
+          echo -n "$APPLE_CERTIFICATE" | base64 --decode -o $CERTIFICATE_PATH
+
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          security import $CERTIFICATE_PATH -P "$APPLE_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+
+          security find-identity -v -p codesigning $KEYCHAIN_PATH
+
       - name: Build Electron app
         run: npm run electron:dist
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+
+      - name: Cleanup Apple certificate
+        if: matrix.os == 'macos-latest' && always()
+        run: |
+          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db || true
 
       - name: Upload macOS artifacts
         if: matrix.os == 'macos-latest'
@@ -86,12 +116,6 @@ jobs:
 
       - name: Download all artifacts
         uses: actions/download-artifact@v4
-
-      - name: Debug GitHub Token
-        run: |
-          echo "GitHub Token exists: ${{ secrets.GITHUB_TOKEN != '' }}"
-          echo "Tag: ${{ github.ref_name }}"
-          echo "Repository: ${{ github.repository }}"
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
