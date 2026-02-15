@@ -1,49 +1,90 @@
-# Tomato Mien 🍅🍜
+# Tomato Mien
 
-가벼운 규칙 기반 알리미 앱
+가벼운 규칙 기반 알리미 데스크톱 앱
 
-# 설치 및 실행
+[Homepage](https://einere.github.io/tomato-mien/) | [Releases](https://github.com/Einere/tomato-mien/releases)
 
-## 앱 내려받기
+## 기능
 
-[Release](https://github.com/Einere/tomato-mien/releases) 에서 최신 버전을 받아주세요.
+- 트리거 기반 알림: 간격(매 N분), 특정 시각 조건 지원
+- 필터 조건: 시간 범위로 알림 활성 구간 제한
+- 백그라운드 알림 (Web Worker)
+- IndexedDB 기반 데이터 영속화
+- 네트워크 연결 불필요
 
-### 🍎 macOS에서 실행 시 Gatekeeper 경고 해결 방법
+## 설치 및 실행
 
-Tomato Mien은 무료 오픈소스 앱으로 코드 서명이 없어 첫 실행 시 경고가 나타납니다.
+### 앱 내려받기
+
+[Releases](https://github.com/Einere/tomato-mien/releases) 페이지에서 플랫폼별 최신 버전을 받아주세요.
+
+| 플랫폼  | 파일 형식                |
+| ------- | ------------------------ |
+| macOS   | `.dmg` (arm64, x64)      |
+| Windows | `.exe` (x64, arm64)      |
+| Linux   | `.AppImage` (x64, arm64) |
+
+#### macOS Gatekeeper 경고 해결
+
+코드 서명이 없어 첫 실행 시 경고가 나타날 수 있습니다.
 
 1. 시스템 설정 > 개인정보 보호 및 보안으로 이동
-2. "확인되지 않은 개발자" 영역에서 **"확인되지 않은 Tomato Mien 허용"** 클릭
+2. **"확인되지 않은 Tomato Mien 허용"** 클릭
 
-> 💡 애플 개발자 멤버쉽 너무 비싸요... 🤑
-
-## 직접 빌드
+### 직접 빌드
 
 ```bash
-# 의존성 설치
 npm install
-
-# 프로덕션 빌드
 npm run build
-
-# Electron 앱 빌드
 npm run electron:build
 ```
 
-# 기능
+## 프로젝트 구조
 
-- 조건 기반 알림 설정
-- 시간 범위, 간격, 특정 시간 조건 지원
-- AND/OR 논리 연산자 지원
-- 백그라운드 알림
-- 네트워크 연결 불필요
+npm workspaces 기반 모노레포:
 
-# 기술 스택
+```
+packages/
+  design-tokens/   # CSS 디자인 토큰 (@tomato-mien/design-tokens)
+  ui/              # 공용 React UI 컴포넌트 (@tomato-mien/ui)
+  docs/            # 랜딩 페이지 (@tomato-mien/docs)
+src/               # Electron 렌더러 (React SPA)
+electron/          # Electron 메인/프리로드
+```
 
-- FE: React, TypeScript, Tailwind, Electron
-- Build: Vite, electron-builder
-- Background: Web Worker API
+## 개발
 
-# 기여
+```bash
+# Electron + Vite 개발 서버
+npm run electron:dev
 
-이슈 및 PR은 언제나 환영입니다.
+# Vite 개발 서버만 (http://localhost:5173)
+npm run dev
+
+# 랜딩 페이지 개발 서버
+npm run docs:dev
+
+# 린트
+npm run lint
+
+# 테스트
+npx vitest run
+```
+
+## 기술 스택
+
+| 영역       | 기술                                     |
+| ---------- | ---------------------------------------- |
+| Frontend   | React 19, TypeScript, Tailwind CSS v4    |
+| Desktop    | Electron, electron-builder               |
+| State      | Jotai (atomWithStorage)                  |
+| Schema     | Zod                                      |
+| Storage    | Dexie (IndexedDB)                        |
+| Background | Web Worker API                           |
+| Build      | Vite, npm workspaces                     |
+| Test       | Vitest, Testing Library                  |
+| CI/CD      | GitHub Actions (빌드/릴리스, Pages 배포) |
+
+## 기여
+
+이슈 및 PR은 언제나 환영합니다.

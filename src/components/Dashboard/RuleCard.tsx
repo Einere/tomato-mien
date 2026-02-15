@@ -8,7 +8,7 @@ import {
   settingsAtom,
 } from "@/store";
 import { describeRule } from "@/utils/condition";
-import { Card, Icon, Toggle } from "@tomato-mien/ui";
+import { Card, MenuRow, Toggle } from "@tomato-mien/ui";
 
 function getConditionIcon(triggers: TriggerCondition[]): string {
   if (triggers.length === 0) return "timer";
@@ -55,25 +55,14 @@ export function RuleCard({ rule }: RuleCardProps) {
         }
       }}
     >
-      <div className="flex items-center gap-3 p-4">
-        <div
-          className={cn(
-            "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg",
-            rule.enabled
-              ? "bg-accent text-accent-foreground"
-              : "bg-muted text-subtle-foreground",
-          )}
-        >
-          <Icon name={icon} size="sm" />
-        </div>
-        <div className="min-w-0 flex-1">
-          <p className="text-body text-foreground truncate font-semibold">
-            {rule.name}
-          </p>
-          <p className="text-caption text-muted-foreground truncate">
-            {description}
-          </p>
-        </div>
+      <MenuRow>
+        <MenuRow.Icon
+          name={icon}
+          className={
+            !rule.enabled ? "bg-muted text-subtle-foreground" : undefined
+          }
+        />
+        <MenuRow.Label title={rule.name} description={description} truncate />
         <div
           onClick={e => {
             e.stopPropagation();
@@ -81,7 +70,7 @@ export function RuleCard({ rule }: RuleCardProps) {
         >
           <Toggle checked={rule.enabled} onChange={() => toggleRule(rule.id)} />
         </div>
-      </div>
+      </MenuRow>
     </Card>
   );
 }
