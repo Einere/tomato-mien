@@ -37,7 +37,7 @@ export function AboutView({ onBack }: { onBack: () => void }) {
   return (
     <div className="px-5 py-6">
       <div className="mb-6 flex items-center gap-2">
-        <Button variant="ghost" size="sm" onClick={onBack}>
+        <Button variant="ghost" className="h-9 w-9 p-0" onClick={onBack}>
           <Icon name="arrow_back" size="sm" />
         </Button>
         <h1 className="text-heading-3 text-foreground">About</h1>
