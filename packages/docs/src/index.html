@@ -363,11 +363,21 @@
           class="mt-8 rounded-2xl border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900"
         >
           <h3 class="mb-3 text-lg font-semibold">Build from Source</h3>
+          <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
+            Requires <strong>Node.js 18+</strong> and <strong>npm 10+</strong>
+          </p>
           <pre
             class="overflow-x-auto rounded-lg bg-gray-900 p-4 text-sm text-gray-100 dark:bg-gray-950"
-          ><code>npm install
+          ><code>git clone https://github.com/Einere/tomato-mien.git
+cd tomato-mien
+npm install
+
+# Development (with hot reload)
+npm run electron:dev
+
+# Production build (run locally)
 npm run build
-npm run electron:build</code></pre>
+npm run electron</code></pre>
         </div>
       </div>
     </section>
