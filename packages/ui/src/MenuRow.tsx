@@ -1,6 +1,11 @@
-import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
+import type {
+  ComponentPropsWithoutRef,
+  ComponentType,
+  ElementType,
+  ReactNode,
+} from "react";
 import { cn } from "./cn";
-import { Icon } from "./Icon";
+import type { IconProps } from "./icons";
 
 type MenuRowProps<T extends ElementType = "div"> = {
   as?: T;
@@ -26,10 +31,10 @@ function MenuRowRoot<T extends ElementType = "div">({
 }
 
 function MenuRowIcon({
-  name,
+  icon: IconComponent,
   className,
 }: {
-  name: string;
+  icon: ComponentType<IconProps>;
   className?: string;
 }) {
   return (
@@ -39,7 +44,7 @@ function MenuRowIcon({
         className,
       )}
     >
-      <Icon name={name} size="sm" />
+      <IconComponent />
     </div>
   );
 }

@@ -72,7 +72,7 @@ describe("AboutView", () => {
   it("navigates back to main settings view", () => {
     navigateToAbout();
     expect(screen.queryByText("Time Format")).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: /arrow_back/i }));
+    fireEvent.click(screen.getByRole("button", { name: /back/i }));
     expect(screen.getByText("Time Format")).toBeInTheDocument();
   });
 });

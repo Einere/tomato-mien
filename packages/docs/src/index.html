@@ -22,7 +22,13 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://einere.github.io/tomato-mien/" />
 
-    <link rel="icon" type="image/png" href="assets/icon-rounded.png" />
+    <link rel="icon" href="assets/icon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-32.png" />
+    <link rel="icon" type="image/png" sizes="64x64" href="assets/icon-64.png" />
+    <link rel="icon" type="image/png" sizes="128x128" href="assets/icon-128.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="assets/icon-256.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icon-rounded.png" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body
@@ -177,8 +183,8 @@
             </div>
             <h3 class="mb-2 text-lg font-semibold">Rule Management Dashboard</h3>
             <p class="text-gray-600 dark:text-gray-400">
-              Quickly find rules with search and sorting, and toggle them
-              on or off with a single tap.
+              A fast, intuitive dashboard to manage all your rules at a
+              glance. Search, sort, and toggle rules on or off instantly.
             </p>
           </div>
           <!-- Feature 4: Background Notifications -->
@@ -204,8 +210,8 @@
             </div>
             <h3 class="mb-2 text-lg font-semibold">Background Notifications</h3>
             <p class="text-gray-600 dark:text-gray-400">
-              Runs entirely offline with no network required. Get notified
-              exactly when you need it.
+              A fully offline app — no network required, ever. Your alarms
+              run reliably in the background and notify you right on time.
             </p>
           </div>
         </div>
@@ -304,20 +310,6 @@
             >
               Download
             </a>
-            <details class="mt-4 text-left">
-              <summary
-                class="cursor-pointer text-xs text-gray-500 dark:text-gray-500"
-              >
-                Gatekeeper Warning
-              </summary>
-              <div class="mt-2 text-xs text-gray-500 dark:text-gray-500">
-                <p>A warning may appear on first launch since the app is not code-signed.</p>
-                <ol class="mt-1 list-inside list-decimal">
-                  <li>System Settings &gt; Privacy &amp; Security</li>
-                  <li>Click "Allow" for Tomato Mien</li>
-                </ol>
-              </div>
-            </details>
           </div>
           <!-- Windows -->
           <div
@@ -334,6 +326,20 @@
             >
               Download
             </a>
+            <details class="mt-4 text-left">
+              <summary
+                class="cursor-pointer text-xs text-gray-500 dark:text-gray-500"
+              >
+                SmartScreen Warning
+              </summary>
+              <div class="mt-2 text-xs text-gray-500 dark:text-gray-500">
+                <p>The installer is not code-signed yet, so Windows SmartScreen may block it.</p>
+                <ol class="mt-1 list-inside list-decimal">
+                  <li>Click "More info" on the SmartScreen popup</li>
+                  <li>Click "Run anyway" to proceed with the installation</li>
+                </ol>
+              </div>
+            </details>
           </div>
           <!-- Linux -->
           <div

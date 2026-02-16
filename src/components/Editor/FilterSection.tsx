@@ -1,6 +1,6 @@
 import type { FilterCondition } from "@/types/alarm";
 import { createDefaultRange } from "@/utils/alarmRules";
-import { Badge, Button, Icon, Panel } from "@tomato-mien/ui";
+import { Badge, Button, AddIcon, Panel } from "@tomato-mien/ui";
 import { ConditionRow } from "./ConditionRow";
 
 interface FilterSectionProps {
@@ -32,7 +32,7 @@ export function FilterSection({ filters, onChange }: FilterSectionProps) {
             className="text-xs"
             onClick={() => onChange([...filters, createDefaultRange()])}
           >
-            <Icon name="add" size="sm" /> Range
+            <AddIcon size="sm" /> Range
           </Button>
         </Panel.Actions>
       </Panel.Header>

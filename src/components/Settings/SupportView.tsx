@@ -1,12 +1,17 @@
-import { Card, Icon, Button } from "@tomato-mien/ui";
+import { Card, ArrowBackIcon, Button } from "@tomato-mien/ui";
 import tossQrImage from "@/assets/toss_qr.png";
 
 export function SupportView({ onBack }: { onBack: () => void }) {
   return (
     <div className="px-5 py-6">
       <div className="mb-6 flex items-center gap-2">
-        <Button variant="ghost" className="h-9 w-9 p-0" onClick={onBack}>
-          <Icon name="arrow_back" size="sm" />
+        <Button
+          variant="ghost"
+          className="h-9 w-9 p-0"
+          onClick={onBack}
+          aria-label="Back"
+        >
+          <ArrowBackIcon />
         </Button>
         <h1 className="text-heading-3 text-foreground">Support This Project</h1>
       </div>

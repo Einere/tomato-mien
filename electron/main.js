@@ -251,9 +251,6 @@ function createMenu() {
 
 // 자동 업데이트 설정
 function setupAutoUpdater() {
-  // 업데이트 확인 주기 (1시간마다)
-  autoUpdater.checkForUpdatesAndNotify();
-
   // 업데이트 사용 가능할 때
   autoUpdater.on("update-available", () => {
     dialog
@@ -288,10 +285,25 @@ function setupAutoUpdater() {
       });
   });
 
-  // 업데이트 오류
+  // 업데이트 오류 — 네트워크 오류는 오프라인 환경에서 정상이므로 무시
   autoUpdater.on("error", error => {
+    const isNetworkError =
+      error?.message &&
+      /net::ERR_|ENOTFOUND|ECONNREFUSED|ETIMEDOUT|ENETUNREACH|getaddrinfo/i.test(
+        error.message,
+      );
+    if (isNetworkError) return;
     console.error("업데이트 오류:", error);
   });
+
+  // 앱 시작 시 업데이트 확인 (오프라인이면 스킵)
+  safeCheckForUpdates();
+}
+
+// 오프라인 상태에서는 업데이트 확인을 건너뜀
+function safeCheckForUpdates() {
+  if (!net.isOnline()) return;
+  autoUpdater.checkForUpdatesAndNotify().catch(() => {});
 }
 
 // 보안: 새 윈도우 생성 방지
