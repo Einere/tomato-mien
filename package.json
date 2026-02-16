@@ -24,6 +24,8 @@
     "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && NODE_ENV=development electron .\"",
     "electron:build": "npm run build && electron-builder",
     "electron:dist": "npm run build && electron-builder --publish=never",
+    "electron:mas": "npm run build && electron-builder --mac mas",
+    "electron:mas:dist": "npm run build && electron-builder --mac mas --publish=never",
     "docs:dev": "npm run dev -w @tomato-mien/docs",
     "docs:build": "npm run build -w @tomato-mien/docs",
     "test": "npx vitest run"
@@ -144,6 +146,23 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true
+    },
+    "mas": {
+      "hardenedRuntime": false,
+      "entitlements": "build/entitlements.mas.plist",
+      "entitlementsInherit": "build/entitlements.mas.inherit.plist",
+      "entitlementsLoginHelper": "build/entitlements.mas.inherit.plist",
+      "provisioningProfile": "build/embedded.provisionprofile",
+      "category": "public.app-category.productivity",
+      "target": [
+        {
+          "target": "mas",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ]
     },
     "publish": {
       "provider": "github",

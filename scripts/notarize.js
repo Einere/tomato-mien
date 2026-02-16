@@ -7,6 +7,13 @@ export default async function notarizing(context) {
     return;
   }
 
+  // MAS 빌드는 Apple이 심사 과정에서 자체 서명하므로 별도 공증 불필요
+  const buildOptions = context.packager.platformSpecificBuildOptions;
+  if (buildOptions?.provisioningProfile) {
+    console.log("MAS build detected, skipping notarization.");
+    return;
+  }
+
   const appName = context.packager.appInfo.productFilename;
 
   console.log(`Notarizing ${appName}...`);
