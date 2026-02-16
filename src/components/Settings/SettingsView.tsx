@@ -49,7 +49,7 @@ export function SettingsView() {
 
   return (
     <div className="px-5 py-6">
-      <h1 className="text-heading-3 text-foreground mb-6">Settings</h1>
+      <h1 className="text-heading-1 text-foreground mb-6">Settings</h1>
 
       <Card padding="none">
         <MenuRow className="border-border-muted border-b">
