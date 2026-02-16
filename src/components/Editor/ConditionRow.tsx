@@ -1,5 +1,5 @@
 import type { TimeCondition } from "@/types/alarm";
-import { Badge, Button, Icon } from "@tomato-mien/ui";
+import { Badge, Button, CloseIcon } from "@tomato-mien/ui";
 import { TimeRangeInput } from "./ConditionInputs/TimeRangeInput";
 import { IntervalInput } from "./ConditionInputs/IntervalInput";
 import { SpecificTimeInput } from "./ConditionInputs/SpecificTimeInput";
@@ -55,7 +55,7 @@ export function ConditionRow({
         aria-label="Delete condition"
         className="h-7 w-7 shrink-0 p-0"
       >
-        <Icon name="close" size="sm" />
+        <CloseIcon size="sm" />
       </Button>
     </div>
   );

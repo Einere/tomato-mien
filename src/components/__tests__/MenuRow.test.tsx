@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { MenuRow } from "@tomato-mien/ui";
+import { MenuRow, ScheduleIcon } from "@tomato-mien/ui";
 
 describe("MenuRow", () => {
   it("renders as div by default", () => {
@@ -55,9 +55,9 @@ describe("MenuRow", () => {
 });
 
 describe("MenuRow.Icon", () => {
-  it("renders icon with the given name", () => {
-    render(<MenuRow.Icon name="schedule" />);
-    expect(screen.getByText("schedule")).toBeInTheDocument();
+  it("renders icon with the given component", () => {
+    const { container } = render(<MenuRow.Icon icon={ScheduleIcon} />);
+    expect(container.querySelector("svg")).toBeInTheDocument();
   });
 });
 

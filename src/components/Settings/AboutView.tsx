@@ -1,5 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Card, Icon, Button, MenuRow } from "@tomato-mien/ui";
+import {
+  Card,
+  ArrowBackIcon,
+  OpenInNewIcon,
+  CodeIcon,
+  LanguageIcon,
+  Button,
+  MenuRow,
+} from "@tomato-mien/ui";
 import appLogoImage from "@/assets/icon-rounded.png";
 
 const EASTER_EGG_TAP_COUNT = 7;
@@ -37,8 +45,13 @@ export function AboutView({ onBack }: { onBack: () => void }) {
   return (
     <div className="px-5 py-6">
       <div className="mb-6 flex items-center gap-2">
-        <Button variant="ghost" className="h-9 w-9 p-0" onClick={onBack}>
-          <Icon name="arrow_back" size="sm" />
+        <Button
+          variant="ghost"
+          className="h-9 w-9 p-0"
+          onClick={onBack}
+          aria-label="Back"
+        >
+          <ArrowBackIcon />
         </Button>
         <h1 className="text-heading-3 text-foreground">About</h1>
       </div>
@@ -75,9 +88,9 @@ export function AboutView({ onBack }: { onBack: () => void }) {
           rel="noopener noreferrer"
           className="border-border-muted border-b transition-shadow hover:shadow-md"
         >
-          <MenuRow.Icon name="code" />
+          <MenuRow.Icon icon={CodeIcon} />
           <MenuRow.Label title="GitHub" />
-          <Icon name="open_in_new" size="sm" />
+          <OpenInNewIcon size="sm" />
         </MenuRow>
         <MenuRow
           as="a"
@@ -86,9 +99,9 @@ export function AboutView({ onBack }: { onBack: () => void }) {
           rel="noopener noreferrer"
           className="transition-shadow hover:shadow-md"
         >
-          <MenuRow.Icon name="language" />
+          <MenuRow.Icon icon={LanguageIcon} />
           <MenuRow.Label title="Homepage" />
-          <Icon name="open_in_new" size="sm" />
+          <OpenInNewIcon size="sm" />
         </MenuRow>
       </Card>
 

@@ -8,16 +8,20 @@ import {
   settingsAtom,
 } from "@/store";
 import { describeRule } from "@/utils/condition";
-import { Card, MenuRow, Toggle } from "@tomato-mien/ui";
+import { Card, MenuRow, Toggle, TimerIcon, AlarmIcon } from "@tomato-mien/ui";
+import type { ComponentType } from "react";
+import type { IconProps } from "@tomato-mien/ui";
 
-function getConditionIcon(triggers: TriggerCondition[]): string {
-  if (triggers.length === 0) return "timer";
+function getConditionIcon(
+  triggers: TriggerCondition[],
+): ComponentType<IconProps> {
+  if (triggers.length === 0) return TimerIcon;
   const first = triggers[0];
   switch (first.type) {
     case "interval":
-      return "timer";
+      return TimerIcon;
     case "specific":
-      return "alarm";
+      return AlarmIcon;
   }
 }
 
@@ -57,7 +61,7 @@ export function RuleCard({ rule }: RuleCardProps) {
     >
       <MenuRow>
         <MenuRow.Icon
-          name={icon}
+          icon={icon}
           className={
             !rule.enabled ? "bg-muted text-subtle-foreground" : undefined
           }

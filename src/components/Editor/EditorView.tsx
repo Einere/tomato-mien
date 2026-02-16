@@ -20,7 +20,7 @@ import { LogicTree } from "./LogicTree";
 import { EditorSettings } from "./EditorSettings";
 import { EditorSummary } from "./EditorSummary";
 import { EditorFooter } from "./EditorFooter";
-import { Button, Icon } from "@tomato-mien/ui";
+import { Button, DeleteOutlineIcon } from "@tomato-mien/ui";
 
 export function EditorView() {
   const ruleId = useAtomValue(editorRuleIdAtom);
@@ -126,7 +126,7 @@ export function EditorView() {
       {!isNew && (
         <div className="px-5 pb-2">
           <Button color="danger" className="w-full" onClick={handleDelete}>
-            <Icon name="delete_outline" size="sm" />
+            <DeleteOutlineIcon size="sm" />
             Delete Rule
           </Button>
         </div>

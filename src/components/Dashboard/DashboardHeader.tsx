@@ -1,6 +1,6 @@
 import { useSetAtom } from "jotai";
 import { addRuleAtom } from "@/store";
-import { Button, Icon } from "@tomato-mien/ui";
+import { Button, AddIcon } from "@tomato-mien/ui";
 
 export function DashboardHeader() {
   const addRule = useSetAtom(addRuleAtom);
@@ -9,7 +9,7 @@ export function DashboardHeader() {
     <div className="flex items-center justify-between px-5 pt-6 pb-2">
       <h1 className="text-heading-1 text-foreground">Rules</h1>
       <Button onClick={() => addRule()} className="gap-1">
-        <Icon name="add" size="sm" className="text-white" />
+        <AddIcon size="sm" className="text-white" />
         Create
       </Button>
     </div>

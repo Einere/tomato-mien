@@ -3,7 +3,7 @@ import type { TriggerCondition, FilterCondition } from "@/types/alarm";
 import { settingsAtom } from "@/store";
 import { describeRule } from "@/utils/condition";
 import type { ValidationIssue } from "@/utils/condition";
-import { Card, Icon } from "@tomato-mien/ui";
+import { Card, InfoIcon, WarningIcon } from "@tomato-mien/ui";
 
 interface EditorSummaryProps {
   triggers: TriggerCondition[];
@@ -26,22 +26,14 @@ export function EditorSummary({
       </span>
       <Card padding="sm">
         <div className="flex items-center gap-2">
-          <Icon
-            name="info"
-            size="sm"
-            className="text-subtle-foreground mt-0.5 shrink-0"
-          />
+          <InfoIcon className="text-subtle-foreground mt-0.5 shrink-0" />
           <p className="text-body text-foreground">{description}</p>
         </div>
         {issues.length > 0 && (
           <div className="mt-3 flex flex-col gap-1">
             {issues.map((issue, i) => (
               <div key={i} className="flex items-start gap-2">
-                <Icon
-                  name="warning"
-                  size="sm"
-                  className="text-warning-500 mt-0.5 shrink-0"
-                />
+                <WarningIcon className="text-warning-500 mt-0.5 shrink-0" />
                 <p className="text-caption text-warning-700">{issue.message}</p>
               </div>
             ))}

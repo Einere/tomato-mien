@@ -1,6 +1,6 @@
 import { useSetAtom } from "jotai";
 import { viewAtom } from "@/store";
-import { Button, Icon } from "@tomato-mien/ui";
+import { Button, ArrowBackIcon } from "@tomato-mien/ui";
 
 interface EditorHeaderProps {
   isNew: boolean;
@@ -17,7 +17,7 @@ export function EditorHeader({ isNew }: EditorHeaderProps) {
         aria-label="Back to dashboard"
         className="h-9 w-9 p-0"
       >
-        <Icon name="arrow_back" size="sm" />
+        <ArrowBackIcon />
       </Button>
       <h1 className="text-heading-2 text-foreground">
         {isNew ? "New Rule" : "Edit Rule"}

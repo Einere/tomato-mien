@@ -2,7 +2,16 @@ import { useState } from "react";
 import { useAtom } from "jotai";
 import { settingsAtom } from "@/store";
 import type { TimeFormat, Theme } from "@/types/alarm";
-import { Card, Select, Icon, MenuRow } from "@tomato-mien/ui";
+import {
+  Card,
+  Select,
+  ChevronRightIcon,
+  ScheduleIcon,
+  DarkModeIcon,
+  FavoriteBorderIcon,
+  InfoIcon,
+  MenuRow,
+} from "@tomato-mien/ui";
 import { formatTime, formatTimeRange } from "@/lib/dayjs";
 import { SupportView } from "./SupportView";
 import { AboutView } from "./AboutView";
@@ -44,7 +53,7 @@ export function SettingsView() {
 
       <Card padding="none">
         <MenuRow className="border-border-muted border-b">
-          <MenuRow.Icon name="schedule" />
+          <MenuRow.Icon icon={ScheduleIcon} />
           <MenuRow.Label
             title="Time Format"
             description="How alarm times are displayed"
@@ -56,7 +65,7 @@ export function SettingsView() {
           />
         </MenuRow>
         <MenuRow>
-          <MenuRow.Icon name="dark_mode" />
+          <MenuRow.Icon icon={DarkModeIcon} />
           <MenuRow.Label title="Theme" description="Appearance mode" />
           <Select
             value={settings.theme ?? "system"}
@@ -102,13 +111,13 @@ export function SettingsView() {
             className="focus-visible:ring-ring w-full cursor-pointer rounded-xl transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
             onClick={() => setSubView("support")}
           >
-            <MenuRow.Icon name="favorite_border" />
+            <MenuRow.Icon icon={FavoriteBorderIcon} />
             <MenuRow.Label
               title="Support This Project"
               description="Buy me a coffee via Toss"
               className="text-left"
             />
-            <Icon name="chevron_right" size="sm" />
+            <ChevronRightIcon size="sm" />
           </MenuRow>
         </Card>
 
@@ -119,13 +128,13 @@ export function SettingsView() {
             className="focus-visible:ring-ring w-full cursor-pointer rounded-xl transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
             onClick={() => setSubView("about")}
           >
-            <MenuRow.Icon name="info" />
+            <MenuRow.Icon icon={InfoIcon} />
             <MenuRow.Label
               title="About"
               description="App info & version"
               className="text-left"
             />
-            <Icon name="chevron_right" size="sm" />
+            <ChevronRightIcon size="sm" />
           </MenuRow>
         </Card>
       </div>

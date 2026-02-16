@@ -3,7 +3,7 @@ import {
   createDefaultInterval,
   createDefaultSpecific,
 } from "@/utils/alarmRules";
-import { Badge, Button, Icon, Panel } from "@tomato-mien/ui";
+import { Badge, Button, AddIcon, Panel } from "@tomato-mien/ui";
 import { ConditionRow } from "./ConditionRow";
 
 interface TriggerSectionProps {
@@ -35,14 +35,14 @@ export function TriggerSection({ triggers, onChange }: TriggerSectionProps) {
             className="text-xs"
             onClick={() => onChange([...triggers, createDefaultInterval()])}
           >
-            <Icon name="add" size="sm" /> Interval
+            <AddIcon size="sm" /> Interval
           </Button>
           <Button
             variant="ghost"
             className="text-xs"
             onClick={() => onChange([...triggers, createDefaultSpecific()])}
           >
-            <Icon name="add" size="sm" /> Time
+            <AddIcon size="sm" /> Time
           </Button>
         </Panel.Actions>
       </Panel.Header>
