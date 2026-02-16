@@ -25,7 +25,8 @@
     "electron:build": "npm run build && electron-builder",
     "electron:dist": "npm run build && electron-builder --publish=never",
     "docs:dev": "npm run dev -w @tomato-mien/docs",
-    "docs:build": "npm run build -w @tomato-mien/docs"
+    "docs:build": "npm run build -w @tomato-mien/docs",
+    "test": "npx vitest run"
   },
   "dependencies": {
     "electron-updater": "^6.6.2"
