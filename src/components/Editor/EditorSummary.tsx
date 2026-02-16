@@ -26,7 +26,10 @@ export function EditorSummary({
       </span>
       <Card padding="sm">
         <div className="flex items-center gap-2">
-          <InfoIcon className="text-subtle-foreground mt-0.5 shrink-0" />
+          <InfoIcon
+            className="text-subtle-foreground mt-0.5 shrink-0"
+            size="sm"
+          />
           <p className="text-body text-foreground">{description}</p>
         </div>
         {issues.length > 0 && (
