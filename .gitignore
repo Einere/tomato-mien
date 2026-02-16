@@ -10,6 +10,8 @@ pnpm-debug.log*
 dist/
 build/
 !build/entitlements.mac.plist
+!build/entitlements.mas.plist
+!build/entitlements.mas.inherit.plist
 release/
 
 # Environment variables
@@ -101,6 +103,9 @@ temp/
 *.njsproj
 *.sln
 *.sw?
+
+# Internal docs (private planning documents)
+docs/
 
 # claude
 .claude
