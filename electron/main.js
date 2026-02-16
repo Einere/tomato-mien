@@ -18,6 +18,7 @@ const { autoUpdater } = pkg;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const isDev = process.env.NODE_ENV === "development";
+const isMAS = process.mas === true;
 
 // file:// 프로토콜의 IndexedDB 제한을 우회하기 위해 커스텀 프로토콜 등록
 // app.whenReady() 이전에 호출해야 함
@@ -115,8 +116,8 @@ app.whenReady().then(() => {
   // 알림 IPC 설정
   setupNotificationIPC();
 
-  // 자동 업데이트 설정 (프로덕션에서만)
-  if (!isDev) {
+  // 자동 업데이트 설정 (프로덕션 + 비MAS에서만)
+  if (!isDev && !isMAS) {
     setupAutoUpdater();
   }
 });
