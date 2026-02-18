@@ -85,6 +85,23 @@ export class TomatoMienDB extends Dexie {
             }
           });
       });
+
+    this.version(3)
+      .stores({
+        rules: "id, enabled, updatedAt",
+        settings: "id",
+        metadata: "key",
+      })
+      .upgrade(tx => {
+        return tx
+          .table("rules")
+          .toCollection()
+          .modify(rule => {
+            if (!rule.activatedAt) {
+              rule.activatedAt = rule.createdAt;
+            }
+          });
+      });
   }
 }
 

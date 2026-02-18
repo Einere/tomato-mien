@@ -80,6 +80,7 @@ class AlarmWorker {
           rule.filters,
           currentHour,
           currentMinute,
+          rule.activatedAt ? new Date(rule.activatedAt) : undefined,
         );
 
         if (shouldTrigger) {

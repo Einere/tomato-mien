@@ -24,6 +24,7 @@ function createTestRule(overrides?: Partial<AlarmRule>): AlarmRule {
     createdAt: new Date(),
     updatedAt: new Date(),
     notificationEnabled: true,
+    activatedAt: new Date(),
     ...overrides,
   };
 }
@@ -49,6 +50,7 @@ describe("rulesAtom CRUD", () => {
     expect(rules[0].name).toBe("New Rule");
     expect(rules[0].enabled).toBe(true);
     expect(rules[0].notificationEnabled).toBe(true);
+    expect(rules[0].activatedAt).toBeInstanceOf(Date);
 
     expect(store.get(viewAtom)).toBe("editor");
     expect(store.get(editorRuleIdAtom)).toBe(rules[0].id);
@@ -101,6 +103,35 @@ describe("rulesAtom CRUD", () => {
     expect(store.get(rulesAtom)[0].updatedAt).toEqual(fixedDate);
   });
 
+  it("toggleRuleAtom sets activatedAt when enabling", () => {
+    const store = createStore();
+    const oldDate = new Date("2024-01-01T00:00:00Z");
+    const rule = createTestRule({ enabled: false, activatedAt: oldDate });
+    store.set(rulesAtom, [rule]);
+
+    store.set(toggleRuleAtom, rule.id);
+    const updatedRule = store.get(rulesAtom)[0];
+    expect(updatedRule.enabled).toBe(true);
+    expect(updatedRule.activatedAt!.getTime()).toBeGreaterThan(
+      oldDate.getTime(),
+    );
+  });
+
+  it("toggleRuleAtom preserves activatedAt when disabling", () => {
+    const store = createStore();
+    const activatedDate = new Date("2024-06-15T10:30:00Z");
+    const rule = createTestRule({
+      enabled: true,
+      activatedAt: activatedDate,
+    });
+    store.set(rulesAtom, [rule]);
+
+    store.set(toggleRuleAtom, rule.id);
+    const updatedRule = store.get(rulesAtom)[0];
+    expect(updatedRule.enabled).toBe(false);
+    expect(updatedRule.activatedAt).toEqual(activatedDate);
+  });
+
   it("enableAllRulesAtom enables all rules", () => {
     const store = createStore();
     store.set(rulesAtom, [
@@ -111,6 +142,28 @@ describe("rulesAtom CRUD", () => {
     store.set(enableAllRulesAtom);
     const rules = store.get(rulesAtom);
     expect(rules.every(r => r.enabled)).toBe(true);
+  });
+
+  it("enableAllRulesAtom sets activatedAt for disabled rules only", () => {
+    const store = createStore();
+    const oldDate = new Date("2024-01-01T00:00:00Z");
+    const alreadyEnabled = createTestRule({
+      enabled: true,
+      activatedAt: oldDate,
+    });
+    const disabled = createTestRule({
+      enabled: false,
+      activatedAt: oldDate,
+    });
+    store.set(rulesAtom, [alreadyEnabled, disabled]);
+
+    store.set(enableAllRulesAtom);
+    const rules = store.get(rulesAtom);
+
+    // 이미 활성이었던 규칙: activatedAt 유지
+    expect(rules[0].activatedAt).toEqual(oldDate);
+    // 비활성이었던 규칙: activatedAt 갱신
+    expect(rules[1].activatedAt!.getTime()).toBeGreaterThan(oldDate.getTime());
   });
 
   it("disableAllRulesAtom disables all rules", () => {

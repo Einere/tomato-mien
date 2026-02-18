@@ -296,6 +296,27 @@ describe("AlarmRuleSchema", () => {
     expect(result.notificationEnabled).toBe(true);
   });
 
+  it("accepts activatedAt as Date", () => {
+    const data = {
+      ...validRule,
+      activatedAt: new Date("2024-06-15T10:30:00Z"),
+    };
+    const result = AlarmRuleSchema.parse(data);
+    expect(result.activatedAt).toBeInstanceOf(Date);
+    expect(result.activatedAt!.toISOString()).toBe("2024-06-15T10:30:00.000Z");
+  });
+
+  it("coerces activatedAt from ISO string", () => {
+    const data = { ...validRule, activatedAt: "2024-06-15T10:30:00.000Z" };
+    const result = AlarmRuleSchema.parse(data);
+    expect(result.activatedAt).toBeInstanceOf(Date);
+  });
+
+  it("accepts missing activatedAt (optional)", () => {
+    const result = AlarmRuleSchema.parse(validRule);
+    expect(result.activatedAt).toBeUndefined();
+  });
+
   it("rejects empty triggers array", () => {
     const data = { ...validRule, triggers: [] };
     expect(AlarmRuleSchema.safeParse(data).success).toBe(false);

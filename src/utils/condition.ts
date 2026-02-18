@@ -67,22 +67,6 @@ export function describeRule(
   return `${triggerPart} (${filterPart})`;
 }
 
-export function formatExampleTimes(intervalMinutes: number): string {
-  if (intervalMinutes <= 0) return "...";
-  const times: string[] = [];
-  const maxExamples = 4;
-  for (
-    let m = 0;
-    m < 1440 && times.length < maxExamples;
-    m += intervalMinutes
-  ) {
-    const h = Math.floor(m / 60);
-    const min = m % 60;
-    times.push(`${String(h).padStart(2, "0")}:${String(min).padStart(2, "0")}`);
-  }
-  return times.join(", ") + ", ...";
-}
-
 export function validateCondition(
   cond: TimeCondition,
   basePath = "condition",

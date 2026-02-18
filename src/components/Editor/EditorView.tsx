@@ -85,6 +85,7 @@ export function EditorView() {
       createdAt: existingRule?.createdAt ?? now,
       updatedAt: now,
       notificationEnabled,
+      activatedAt: existingRule?.activatedAt ?? now,
     };
     updateRule(updated);
     setEditorRuleId(null);

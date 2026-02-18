@@ -1,5 +1,4 @@
 import type { IntervalCondition } from "@/types/alarm";
-import { formatExampleTimes } from "@/utils/condition";
 import { Input } from "@tomato-mien/ui";
 
 interface IntervalInputProps {
@@ -28,7 +27,7 @@ export function IntervalInput({ condition, onChange }: IntervalInputProps) {
         <span className="text-caption text-muted-foreground">min</span>
       </div>
       <p className="text-caption text-muted-foreground leading-tight">
-        Based on 00:00 — {formatExampleTimes(condition.intervalMinutes)}
+        Fires every {condition.intervalMinutes} min after activation
       </p>
     </div>
   );

@@ -5,30 +5,40 @@ import type {
 } from "@/types/alarm";
 
 const MINUTES_PER_HOUR = 60;
+const MINUTES_PER_DAY = 1440;
 
 export function evaluateRule(
   triggers: TriggerCondition[],
   filters: FilterCondition[],
   currentHour: number,
   currentMinute: number,
+  activatedAt?: Date,
 ): boolean {
   const filtersPass = filters.every(f =>
     evaluateCondition(f, currentHour, currentMinute),
   );
   if (!filtersPass) return false;
-  return triggers.some(t => evaluateCondition(t, currentHour, currentMinute));
+  return triggers.some(t =>
+    evaluateCondition(t, currentHour, currentMinute, activatedAt),
+  );
 }
 
 export function evaluateCondition(
   condition: TimeCondition,
   currentHour: number,
   currentMinute: number,
+  activatedAt?: Date,
 ): boolean {
   switch (condition.type) {
     case "range":
       return evaluateRangeCondition(condition, currentHour, currentMinute);
     case "interval":
-      return evaluateIntervalCondition(condition, currentHour, currentMinute);
+      return evaluateIntervalCondition(
+        condition,
+        currentHour,
+        currentMinute,
+        activatedAt,
+      );
     case "specific":
       return evaluateSpecificCondition(condition, currentHour, currentMinute);
   }
@@ -55,9 +65,20 @@ function evaluateIntervalCondition(
   condition: TimeCondition & { type: "interval" },
   currentHour: number,
   currentMinute: number,
+  activatedAt?: Date,
 ): boolean {
   const currentTime = currentHour * MINUTES_PER_HOUR + currentMinute;
-  return currentTime % condition.intervalMinutes === 0;
+
+  if (!activatedAt) {
+    return currentTime % condition.intervalMinutes === 0;
+  }
+
+  const activatedTime =
+    activatedAt.getHours() * MINUTES_PER_HOUR + activatedAt.getMinutes();
+  const diff =
+    (currentTime - activatedTime + MINUTES_PER_DAY) % MINUTES_PER_DAY;
+
+  return diff > 0 && diff % condition.intervalMinutes === 0;
 }
 
 function evaluateSpecificCondition(
