@@ -99,13 +99,13 @@
       "!.eslintrc.cjs",
       "!.prettierrc"
     ],
-    "afterSign": "scripts/notarize.js",
+    "afterSign": "electron/notarize.js",
     "mac": {
       "category": "public.app-category.productivity",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
-      "entitlements": "build/entitlements.mac.plist",
-      "entitlementsInherit": "build/entitlements.mac.plist",
+      "entitlements": "electron/entitlements/entitlements.mac.plist",
+      "entitlementsInherit": "electron/entitlements/entitlements.mac.plist",
       "target": [
         {
           "target": "dmg",
@@ -149,10 +149,10 @@
     },
     "mas": {
       "hardenedRuntime": false,
-      "entitlements": "build/entitlements.mas.plist",
-      "entitlementsInherit": "build/entitlements.mas.inherit.plist",
-      "entitlementsLoginHelper": "build/entitlements.mas.inherit.plist",
-      "provisioningProfile": "build/embedded.provisionprofile",
+      "entitlements": "electron/entitlements/entitlements.mas.plist",
+      "entitlementsInherit": "electron/entitlements/entitlements.mas.inherit.plist",
+      "entitlementsLoginHelper": "electron/entitlements/entitlements.mas.inherit.plist",
+      "provisioningProfile": "electron/entitlements/embedded.provisionprofile",
       "category": "public.app-category.productivity",
       "target": [
         {

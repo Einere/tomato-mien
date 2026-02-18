@@ -8,7 +8,7 @@ import {
   Button,
   MenuRow,
 } from "@tomato-mien/ui";
-import appLogoImage from "@/assets/icon-rounded.png";
+import appLogoImage from "@assets/icon-rounded.png";
 
 const EASTER_EGG_TAP_COUNT = 7;
 const EASTER_EGG_RESET_MS = 2000;
