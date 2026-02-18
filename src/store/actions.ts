@@ -14,6 +14,7 @@ export const addRuleAtom = atom(null, (get, set) => {
     createdAt: now,
     updatedAt: now,
     notificationEnabled: true,
+    activatedAt: now,
   };
   set(rulesAtom, [...get(rulesAtom), newRule]);
   set(editorRuleIdAtom, newRule.id);
@@ -39,18 +40,30 @@ export const deleteRuleAtom = atom(null, (get, set, ruleId: string) => {
 });
 
 export const toggleRuleAtom = atom(null, (get, set, ruleId: string) => {
+  const now = new Date();
   set(
     rulesAtom,
     get(rulesAtom).map(r =>
-      r.id === ruleId ? { ...r, enabled: !r.enabled } : r,
+      r.id === ruleId
+        ? {
+            ...r,
+            enabled: !r.enabled,
+            ...(!r.enabled && { activatedAt: now }),
+          }
+        : r,
     ),
   );
 });
 
 export const enableAllRulesAtom = atom(null, (get, set) => {
+  const now = new Date();
   set(
     rulesAtom,
-    get(rulesAtom).map(r => ({ ...r, enabled: true })),
+    get(rulesAtom).map(r => ({
+      ...r,
+      enabled: true,
+      ...(!r.enabled && { activatedAt: now }),
+    })),
   );
 });
 

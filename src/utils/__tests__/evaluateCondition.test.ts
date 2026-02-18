@@ -123,23 +123,77 @@ describe("evaluateCondition", () => {
   });
 
   describe("IntervalCondition", () => {
-    it("간격에 맞는 시간이면 트리거", () => {
-      const cond: IntervalCondition = {
-        type: "interval",
-        intervalMinutes: 30,
-      };
-      expect(evaluateCondition(cond, 0, 0)).toBe(true);
-      expect(evaluateCondition(cond, 0, 30)).toBe(true);
-      expect(evaluateCondition(cond, 1, 0)).toBe(true);
+    describe("activatedAt 기반 (상대 스케줄)", () => {
+      it("활성화 시점 이후 interval마다 트리거", () => {
+        const cond: IntervalCondition = {
+          type: "interval",
+          intervalMinutes: 15,
+        };
+        const activatedAt = new Date(2024, 0, 1, 10, 17); // 10:17
+        expect(evaluateCondition(cond, 10, 32, activatedAt)).toBe(true); // +15
+        expect(evaluateCondition(cond, 10, 47, activatedAt)).toBe(true); // +30
+        expect(evaluateCondition(cond, 11, 2, activatedAt)).toBe(true); // +45
+      });
+
+      it("활성화 시점 자체에서는 발동하지 않음", () => {
+        const cond: IntervalCondition = {
+          type: "interval",
+          intervalMinutes: 15,
+        };
+        const activatedAt = new Date(2024, 0, 1, 10, 17);
+        expect(evaluateCondition(cond, 10, 17, activatedAt)).toBe(false);
+      });
+
+      it("interval 사이 시간에는 발동하지 않음", () => {
+        const cond: IntervalCondition = {
+          type: "interval",
+          intervalMinutes: 15,
+        };
+        const activatedAt = new Date(2024, 0, 1, 10, 17);
+        expect(evaluateCondition(cond, 10, 20, activatedAt)).toBe(false);
+        expect(evaluateCondition(cond, 10, 31, activatedAt)).toBe(false);
+      });
+
+      it("자정 교차 처리", () => {
+        const cond: IntervalCondition = {
+          type: "interval",
+          intervalMinutes: 30,
+        };
+        const activatedAt = new Date(2024, 0, 1, 23, 40); // 23:40
+        expect(evaluateCondition(cond, 0, 10, activatedAt)).toBe(true); // +30
+        expect(evaluateCondition(cond, 0, 40, activatedAt)).toBe(true); // +60
+      });
+
+      it("1분 interval", () => {
+        const cond: IntervalCondition = {
+          type: "interval",
+          intervalMinutes: 1,
+        };
+        const activatedAt = new Date(2024, 0, 1, 10, 0);
+        expect(evaluateCondition(cond, 10, 0, activatedAt)).toBe(false); // 활성화 시점
+        expect(evaluateCondition(cond, 10, 1, activatedAt)).toBe(true); // +1
+        expect(evaluateCondition(cond, 10, 2, activatedAt)).toBe(true); // +2
+      });
     });
 
-    it("간격에 맞지 않는 시간이면 트리거하지 않음", () => {
-      const cond: IntervalCondition = {
-        type: "interval",
-        intervalMinutes: 30,
-      };
-      expect(evaluateCondition(cond, 0, 15)).toBe(false);
-      expect(evaluateCondition(cond, 1, 29)).toBe(false);
+    describe("activatedAt 없음 (폴백: 자정 기준)", () => {
+      it("자정 기준 간격에 맞는 시간이면 트리거", () => {
+        const cond: IntervalCondition = {
+          type: "interval",
+          intervalMinutes: 30,
+        };
+        expect(evaluateCondition(cond, 0, 0)).toBe(true);
+        expect(evaluateCondition(cond, 0, 30)).toBe(true);
+        expect(evaluateCondition(cond, 1, 0)).toBe(true);
+      });
+
+      it("간격에 맞지 않으면 트리거하지 않음", () => {
+        const cond: IntervalCondition = {
+          type: "interval",
+          intervalMinutes: 30,
+        };
+        expect(evaluateCondition(cond, 0, 15)).toBe(false);
+      });
     });
   });
 });
@@ -173,7 +227,7 @@ describe("evaluateRule", () => {
         endMinute: 0,
       },
     ];
-    // 9:00 — 두 필터 모두 통과, 트리거(15분 간격) 발동
+    // 9:00 — 두 필터 모두 통과, 트리거(15분 간격) 발동 (activatedAt 없으므로 자정 기준)
     expect(evaluateRule(triggers, filters, 9, 0)).toBe(true);
     // 11:00 — 두 번째 필터(8~10) 불통과
     expect(evaluateRule(triggers, filters, 11, 0)).toBe(false);
@@ -186,7 +240,7 @@ describe("evaluateRule", () => {
     expect(evaluateRule(triggers, [], 0, 15)).toBe(false);
   });
 
-  it("복합: 여러 triggers + 여러 filters", () => {
+  it("복합: 여러 triggers + 여러 filters + activatedAt", () => {
     const triggers = [
       { type: "interval" as const, intervalMinutes: 15 },
       { type: "specific" as const, hour: 14, minute: 30 },
@@ -200,14 +254,16 @@ describe("evaluateRule", () => {
         endMinute: 0,
       },
     ];
-    // 9:15 — 필터 통과 + interval 발동
-    expect(evaluateRule(triggers, filters, 9, 15)).toBe(true);
+    const activatedAt = new Date(2024, 0, 1, 9, 0); // 09:00 활성화
+
+    // 9:15 — 필터 통과 + interval 발동 (09:00 기준 +15)
+    expect(evaluateRule(triggers, filters, 9, 15, activatedAt)).toBe(true);
     // 14:30 — 필터 통과 + specific 발동
-    expect(evaluateRule(triggers, filters, 14, 30)).toBe(true);
+    expect(evaluateRule(triggers, filters, 14, 30, activatedAt)).toBe(true);
     // 8:00 — 필터 불통과
-    expect(evaluateRule(triggers, filters, 8, 0)).toBe(false);
-    // 9:10 — 필터 통과, 트리거 모두 불발
-    expect(evaluateRule(triggers, filters, 9, 10)).toBe(false);
+    expect(evaluateRule(triggers, filters, 8, 0, activatedAt)).toBe(false);
+    // 9:10 — 필터 통과, 트리거 모두 불발 (interval: 9:00 기준 +10은 배수 아님)
+    expect(evaluateRule(triggers, filters, 9, 10, activatedAt)).toBe(false);
   });
 
   it("filter가 불통과하면 트리거 평가하지 않고 false", () => {
@@ -223,5 +279,24 @@ describe("evaluateRule", () => {
     ];
     // 범위 밖이면 매분 interval이어도 false
     expect(evaluateRule(triggers, filters, 8, 0)).toBe(false);
+  });
+
+  it("activatedAt을 trigger에만 전달 (filter에는 영향 없음)", () => {
+    const triggers = [{ type: "interval" as const, intervalMinutes: 30 }];
+    const filters = [
+      {
+        type: "range" as const,
+        startHour: 9,
+        startMinute: 0,
+        endHour: 17,
+        endMinute: 0,
+      },
+    ];
+    const activatedAt = new Date(2024, 0, 1, 9, 10);
+
+    // 9:40 — 필터 통과 + interval 발동 (9:10 기준 +30)
+    expect(evaluateRule(triggers, filters, 9, 40, activatedAt)).toBe(true);
+    // 9:30 — 필터 통과 + interval 불발 (9:10 기준 +20은 배수 아님)
+    expect(evaluateRule(triggers, filters, 9, 30, activatedAt)).toBe(false);
   });
 });
