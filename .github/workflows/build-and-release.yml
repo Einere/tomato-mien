@@ -159,7 +159,7 @@ jobs:
       - name: Copy provisioning profile
         run: |
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp build/embedded.provisionprofile ~/Library/MobileDevice/Provisioning\ Profiles/
+          cp electron/entitlements/embedded.provisionprofile ~/Library/MobileDevice/Provisioning\ Profiles/
 
       - name: Build MAS app
         run: npm run electron:mas:dist

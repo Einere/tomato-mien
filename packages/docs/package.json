@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "npm run build && concurrently \"npx @tailwindcss/cli -i src/styles.css -o dist/styles.css --watch\" \"serve dist -l 3000\"",
-    "build": "npx @tailwindcss/cli -i src/styles.css -o dist/styles.css --minify && cp src/index.html dist/index.html && cp src/privacy.html dist/privacy.html && rm -rf dist/assets && cp -r assets dist/assets"
+    "build": "npx @tailwindcss/cli -i src/styles.css -o dist/styles.css --minify && cp src/index.html dist/index.html && cp src/privacy.html dist/privacy.html && rm -rf dist/assets && mkdir -p dist/assets && cp ../../assets/icon*.png ../../assets/icon.ico ../../assets/icon-rounded.png dist/assets/ && cp -r assets/screenshots dist/assets/screenshots"
   },
   "dependencies": {
     "@tomato-mien/design-tokens": "*"
