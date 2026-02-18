@@ -31,6 +31,7 @@ export function BottomNav() {
         return (
           <button
             key={tab.id}
+            aria-current={isActive ? "page" : undefined}
             onClick={() => {
               if (tab.id === "dashboard") {
                 setView("dashboard");
