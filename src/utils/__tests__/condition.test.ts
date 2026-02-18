@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   describeCondition,
   describeRule,
+  formatExampleTimes,
   validateCondition,
   validateRule,
 } from "@/utils/condition";
@@ -163,6 +164,36 @@ describe("describeRule", () => {
         ],
       ),
     ).toBe("every 15 minutes or at 14:30 (from 09:00 to 17:00)");
+  });
+});
+
+describe("formatExampleTimes", () => {
+  it("shows first 4 example times for 15-minute interval", () => {
+    expect(formatExampleTimes(15)).toBe("00:00, 00:15, 00:30, 00:45, ...");
+  });
+
+  it("shows first 4 example times for 30-minute interval", () => {
+    expect(formatExampleTimes(30)).toBe("00:00, 00:30, 01:00, 01:30, ...");
+  });
+
+  it("shows first 4 example times for 60-minute interval", () => {
+    expect(formatExampleTimes(60)).toBe("00:00, 01:00, 02:00, 03:00, ...");
+  });
+
+  it("shows fewer than 4 examples when interval is very large", () => {
+    expect(formatExampleTimes(720)).toBe("00:00, 12:00, ...");
+  });
+
+  it("handles 1-minute interval", () => {
+    expect(formatExampleTimes(1)).toBe("00:00, 00:01, 00:02, 00:03, ...");
+  });
+
+  it("returns safe fallback for 0 interval", () => {
+    expect(formatExampleTimes(0)).toBe("...");
+  });
+
+  it("returns safe fallback for negative interval", () => {
+    expect(formatExampleTimes(-5)).toBe("...");
   });
 });
 
