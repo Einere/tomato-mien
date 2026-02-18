@@ -47,9 +47,10 @@ function useLoadingMessage(): string {
 
 interface SplashScreenProps {
   error?: string | null;
+  slowLoading?: boolean;
 }
 
-export function SplashScreen({ error }: SplashScreenProps) {
+export function SplashScreen({ error, slowLoading }: SplashScreenProps) {
   const loadingText = useLoadingMessage();
 
   return (
@@ -68,6 +69,11 @@ export function SplashScreen({ error }: SplashScreenProps) {
         </h1>
         <p className="text-white/80">v{__APP_VERSION__}</p>
         <p className="h-6 text-sm text-white/70">{loadingText}</p>
+        {slowLoading && (
+          <p className="text-xs text-white/50">
+            First launch may take a moment...
+          </p>
+        )}
         {error && (
           <div className="bg-danger-600/90 mt-4 max-w-sm rounded-lg px-4 py-3 text-sm text-white shadow-lg">
             {error}

@@ -5,6 +5,8 @@ import { SplashScreen } from "@/components/SplashScreen";
 import { runMigration } from "@/db/migration";
 import { useTheme } from "@/hooks/useTheme";
 
+const SLOW_THRESHOLD_MS = 3000;
+
 function HydrationGate({ children }: { children: React.ReactNode }) {
   useTheme();
   const [migrated, setMigrated] = useState(false);
@@ -12,24 +14,34 @@ function HydrationGate({ children }: { children: React.ReactNode }) {
   const [error, setError] = useState<string | null>(null);
   const [fadeOut, setFadeOut] = useState(false);
   const [fadeInDone, setFadeInDone] = useState(false);
+  const [slowLoading, setSlowLoading] = useState(false);
 
   useEffect(() => {
+    const slowTimer = setTimeout(() => setSlowLoading(true), SLOW_THRESHOLD_MS);
+
     runMigration()
       .then(() => {
+        clearTimeout(slowTimer);
         setFadeOut(true);
-        setTimeout(() => setMigrated(true), 500);
       })
       .catch(err => {
+        clearTimeout(slowTimer);
         console.error("[HydrationGate] Migration failed:", err);
         setError(err instanceof Error ? err.message : "Migration failed");
       });
+
+    return () => clearTimeout(slowTimer);
   }, []);
+
+  // fadeOut 시작 후 CSS transition duration(300ms)과 동일한 타이밍으로 migrated 설정
+  useEffect(() => {
+    if (!fadeOut) return;
+    const timer = setTimeout(() => setMigrated(true), 300);
+    return () => clearTimeout(timer);
+  }, [fadeOut]);
 
   useEffect(() => {
     if (!migrated) return;
-    // Children are mounted with opacity-0 (invisible).
-    // Wait two frames so the browser finishes painting the mount,
-    // then start the fade-in animation on a clean frame.
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         setVisible(true);
@@ -43,7 +55,7 @@ function HydrationGate({ children }: { children: React.ReactNode }) {
         <div
           className={`transition-opacity duration-300 ${fadeOut ? "opacity-0" : "opacity-100"}`}
         >
-          <SplashScreen error={error} />
+          <SplashScreen error={error} slowLoading={slowLoading} />
         </div>
       )}
       {migrated && (
