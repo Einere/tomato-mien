@@ -5,18 +5,13 @@ import { z } from "zod";
 const hour = z.number().int().min(0).max(23);
 const minute = z.number().int().min(0).max(59);
 
-export const RangeConditionSchema = z
-  .object({
-    type: z.literal("range"),
-    startHour: hour,
-    startMinute: minute,
-    endHour: hour,
-    endMinute: minute,
-  })
-  .refine(
-    c => c.startHour * 60 + c.startMinute <= c.endHour * 60 + c.endMinute,
-    { message: "Start time must be before end time.", path: [] },
-  );
+export const RangeConditionSchema = z.object({
+  type: z.literal("range"),
+  startHour: hour,
+  startMinute: minute,
+  endHour: hour,
+  endMinute: minute,
+});
 
 export const IntervalConditionSchema = z.object({
   type: z.literal("interval"),
@@ -66,6 +61,7 @@ export const AlarmEventSchema = z.object({
   ruleName: z.string(),
   triggeredAt: z.coerce.date(),
   message: z.string().optional(),
+  nextAlarmTime: z.object({ hour: z.number(), minute: z.number() }).optional(),
 });
 
 // --- AlarmStorage ---

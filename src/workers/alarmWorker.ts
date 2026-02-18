@@ -1,6 +1,8 @@
 // Web Worker for background alarm checking
 import { TomatoMienDB } from "@/db/database";
 import { evaluateRule } from "@/utils/evaluateCondition";
+import { getNextAlarmTime } from "@/utils/nextAlarmTime";
+import type { AlarmRule } from "@/types/alarm";
 
 const CHECK_INTERVAL_MS = 60_000;
 
@@ -12,7 +14,8 @@ interface AlarmEvent {
   ruleId: string;
   ruleName: string;
   triggeredAt: Date;
-  message: string;
+  message?: string;
+  nextAlarmTime?: { hour: number; minute: number };
 }
 
 class AlarmWorker {
@@ -87,7 +90,7 @@ class AlarmWorker {
           const alarmKey = `${rule.id}:${currentHour}:${currentMinute}`;
 
           if (!this.triggeredAlarms.has(alarmKey)) {
-            this.triggerAlarm(rule.id, rule.name);
+            this.triggerAlarm(rule, currentHour, currentMinute);
             this.triggeredAlarms.add(alarmKey);
           }
         }
@@ -102,12 +105,24 @@ class AlarmWorker {
     });
   }
 
-  private triggerAlarm(ruleId: string, ruleName: string) {
+  private triggerAlarm(
+    rule: AlarmRule,
+    currentHour: number,
+    currentMinute: number,
+  ) {
+    const nextTime = getNextAlarmTime(
+      rule.triggers,
+      rule.filters,
+      currentHour,
+      currentMinute,
+      rule.activatedAt ? new Date(rule.activatedAt) : undefined,
+    );
+
     const event: AlarmEvent = {
-      ruleId,
-      ruleName,
+      ruleId: rule.id,
+      ruleName: rule.name,
       triggeredAt: new Date(),
-      message: `${ruleName} alarm triggered!`,
+      nextAlarmTime: nextTime ?? undefined,
     };
 
     self.postMessage({
