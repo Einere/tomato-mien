@@ -6,6 +6,9 @@ vi.mock("@/db/database", () => ({
     rules: {
       get: vi.fn(),
     },
+    settings: {
+      get: vi.fn().mockResolvedValue({ timeFormat: "24h" }),
+    },
   },
 }));
 
@@ -44,7 +47,7 @@ function createTestEvent(overrides?: Partial<AlarmEvent>): AlarmEvent {
     ruleId: "rule-1",
     ruleName: "Test Alarm",
     triggeredAt: new Date(),
-    message: "Time to take a break!",
+    nextAlarmTime: { hour: 15, minute: 0 },
     ...overrides,
   };
 }
@@ -89,7 +92,7 @@ describe("WebWorkerAlarmService", () => {
 
       await vi.waitFor(() => {
         expect(mockShowNotification).toHaveBeenCalledWith("Test Alarm", {
-          body: "Time to take a break!",
+          body: "Next: 15:00",
           icon: "/vite.svg",
         });
       });
@@ -115,7 +118,7 @@ describe("WebWorkerAlarmService", () => {
 
       await vi.waitFor(() => {
         expect(MockNotification).toHaveBeenCalledWith("Test Alarm", {
-          body: "Time to take a break!",
+          body: "Next: 15:00",
           icon: "/vite.svg",
           tag: "rule-1",
         });
@@ -152,7 +155,7 @@ describe("WebWorkerAlarmService", () => {
       await vi.waitFor(() => {
         expect(mockShowNotification).toHaveBeenCalled();
         expect(MockNotification).toHaveBeenCalledWith("Test Alarm", {
-          body: "Time to take a break!",
+          body: "Next: 15:00",
           icon: "/vite.svg",
           tag: "rule-1",
         });

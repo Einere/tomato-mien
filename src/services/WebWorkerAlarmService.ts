@@ -1,5 +1,6 @@
 import type { AlarmEvent } from "@/types/alarm";
 import { db } from "@/db/database";
+import { formatTime } from "@/lib/dayjs";
 import { playAlarmSound } from "./alarmSound";
 
 export class WebWorkerAlarmService {
@@ -69,7 +70,15 @@ export class WebWorkerAlarmService {
 
   private async showNotification(event: AlarmEvent): Promise<void> {
     const title = event.ruleName;
-    const options = { body: event.message, icon: "/vite.svg" };
+
+    let body: string | undefined;
+    if (event.nextAlarmTime) {
+      const settings = await db.settings.get("default");
+      const timeFormat = settings?.timeFormat ?? "24h";
+      body = `Next: ${formatTime(event.nextAlarmTime.hour, event.nextAlarmTime.minute, timeFormat)}`;
+    }
+
+    const options = { body, icon: "/vite.svg" };
 
     if (window.electronAPI?.showNotification) {
       try {

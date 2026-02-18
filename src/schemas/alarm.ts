@@ -66,6 +66,7 @@ export const AlarmEventSchema = z.object({
   ruleName: z.string(),
   triggeredAt: z.coerce.date(),
   message: z.string().optional(),
+  nextAlarmTime: z.object({ hour: z.number(), minute: z.number() }).optional(),
 });
 
 // --- AlarmStorage ---
