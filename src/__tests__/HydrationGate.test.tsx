@@ -56,8 +56,9 @@ describe("HydrationGate", () => {
       migrationResolve();
     });
 
+    // fade-out transition duration (300ms)
     await act(async () => {
-      vi.advanceTimersByTime(500);
+      vi.advanceTimersByTime(300);
     });
 
     // 2 rAFs
@@ -76,7 +77,7 @@ describe("HydrationGate", () => {
     });
 
     await act(async () => {
-      vi.advanceTimersByTime(500);
+      vi.advanceTimersByTime(300);
     });
 
     await act(async () => {
@@ -96,5 +97,42 @@ describe("HydrationGate", () => {
     expect(container.querySelector(".animate-fade-in")).toBeNull();
     // 메인 컨텐츠는 여전히 표시
     expect(screen.getByRole("heading", { name: "Rules" })).toBeInTheDocument();
+  });
+
+  it("3초 이상 걸리면 slow loading 메시지를 표시한다", async () => {
+    render(<App />);
+
+    // 3초 경과 전에는 메시지 없음
+    expect(
+      screen.queryByText("First launch may take a moment..."),
+    ).not.toBeInTheDocument();
+
+    // 3초 경과
+    await act(async () => {
+      vi.advanceTimersByTime(3000);
+    });
+
+    expect(
+      screen.getByText("First launch may take a moment..."),
+    ).toBeInTheDocument();
+  });
+
+  it("마이그레이션이 빠르게 완료되면 slow loading 메시지를 표시하지 않는다", async () => {
+    render(<App />);
+
+    // 1초 후 마이그레이션 완료
+    await act(async () => {
+      vi.advanceTimersByTime(1000);
+      migrationResolve();
+    });
+
+    // 3초 경과
+    await act(async () => {
+      vi.advanceTimersByTime(2000);
+    });
+
+    expect(
+      screen.queryByText("First launch may take a moment..."),
+    ).not.toBeInTheDocument();
   });
 });
