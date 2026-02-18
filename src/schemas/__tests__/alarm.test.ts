@@ -24,16 +24,15 @@ describe("RangeConditionSchema", () => {
     expect(RangeConditionSchema.parse(data)).toEqual(data);
   });
 
-  it("rejects inverted range (start > end)", () => {
+  it("accepts midnight-crossing range (start > end)", () => {
     const data = {
       type: "range",
-      startHour: 17,
+      startHour: 22,
       startMinute: 0,
-      endHour: 9,
+      endHour: 2,
       endMinute: 0,
     };
-    const result = RangeConditionSchema.safeParse(data);
-    expect(result.success).toBe(false);
+    expect(RangeConditionSchema.parse(data)).toEqual(data);
   });
 
   it("rejects out-of-range hour", () => {

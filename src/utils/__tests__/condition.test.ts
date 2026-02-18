@@ -178,16 +178,15 @@ describe("validateCondition", () => {
     expect(issues.length).toBeGreaterThan(0);
   });
 
-  it("returns issue for inverted range", () => {
+  it("returns no issues for midnight-crossing range", () => {
     const cond: RangeCondition = {
       type: "range",
-      startHour: 17,
+      startHour: 22,
       startMinute: 0,
-      endHour: 9,
+      endHour: 2,
       endMinute: 0,
     };
-    const issues = validateCondition(cond);
-    expect(issues.length).toBeGreaterThan(0);
+    expect(validateCondition(cond)).toEqual([]);
   });
 
   it("returns issue for invalid specific hour", () => {
@@ -230,7 +229,7 @@ describe("validateRule", () => {
       [
         {
           type: "range",
-          startHour: 17,
+          startHour: 25,
           startMinute: 0,
           endHour: 9,
           endMinute: 0,
