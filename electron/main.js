@@ -122,11 +122,9 @@ app.whenReady().then(() => {
   }
 });
 
-// 모든 윈도우가 닫혔을 때 앱 종료 (macOS 제외)
+// 모든 윈도우가 닫혔을 때 앱 종료 (싱글 윈도우 앱이므로 macOS 포함)
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+  app.quit();
 });
 
 // 알림 IPC 설정
