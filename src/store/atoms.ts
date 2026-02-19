@@ -31,6 +31,10 @@ export const editorRuleIdAtom = atom<string | null>(null);
 
 export const searchQueryAtom = atom("");
 
+export type SettingsSubView = "main" | "about";
+
+export const settingsSubViewAtom = atom<SettingsSubView>("main");
+
 export type SortOrder = "name" | "recent";
 
 export const sortOrderAtom = atom<SortOrder>("recent");

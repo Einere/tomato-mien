@@ -5,8 +5,9 @@ export {
   searchQueryAtom,
   sortOrderAtom,
   settingsAtom,
+  settingsSubViewAtom,
 } from "./atoms";
-export type { ViewState, SortOrder } from "./atoms";
+export type { ViewState, SortOrder, SettingsSubView } from "./atoms";
 
 export {
   activeRuleCountAtom,
@@ -21,4 +22,5 @@ export {
   toggleRuleAtom,
   enableAllRulesAtom,
   disableAllRulesAtom,
+  navigateToAboutAtom,
 } from "./actions";

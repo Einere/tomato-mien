@@ -3,7 +3,12 @@ import { renderHook } from "@testing-library/react";
 import { createElement } from "react";
 import { Provider, createStore } from "jotai";
 import { useElectronMenu } from "@/hooks/useElectronMenu";
-import { rulesAtom } from "@/store";
+import {
+  rulesAtom,
+  viewAtom,
+  editorRuleIdAtom,
+  settingsSubViewAtom,
+} from "@/store";
 import type { AlarmRule } from "@/types/alarm";
 
 function createTestRule(overrides?: Partial<AlarmRule>): AlarmRule {
@@ -37,7 +42,7 @@ function createMockElectronAPI() {
   };
 }
 
-describe("useElectronMenu confirm", () => {
+describe("useElectronMenu", () => {
   let store: ReturnType<typeof createStore>;
   let confirmSpy: ReturnType<typeof vi.spyOn>;
   let mock: ReturnType<typeof createMockElectronAPI>;
@@ -58,6 +63,22 @@ describe("useElectronMenu confirm", () => {
       wrapper: ({ children }) => createElement(Provider, { store }, children),
     });
   }
+
+  describe("menu-new-rule", () => {
+    it("새 규칙을 생성하고 editor 뷰로 이동한다", () => {
+      store.set(rulesAtom, []);
+      store.set(viewAtom, "dashboard");
+
+      renderMenu();
+      mock.trigger("menu-new-rule");
+
+      const rules = store.get(rulesAtom);
+      expect(rules).toHaveLength(1);
+      expect(rules[0].name).toBe("New Rule");
+      expect(store.get(viewAtom)).toBe("editor");
+      expect(store.get(editorRuleIdAtom)).toBe(rules[0].id);
+    });
+  });
 
   describe("menu-enable-all-alarms", () => {
     it("confirm 승인 시 모든 규칙이 활성화된다", () => {
@@ -114,6 +135,47 @@ describe("useElectronMenu confirm", () => {
       mock.trigger("menu-disable-all-alarms");
 
       expect(store.get(rulesAtom).every(r => r.enabled)).toBe(true);
+    });
+  });
+
+  describe("menu-about", () => {
+    it("settings 뷰의 about 서브뷰로 이동한다", () => {
+      store.set(viewAtom, "dashboard");
+
+      renderMenu();
+      mock.trigger("menu-about");
+
+      expect(store.get(viewAtom)).toBe("settings");
+      expect(store.get(settingsSubViewAtom)).toBe("about");
+    });
+
+    it("이미 settings 뷰에 있을 때도 about 서브뷰로 이동한다", () => {
+      store.set(viewAtom, "settings");
+      store.set(settingsSubViewAtom, "main");
+
+      renderMenu();
+      mock.trigger("menu-about");
+
+      expect(store.get(viewAtom)).toBe("settings");
+      expect(store.get(settingsSubViewAtom)).toBe("about");
+    });
+  });
+
+  describe("cleanup", () => {
+    it("언마운트 시 removeMenuListeners를 호출한다", () => {
+      const { unmount } = renderMenu();
+
+      expect(mock.api.removeMenuListeners).not.toHaveBeenCalled();
+      unmount();
+      expect(mock.api.removeMenuListeners).toHaveBeenCalledOnce();
+    });
+  });
+
+  describe("electronAPI 없는 환경", () => {
+    it("electronAPI가 없으면 에러 없이 동작한다", () => {
+      delete (window as unknown as Record<string, unknown>).electronAPI;
+
+      expect(() => renderMenu()).not.toThrow();
     });
   });
 });

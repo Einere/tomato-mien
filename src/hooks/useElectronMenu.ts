@@ -1,11 +1,17 @@
 import { useEffect } from "react";
 import { useSetAtom } from "jotai";
-import { addRuleAtom, enableAllRulesAtom, disableAllRulesAtom } from "@/store";
+import {
+  addRuleAtom,
+  enableAllRulesAtom,
+  disableAllRulesAtom,
+  navigateToAboutAtom,
+} from "@/store";
 
 export function useElectronMenu() {
   const addRule = useSetAtom(addRuleAtom);
   const enableAll = useSetAtom(enableAllRulesAtom);
   const disableAll = useSetAtom(disableAllRulesAtom);
+  const navigateToAbout = useSetAtom(navigateToAboutAtom);
 
   useEffect(() => {
     const api = window.electronAPI;
@@ -26,11 +32,14 @@ export function useElectronMenu() {
             disableAll();
           }
           break;
+        case "menu-about":
+          navigateToAbout();
+          break;
       }
     });
 
     return () => {
       api.removeMenuListeners();
     };
-  }, [addRule, enableAll, disableAll]);
+  }, [addRule, enableAll, disableAll, navigateToAbout]);
 }

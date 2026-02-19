@@ -1,5 +1,10 @@
 import { atom } from "jotai";
-import { rulesAtom, viewAtom, editorRuleIdAtom } from "./atoms";
+import {
+  rulesAtom,
+  viewAtom,
+  editorRuleIdAtom,
+  settingsSubViewAtom,
+} from "./atoms";
 import type { AlarmRule } from "@/types/alarm";
 import { createDefaultInterval } from "@/utils/alarmRules";
 
@@ -72,4 +77,9 @@ export const disableAllRulesAtom = atom(null, (get, set) => {
     rulesAtom,
     get(rulesAtom).map(r => ({ ...r, enabled: false })),
   );
+});
+
+export const navigateToAboutAtom = atom(null, (_get, set) => {
+  set(viewAtom, "settings");
+  set(settingsSubViewAtom, "about");
 });
