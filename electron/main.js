@@ -199,7 +199,9 @@ function createMenu() {
       submenu: [
         { role: "reload", label: "Reload" },
         { role: "forceReload", label: "Force Reload" },
-        { role: "toggleDevTools", label: "Developer Tools" },
+        ...(isDev
+          ? [{ role: "toggleDevTools", label: "Developer Tools" }]
+          : []),
         { type: "separator" },
         { role: "resetZoom", label: "Actual Size" },
         { role: "zoomIn", label: "Zoom In" },

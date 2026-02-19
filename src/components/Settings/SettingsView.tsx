@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useAtom } from "jotai";
-import { settingsAtom } from "@/store";
+import { settingsAtom, settingsSubViewAtom } from "@/store";
 import type { TimeFormat, Theme } from "@/types/alarm";
 import {
   Card,
@@ -27,7 +27,11 @@ const themeOptions = [
 
 export function SettingsView() {
   const [settings, setSettings] = useAtom(settingsAtom);
-  const [subView, setSubView] = useState<"main" | "about">("main");
+  const [subView, setSubView] = useAtom(settingsSubViewAtom);
+
+  useEffect(() => {
+    return () => setSubView("main");
+  }, [setSubView]);
 
   const handleTimeFormatChange = (value: string) => {
     setSettings({ ...settings, timeFormat: value as TimeFormat });
