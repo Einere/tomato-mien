@@ -8,12 +8,10 @@ import {
   ChevronRightIcon,
   ScheduleIcon,
   DarkModeIcon,
-  FavoriteBorderIcon,
   InfoIcon,
   MenuRow,
 } from "@tomato-mien/ui";
 import { formatTime, formatTimeRange } from "@/lib/dayjs";
-import { SupportView } from "./SupportView";
 import { AboutView } from "./AboutView";
 
 const timeFormatOptions = [
@@ -29,7 +27,7 @@ const themeOptions = [
 
 export function SettingsView() {
   const [settings, setSettings] = useAtom(settingsAtom);
-  const [subView, setSubView] = useState<"main" | "support" | "about">("main");
+  const [subView, setSubView] = useState<"main" | "about">("main");
 
   const handleTimeFormatChange = (value: string) => {
     setSettings({ ...settings, timeFormat: value as TimeFormat });
@@ -38,10 +36,6 @@ export function SettingsView() {
   const handleThemeChange = (value: string) => {
     setSettings({ ...settings, theme: value as Theme });
   };
-
-  if (subView === "support") {
-    return <SupportView onBack={() => setSubView("main")} />;
-  }
 
   if (subView === "about") {
     return <AboutView onBack={() => setSubView("main")} />;
@@ -104,23 +98,6 @@ export function SettingsView() {
       </div>
 
       <div className="mt-6 flex flex-col gap-3">
-        <Card padding="none">
-          <MenuRow
-            as="button"
-            type="button"
-            className="focus-visible:ring-ring w-full cursor-pointer rounded-xl transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-            onClick={() => setSubView("support")}
-          >
-            <MenuRow.Icon icon={FavoriteBorderIcon} />
-            <MenuRow.Label
-              title="Support This Project"
-              description="Buy me a coffee via Toss"
-              className="text-left"
-            />
-            <ChevronRightIcon size="sm" />
-          </MenuRow>
-        </Card>
-
         <Card padding="none">
           <MenuRow
             as="button"
