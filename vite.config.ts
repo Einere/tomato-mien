@@ -2,7 +2,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
-import { version } from "./package.json";
+import { version, homepage } from "./package.json";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -27,6 +27,8 @@ export default defineConfig({
   define: {
     global: "globalThis",
     __APP_VERSION__: JSON.stringify(version),
+    __APP_HOMEPAGE__: JSON.stringify(homepage),
+    __APP_PRIVACY_URL__: JSON.stringify(new URL("privacy.html", homepage).href),
   },
   test: {
     globals: true,
