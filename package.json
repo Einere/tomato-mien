@@ -24,8 +24,8 @@
     "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && NODE_ENV=development electron .\"",
     "electron:build": "npm run build && electron-builder",
     "electron:dist": "npm run build && electron-builder --publish=never",
-    "electron:mas": "npm run build && electron-builder --mac mas",
-    "electron:mas:dist": "npm run build && electron-builder --mac mas --publish=never",
+    "electron:mas": "npm run build && MAS_BUILD=true electron-builder --mac mas",
+    "electron:mas:dist": "npm run build && MAS_BUILD=true electron-builder --mac mas --publish=never",
     "docs:dev": "npm run dev -w @tomato-mien/docs",
     "docs:build": "npm run build -w @tomato-mien/docs",
     "test": "npx vitest run"
