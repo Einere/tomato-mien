@@ -167,17 +167,34 @@ jobs:
       - name: Build MAS app
         run: npm run electron:mas:dist
 
+      - name: Setup App Store Connect API Key
+        env:
+          APP_STORE_CONNECT_API_KEY_FILE: ${{ secrets.APP_STORE_CONNECT_API_KEY_FILE }}
+          APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+        run: |
+          mkdir -p ~/private_keys
+          echo -n "$APP_STORE_CONNECT_API_KEY_FILE" | base64 --decode -o ~/private_keys/AuthKey_${APP_STORE_CONNECT_API_KEY}.p8
+
       - name: Upload to App Store Connect
         run: |
+          PKG_FILE=$(ls release/mas/*.pkg 2>/dev/null | head -1)
+          if [ -z "$PKG_FILE" ]; then
+            echo "Error: No .pkg file found in release/mas/"
+            ls -la release/mas/ || echo "Directory release/mas/ does not exist"
+            exit 1
+          fi
+          echo "Uploading: $PKG_FILE"
           xcrun altool --upload-app \
             --type osx \
-            --file release/mas/*.pkg \
+            --file "$PKG_FILE" \
             --apiKey ${{ secrets.APP_STORE_CONNECT_API_KEY }} \
             --apiIssuer ${{ secrets.APP_STORE_CONNECT_API_ISSUER }}
 
       - name: Cleanup
         if: always()
-        run: security delete-keychain $RUNNER_TEMP/mas-signing.keychain-db || true
+        run: |
+          security delete-keychain $RUNNER_TEMP/mas-signing.keychain-db || true
+          rm -rf ~/private_keys || true
 
   release:
     needs: build
