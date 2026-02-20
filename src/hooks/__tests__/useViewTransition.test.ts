@@ -4,7 +4,7 @@ import {
   usePrefersReducedMotion,
   useViewTransition,
   useViewTransitionList,
-} from "@/hooks/useViewTransition";
+} from "@tomato-mien/view-transition";
 
 function createMockMatchMedia(matches: boolean) {
   const listeners: Array<(e: MediaQueryListEvent) => void> = [];

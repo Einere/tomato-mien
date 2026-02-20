@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "@tomato-mien/design-tokens";
+@import "@tomato-mien/view-transition/transitions.css";
 @plugin "@tailwindcss/forms";
 @source "../packages/ui/src";
 
@@ -102,3 +103,4 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+

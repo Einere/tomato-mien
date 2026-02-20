@@ -1,6 +1,7 @@
 import { useSetAtom } from "jotai";
 import { viewAtom } from "@/store";
 import { Button, ArrowBackIcon } from "@tomato-mien/ui";
+import { useViewTransition } from "@tomato-mien/view-transition";
 
 interface EditorHeaderProps {
   isNew: boolean;
@@ -8,12 +9,15 @@ interface EditorHeaderProps {
 
 export function EditorHeader({ isNew }: EditorHeaderProps) {
   const setView = useSetAtom(viewAtom);
+  const { triggerTransition } = useViewTransition();
 
   return (
     <div className="flex items-center gap-3 px-5 pt-6 pb-4">
       <Button
         variant="ghost"
-        onClick={() => setView("dashboard")}
+        onClick={() =>
+          triggerTransition(() => setView("dashboard"), "drill-backward")
+        }
         aria-label="Back to dashboard"
         className="h-9 w-9 p-0"
       >

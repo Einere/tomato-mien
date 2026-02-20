@@ -11,6 +11,7 @@ import { describeRule } from "@/utils/condition";
 import { Card, MenuRow, Toggle, TimerIcon, AlarmIcon } from "@tomato-mien/ui";
 import type { ComponentType } from "react";
 import type { IconProps } from "@tomato-mien/ui";
+import { useViewTransition } from "@tomato-mien/view-transition";
 
 function getConditionIcon(
   triggers: TriggerCondition[],
@@ -34,9 +35,17 @@ export function RuleCard({ rule }: RuleCardProps) {
   const setView = useSetAtom(viewAtom);
   const setEditorRuleId = useSetAtom(editorRuleIdAtom);
   const { timeFormat } = useAtomValue(settingsAtom);
+  const { triggerTransition } = useViewTransition();
 
   const description = describeRule(rule.triggers, rule.filters, timeFormat);
   const icon = getConditionIcon(rule.triggers);
+
+  const navigateToEditor = () => {
+    triggerTransition(() => {
+      setEditorRuleId(rule.id);
+      setView("editor");
+    }, "drill-forward");
+  };
 
   return (
     <Card
@@ -47,15 +56,11 @@ export function RuleCard({ rule }: RuleCardProps) {
       )}
       role="button"
       tabIndex={0}
-      onClick={() => {
-        setEditorRuleId(rule.id);
-        setView("editor");
-      }}
+      onClick={navigateToEditor}
       onKeyDown={e => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          setEditorRuleId(rule.id);
-          setView("editor");
+          navigateToEditor();
         }
       }}
     >
