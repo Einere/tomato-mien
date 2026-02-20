@@ -21,6 +21,7 @@ import { EditorSettings } from "./EditorSettings";
 import { EditorSummary } from "./EditorSummary";
 import { EditorFooter } from "./EditorFooter";
 import { Button, DeleteOutlineIcon } from "@tomato-mien/ui";
+import { useViewTransition } from "@tomato-mien/view-transition";
 
 export function EditorView() {
   const ruleId = useAtomValue(editorRuleIdAtom);
@@ -29,6 +30,7 @@ export function EditorView() {
   const deleteRule = useSetAtom(deleteRuleAtom);
   const setView = useSetAtom(viewAtom);
   const setEditorRuleId = useSetAtom(editorRuleIdAtom);
+  const { triggerTransition } = useViewTransition();
   const existingRule = ruleId ? rules.find(r => r.id === ruleId) : undefined;
   const isNew = !existingRule;
 
@@ -87,19 +89,23 @@ export function EditorView() {
       notificationEnabled,
       activatedAt: existingRule?.activatedAt ?? now,
     };
-    updateRule(updated);
-    setEditorRuleId(null);
-    setView("dashboard");
+    triggerTransition(() => {
+      updateRule(updated);
+      setEditorRuleId(null);
+      setView("dashboard");
+    }, "drill-backward");
   };
 
   const handleCancel = () => {
-    setEditorRuleId(null);
-    setView("dashboard");
+    triggerTransition(() => {
+      setEditorRuleId(null);
+      setView("dashboard");
+    }, "drill-backward");
   };
 
   const handleDelete = () => {
     if (ruleId && window.confirm("Delete this rule?")) {
-      deleteRule(ruleId);
+      triggerTransition(() => deleteRule(ruleId), "drill-backward");
     }
   };
 

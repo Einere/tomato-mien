@@ -13,6 +13,7 @@ import {
 } from "@tomato-mien/ui";
 import { formatTime, formatTimeRange } from "@/lib/dayjs";
 import { AboutView } from "./AboutView";
+import { useViewTransition } from "@tomato-mien/view-transition";
 
 const timeFormatOptions = [
   { value: "24h", label: "24-hour" },
@@ -28,6 +29,7 @@ const themeOptions = [
 export function SettingsView() {
   const [settings, setSettings] = useAtom(settingsAtom);
   const [subView, setSubView] = useAtom(settingsSubViewAtom);
+  const { triggerTransition } = useViewTransition();
 
   useEffect(() => {
     return () => setSubView("main");
@@ -42,7 +44,13 @@ export function SettingsView() {
   };
 
   if (subView === "about") {
-    return <AboutView onBack={() => setSubView("main")} />;
+    return (
+      <AboutView
+        onBack={() =>
+          triggerTransition(() => setSubView("main"), "drill-backward")
+        }
+      />
+    );
   }
 
   return (
@@ -107,7 +115,9 @@ export function SettingsView() {
             as="button"
             type="button"
             className="focus-visible:ring-ring w-full cursor-pointer rounded-xl transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-            onClick={() => setSubView("about")}
+            onClick={() =>
+              triggerTransition(() => setSubView("about"), "drill-forward")
+            }
           >
             <MenuRow.Icon icon={InfoIcon} />
             <MenuRow.Label

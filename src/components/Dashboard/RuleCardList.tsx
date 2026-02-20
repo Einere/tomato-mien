@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
 import { filteredRulesAtom } from "@/store";
-import { useViewTransitionList } from "@/hooks/useViewTransition";
+import { useViewTransitionList } from "@tomato-mien/view-transition";
 import { RuleCard } from "./RuleCard";
 
 export function RuleCardList() {
@@ -23,6 +23,7 @@ export function RuleCardList() {
       {displayRules.map(rule => (
         <div
           key={rule.id}
+          className="vt-merge-root"
           style={{ viewTransitionName: `rule-card-${rule.id}` }}
         >
           <RuleCard rule={rule} />

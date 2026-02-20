@@ -1,0 +1,125 @@
+/* ── View Transition: merge individual cards into root during drill ── */
+
+html[data-transition-direction] .vt-merge-root {
+  view-transition-name: none !important;
+}
+
+/* ── View Transition: Drill Animation ── */
+
+@keyframes drill-slide-out-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-20%, 0, 0);
+  }
+}
+
+@keyframes drill-slide-in-from-right {
+  from {
+    transform: translate3d(100%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes drill-slide-out-right {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+@keyframes drill-slide-in-from-left {
+  from {
+    transform: translate3d(-20%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Drill Forward: new page slides from right, old page pushes left */
+html[data-transition-direction="drill-forward"]::view-transition-old(root) {
+  animation: drill-slide-out-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+  mix-blend-mode: normal;
+}
+
+html[data-transition-direction="drill-forward"]::view-transition-new(root) {
+  animation: drill-slide-in-from-right 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+  mix-blend-mode: normal;
+}
+
+/* Drill Backward: old page slides right, new page enters from left */
+html[data-transition-direction="drill-backward"]::view-transition-old(root) {
+  animation: drill-slide-out-right 0.4s cubic-bezier(0.2, 0, 0, 1) both;
+  mix-blend-mode: normal;
+}
+
+html[data-transition-direction="drill-backward"]::view-transition-new(root) {
+  animation: drill-slide-in-from-left 0.4s cubic-bezier(0.2, 0, 0, 1) both;
+  mix-blend-mode: normal;
+}
+
+/* ── View Transition: Slide Animation ── */
+
+@keyframes slide-out-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+@keyframes slide-in-from-right {
+  from {
+    transform: translate3d(100%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slide-out-right {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+@keyframes slide-in-from-left {
+  from {
+    transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Slide Left: old page exits left, new page enters from right */
+html[data-transition-direction="slide-left"]::view-transition-old(root) {
+  animation: slide-out-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+  mix-blend-mode: normal;
+}
+
+html[data-transition-direction="slide-left"]::view-transition-new(root) {
+  animation: slide-in-from-right 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+  mix-blend-mode: normal;
+}
+
+/* Slide Right: old page exits right, new page enters from left */
+html[data-transition-direction="slide-right"]::view-transition-old(root) {
+  animation: slide-out-right 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+  mix-blend-mode: normal;
+}
+
+html[data-transition-direction="slide-right"]::view-transition-new(root) {
+  animation: slide-in-from-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+  mix-blend-mode: normal;
+}

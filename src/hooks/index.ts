@@ -4,4 +4,4 @@ export {
   usePrefersReducedMotion,
   useViewTransition,
   useViewTransitionList,
-} from "./useViewTransition";
+} from "@tomato-mien/view-transition";

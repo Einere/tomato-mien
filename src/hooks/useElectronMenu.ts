@@ -6,12 +6,14 @@ import {
   disableAllRulesAtom,
   navigateToAboutAtom,
 } from "@/store";
+import { useViewTransition } from "@tomato-mien/view-transition";
 
 export function useElectronMenu() {
   const addRule = useSetAtom(addRuleAtom);
   const enableAll = useSetAtom(enableAllRulesAtom);
   const disableAll = useSetAtom(disableAllRulesAtom);
   const navigateToAbout = useSetAtom(navigateToAboutAtom);
+  const { triggerTransition } = useViewTransition();
 
   useEffect(() => {
     const api = window.electronAPI;
@@ -20,7 +22,7 @@ export function useElectronMenu() {
     api.onMenuAction((_event, action) => {
       switch (action) {
         case "menu-new-rule":
-          addRule();
+          triggerTransition(() => addRule(), "drill-forward");
           break;
         case "menu-enable-all-alarms":
           if (window.confirm("Enable all rules?")) {
@@ -33,7 +35,7 @@ export function useElectronMenu() {
           }
           break;
         case "menu-about":
-          navigateToAbout();
+          triggerTransition(() => navigateToAbout(), "drill-forward");
           break;
       }
     });
@@ -41,5 +43,5 @@ export function useElectronMenu() {
     return () => {
       api.removeMenuListeners();
     };
-  }, [addRule, enableAll, disableAll, navigateToAbout]);
+  }, [addRule, enableAll, disableAll, navigateToAbout, triggerTransition]);
 }

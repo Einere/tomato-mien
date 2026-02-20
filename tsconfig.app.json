@@ -29,7 +29,8 @@
     "paths": {
       "@/*": ["src/*"],
       "@assets/*": ["assets/*"],
-      "@tomato-mien/ui": ["packages/ui/src/index.ts"]
+      "@tomato-mien/ui": ["packages/ui/src/index.ts"],
+      "@tomato-mien/view-transition": ["packages/view-transition/src/index.ts"]
     }
   },
   "include": ["src"]

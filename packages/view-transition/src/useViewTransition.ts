@@ -1,5 +1,17 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { flushSync } from "react-dom";
+
+// Module-level singleton so all useViewTransition instances share
+// the same active transition. This prevents concurrent hook instances
+// from racing on skipTransition() or leaving dangling data attributes.
+
+let activeTransition: ViewTransition | null = null;
+
+export type TransitionDirection =
+  | "drill-forward"
+  | "drill-backward"
+  | "slide-left"
+  | "slide-right";
 
 export function usePrefersReducedMotion(): boolean {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(
@@ -26,13 +38,41 @@ export function useViewTransition() {
   const isSupported = supportsViewTransition();
 
   const triggerTransition = useCallback(
-    (update: () => void) => {
+    (update: () => void, direction?: TransitionDirection) => {
       if (!isSupported || prefersReducedMotion) {
         update();
         return;
       }
-      document.startViewTransition(() => {
+
+      // If a directional transition is already running and this call has no
+      // direction, apply the DOM update directly to avoid interrupting the
+      // ongoing animation (e.g. useViewTransitionList firing after a view change).
+      if (!direction && document.documentElement.dataset.transitionDirection) {
+        update();
+        return;
+      }
+
+      if (activeTransition) {
+        activeTransition.skipTransition();
+      }
+
+      if (direction) {
+        document.documentElement.dataset.transitionDirection = direction;
+      } else {
+        delete document.documentElement.dataset.transitionDirection;
+      }
+
+      const transition = document.startViewTransition(() => {
         flushSync(update);
+      });
+
+      activeTransition = transition;
+
+      transition.finished.finally(() => {
+        if (activeTransition === transition) {
+          delete document.documentElement.dataset.transitionDirection;
+          activeTransition = null;
+        }
       });
     },
     [isSupported, prefersReducedMotion],
