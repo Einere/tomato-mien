@@ -24,12 +24,6 @@
 | Windows | `.exe` (x64, arm64)      |
 | Linux   | `.AppImage` (x64, arm64) |
 
-#### macOS Gatekeeper 경고 해결
-
-코드 서명이 없어 첫 실행 시 경고가 나타날 수 있습니다.
-
-1. 시스템 설정 > 개인정보 보호 및 보안으로 이동
-2. **"확인되지 않은 Tomato Mien 허용"** 클릭
 
 ### 직접 빌드
 
