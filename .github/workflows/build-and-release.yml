@@ -177,10 +177,10 @@ jobs:
 
       - name: Upload to App Store Connect
         run: |
-          PKG_FILE=$(ls release/mas/*.pkg 2>/dev/null | head -1)
+          PKG_FILE=$(ls release/*.pkg 2>/dev/null | head -1)
           if [ -z "$PKG_FILE" ]; then
-            echo "Error: No .pkg file found in release/mas/"
-            ls -la release/mas/ || echo "Directory release/mas/ does not exist"
+            echo "Error: No .pkg file found in release/"
+            ls -la release/ || echo "Directory release/ does not exist"
             exit 1
           fi
           echo "Uploading: $PKG_FILE"
