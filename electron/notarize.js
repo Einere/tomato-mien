@@ -1,4 +1,8 @@
 import { notarize } from "@electron/notarize";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const { build } = require("../package.json");
 
 export default async function notarizing(context) {
   const { electronPlatformName, appOutDir } = context;
@@ -19,7 +23,7 @@ export default async function notarizing(context) {
   console.log(`Notarizing ${appName}...`);
 
   await notarize({
-    appBundleId: "com.tomato-mien.app",
+    appBundleId: build.appId,
     appPath: `${appOutDir}/${appName}.app`,
     appleId: process.env.APPLE_ID,
     appleIdPassword: process.env.APPLE_APP_SPECIFIC_PASSWORD,
