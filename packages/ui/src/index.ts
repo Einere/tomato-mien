@@ -11,6 +11,7 @@ export {
   CodeIcon,
   DarkModeIcon,
   DeleteOutlineIcon,
+  EmailIcon,
   FavoriteBorderIcon,
   InfoIcon,
   LanguageIcon,
@@ -19,6 +20,7 @@ export {
   ScheduleIcon,
   SearchIcon,
   SettingsIcon,
+  ShieldIcon,
   TimerIcon,
   WarningIcon,
 } from "./icons";

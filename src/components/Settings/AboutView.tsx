@@ -3,8 +3,9 @@ import {
   Card,
   ArrowBackIcon,
   OpenInNewIcon,
-  CodeIcon,
+  EmailIcon,
   LanguageIcon,
+  ShieldIcon,
   Button,
   MenuRow,
 } from "@tomato-mien/ui";
@@ -83,24 +84,33 @@ export function AboutView({ onBack }: { onBack: () => void }) {
       <Card padding="none">
         <MenuRow
           as="a"
-          href="https://github.com/Einere/tomato-mien"
+          href={__APP_HOMEPAGE__}
           target="_blank"
           rel="noopener noreferrer"
           className="border-border-muted border-b transition-shadow hover:shadow-md"
         >
-          <MenuRow.Icon icon={CodeIcon} />
-          <MenuRow.Label title="GitHub" />
+          <MenuRow.Icon icon={LanguageIcon} />
+          <MenuRow.Label title="Homepage" />
           <OpenInNewIcon size="sm" />
         </MenuRow>
         <MenuRow
           as="a"
-          href="https://einere.github.io/tomato-mien/"
+          href={__APP_PRIVACY_URL__}
           target="_blank"
           rel="noopener noreferrer"
+          className="border-border-muted border-b transition-shadow hover:shadow-md"
+        >
+          <MenuRow.Icon icon={ShieldIcon} />
+          <MenuRow.Label title="Privacy Policy" />
+          <OpenInNewIcon size="sm" />
+        </MenuRow>
+        <MenuRow
+          as="a"
+          href="mailto:kjwsx23@einere.me"
           className="transition-shadow hover:shadow-md"
         >
-          <MenuRow.Icon icon={LanguageIcon} />
-          <MenuRow.Label title="Homepage" />
+          <MenuRow.Icon icon={EmailIcon} />
+          <MenuRow.Label title="Support" description="kjwsx23@einere.me" />
           <OpenInNewIcon size="sm" />
         </MenuRow>
       </Card>
