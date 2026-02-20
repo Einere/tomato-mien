@@ -157,8 +157,11 @@ jobs:
           security list-keychain -d user -s $KEYCHAIN_PATH
 
       - name: Copy provisioning profile
+        env:
+          APPLE_PROVISIONING_PROFILE: ${{ secrets.APPLE_PROVISIONING_PROFILE }}
         run: |
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo -n "$APPLE_PROVISIONING_PROFILE" | base64 --decode -o electron/entitlements/embedded.provisionprofile
           cp electron/entitlements/embedded.provisionprofile ~/Library/MobileDevice/Provisioning\ Profiles/
 
       - name: Build MAS app
