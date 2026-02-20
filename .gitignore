@@ -23,6 +23,7 @@ Thumbs.db
 
 # Logs
 *.log
+logs/
 
 # Coverage
 coverage/

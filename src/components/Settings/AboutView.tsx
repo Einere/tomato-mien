@@ -3,8 +3,9 @@ import {
   Card,
   ArrowBackIcon,
   OpenInNewIcon,
-  CodeIcon,
+  EmailIcon,
   LanguageIcon,
+  ShieldIcon,
   Button,
   MenuRow,
 } from "@tomato-mien/ui";
@@ -76,37 +77,46 @@ export function AboutView({ onBack }: { onBack: () => void }) {
           </p>
         )}
         <p className="text-caption text-muted-foreground">
-          Simple rule-based alarm app
+          {__APP_DESCRIPTION__}
         </p>
       </div>
 
       <Card padding="none">
         <MenuRow
           as="a"
-          href="https://github.com/Einere/tomato-mien"
+          href={__APP_HOMEPAGE__}
           target="_blank"
           rel="noopener noreferrer"
           className="border-border-muted border-b transition-shadow hover:shadow-md"
-        >
-          <MenuRow.Icon icon={CodeIcon} />
-          <MenuRow.Label title="GitHub" />
-          <OpenInNewIcon size="sm" />
-        </MenuRow>
-        <MenuRow
-          as="a"
-          href="https://einere.github.io/tomato-mien/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="transition-shadow hover:shadow-md"
         >
           <MenuRow.Icon icon={LanguageIcon} />
           <MenuRow.Label title="Homepage" />
           <OpenInNewIcon size="sm" />
         </MenuRow>
+        <MenuRow
+          as="a"
+          href={__APP_PRIVACY_URL__}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="border-border-muted border-b transition-shadow hover:shadow-md"
+        >
+          <MenuRow.Icon icon={ShieldIcon} />
+          <MenuRow.Label title="Privacy Policy" />
+          <OpenInNewIcon size="sm" />
+        </MenuRow>
+        <MenuRow
+          as="a"
+          href={`mailto:${__APP_AUTHOR_EMAIL__}`}
+          className="transition-shadow hover:shadow-md"
+        >
+          <MenuRow.Icon icon={EmailIcon} />
+          <MenuRow.Label title="Support" description={__APP_AUTHOR_EMAIL__} />
+          <OpenInNewIcon size="sm" />
+        </MenuRow>
       </Card>
 
       <p className="text-caption text-muted-foreground mt-6 text-center">
-        Made by Einere
+        Made by {__APP_AUTHOR_NAME__}
       </p>
     </div>
   );

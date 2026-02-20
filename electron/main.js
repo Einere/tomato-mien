@@ -18,7 +18,9 @@ const { autoUpdater } = pkg;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const isDev = process.env.NODE_ENV === "development";
-const isMAS = process.mas === true;
+// process.mas: Mac App Store에서 실행 시 Electron이 자동 설정하는 공식 플래그
+// process.env.MAS_BUILD: 로컬에서 MAS 빌드를 테스트할 때 수동으로 설정하는 개발용 플래그
+const isMAS = process.mas === true || process.env.MAS_BUILD === "true";
 
 // file:// 프로토콜의 IndexedDB 제한을 우회하기 위해 커스텀 프로토콜 등록
 // app.whenReady() 이전에 호출해야 함
@@ -42,8 +44,8 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 576,
     height: 800,
-    minWidth: 576,
-    maxWidth: 576,
+    minWidth: 480,
+    maxWidth: 768,
     minHeight: 600,
     webPreferences: {
       nodeIntegration: false,

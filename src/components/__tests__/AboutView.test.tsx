@@ -52,18 +52,22 @@ describe("AboutView", () => {
     expect(screen.getByText(/^v/)).toBeInTheDocument();
   });
 
-  it("displays GitHub and Homepage links", () => {
+  it("displays Homepage, Privacy Policy, and Support links", () => {
     navigateToAbout();
     const links = screen.getAllByRole("link");
     const hrefs = links.map(link => link.getAttribute("href"));
-    expect(hrefs).toContain("https://github.com/Einere/tomato-mien");
     expect(hrefs).toContain("https://einere.github.io/tomato-mien/");
+    expect(hrefs.some(h => h?.includes("privacy.html"))).toBe(true);
+    expect(hrefs).toContain("mailto:kjwsx23@einere.me");
   });
 
-  it("links open in new tab", () => {
+  it("external links open in new tab", () => {
     navigateToAbout();
     const links = screen.getAllByRole("link");
-    for (const link of links) {
+    const externalLinks = links.filter(
+      link => !link.getAttribute("href")?.startsWith("mailto:"),
+    );
+    for (const link of externalLinks) {
       expect(link).toHaveAttribute("target", "_blank");
       expect(link).toHaveAttribute("rel", "noopener noreferrer");
     }

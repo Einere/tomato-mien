@@ -6,7 +6,29 @@
     "packages/*"
   ],
   "description": "Simple rule-based alarm app",
-  "author": "Einere",
+  "author": {
+    "name": "Einere",
+    "email": "kjwsx23@einere.me",
+    "url": "https://github.com/Einere"
+  },
+  "license": "MIT",
+  "keywords": [
+    "alarm",
+    "timer",
+    "pomodoro",
+    "electron",
+    "react",
+    "desktop-app",
+    "productivity"
+  ],
+  "bugs": {
+    "url": "https://github.com/Einere/tomato-mien/issues",
+    "email": "kjwsx23@einere.me"
+  },
+  "funding": {
+    "type": "individual",
+    "url": "https://tomato-mien.lemonsqueezy.com/checkout/buy/5457327e-10c4-449a-b3c0-e63264a89720?discount=0"
+  },
   "type": "module",
   "main": "electron/main.js",
   "homepage": "https://einere.github.io/tomato-mien/",
@@ -24,8 +46,8 @@
     "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && NODE_ENV=development electron .\"",
     "electron:build": "npm run build && electron-builder",
     "electron:dist": "npm run build && electron-builder --publish=never",
-    "electron:mas": "npm run build && electron-builder --mac mas",
-    "electron:mas:dist": "npm run build && electron-builder --mac mas --publish=never",
+    "electron:mas": "npm run build && MAS_BUILD=true electron-builder --mac mas",
+    "electron:mas:dist": "npm run build && MAS_BUILD=true electron-builder --mac mas --publish=never",
     "docs:dev": "npm run dev -w @tomato-mien/docs",
     "docs:build": "npm run build -w @tomato-mien/docs",
     "test": "npx vitest run"
