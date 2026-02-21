@@ -1,6 +1,14 @@
 import { describe, it, expect } from "vitest";
-import { getNextAlarmTime } from "../nextAlarmTime";
-import type { TriggerCondition, FilterCondition } from "@/types/alarm";
+import {
+  getNextAlarmTime,
+  computeDelayMs,
+  getEarliestNextAlarm,
+} from "../nextAlarmTime";
+import type {
+  TriggerCondition,
+  FilterCondition,
+  AlarmRule,
+} from "@/types/alarm";
 
 function interval(minutes: number): TriggerCondition {
   return { type: "interval", intervalMinutes: minutes };
@@ -188,5 +196,138 @@ describe("getNextAlarmTime", () => {
       );
       expect(result).toEqual({ hour: 0, minute: 30 });
     });
+  });
+});
+
+function createTestRule(overrides?: Partial<AlarmRule>): AlarmRule {
+  return {
+    id: crypto.randomUUID(),
+    name: "Test Rule",
+    enabled: true,
+    triggers: [{ type: "interval", intervalMinutes: 15 }],
+    filters: [],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    notificationEnabled: true,
+    ...overrides,
+  };
+}
+
+describe("computeDelayMs", () => {
+  it("현재보다 미래 시각이면 해당 분까지의 ms를 반환", () => {
+    const now = new Date(2024, 0, 1, 14, 0, 0, 0);
+    const result = computeDelayMs(14, 30, now);
+    expect(result).toBe(30 * 60_000);
+  });
+
+  it("현재보다 과거 시각이면 다음 날로 래핑", () => {
+    const now = new Date(2024, 0, 1, 15, 0, 0, 0);
+    const result = computeDelayMs(14, 0, now);
+    // 14:00 다음날까지 = 23시간 = 1380분
+    expect(result).toBe(23 * 60 * 60_000);
+  });
+
+  it("같은 분이면 24시간(다음 날)으로 래핑", () => {
+    const now = new Date(2024, 0, 1, 9, 30, 0, 0);
+    const result = computeDelayMs(9, 30, now);
+    expect(result).toBe(24 * 60 * 60_000);
+  });
+
+  it("자정 교차: 23:50 → 00:10은 20분", () => {
+    const now = new Date(2024, 0, 1, 23, 50, 0, 0);
+    const result = computeDelayMs(0, 10, now);
+    expect(result).toBe(20 * 60_000);
+  });
+
+  it("초와 밀리초를 보정한다", () => {
+    const now = new Date(2024, 0, 1, 14, 0, 30, 500);
+    const result = computeDelayMs(14, 30, now);
+    // 30분 - 30초 - 500ms = 30*60000 - 30000 - 500
+    expect(result).toBe(30 * 60_000 - 30_000 - 500);
+  });
+
+  it("자정(00:00)을 정확히 계산", () => {
+    const now = new Date(2024, 0, 1, 23, 0, 0, 0);
+    const result = computeDelayMs(0, 0, now);
+    expect(result).toBe(60 * 60_000);
+  });
+});
+
+describe("getEarliestNextAlarm", () => {
+  it("활성 규칙 중 가장 가까운 알람을 반환", () => {
+    const rules = [
+      createTestRule({
+        id: "rule-a",
+        triggers: [{ type: "specific", hour: 15, minute: 0 }],
+      }),
+      createTestRule({
+        id: "rule-b",
+        triggers: [{ type: "specific", hour: 14, minute: 30 }],
+      }),
+    ];
+    const result = getEarliestNextAlarm(rules, 14, 0);
+    expect(result).toEqual({ ruleId: "rule-b", hour: 14, minute: 30 });
+  });
+
+  it("비활성 규칙은 무시", () => {
+    const rules = [
+      createTestRule({
+        id: "rule-a",
+        enabled: false,
+        triggers: [{ type: "specific", hour: 14, minute: 10 }],
+      }),
+      createTestRule({
+        id: "rule-b",
+        enabled: true,
+        triggers: [{ type: "specific", hour: 15, minute: 0 }],
+      }),
+    ];
+    const result = getEarliestNextAlarm(rules, 14, 0);
+    expect(result).toEqual({ ruleId: "rule-b", hour: 15, minute: 0 });
+  });
+
+  it("활성 규칙이 없으면 null 반환", () => {
+    const rules = [
+      createTestRule({ enabled: false }),
+      createTestRule({ enabled: false }),
+    ];
+    const result = getEarliestNextAlarm(rules, 14, 0);
+    expect(result).toBeNull();
+  });
+
+  it("빈 배열이면 null 반환", () => {
+    const result = getEarliestNextAlarm([], 14, 0);
+    expect(result).toBeNull();
+  });
+
+  it("필터로 인해 모든 규칙의 다음 알람이 없으면 null 반환", () => {
+    const rules = [
+      createTestRule({
+        triggers: [{ type: "specific", hour: 20, minute: 0 }],
+        filters: [
+          {
+            type: "range",
+            startHour: 9,
+            startMinute: 0,
+            endHour: 17,
+            endMinute: 0,
+          },
+        ],
+      }),
+    ];
+    const result = getEarliestNextAlarm(rules, 14, 0);
+    expect(result).toBeNull();
+  });
+
+  it("interval 규칙에서 가장 가까운 알람 계산", () => {
+    const rules = [
+      createTestRule({
+        id: "rule-interval",
+        triggers: [{ type: "interval", intervalMinutes: 30 }],
+      }),
+    ];
+    // 현재 14:10 → 매 30분: 다음 14:30 (거리 20분)
+    const result = getEarliestNextAlarm(rules, 14, 10);
+    expect(result).toEqual({ ruleId: "rule-interval", hour: 14, minute: 30 });
   });
 });
