@@ -4,7 +4,7 @@ const PING_PEAK_GAIN = 0.3;
 const PING_FADE_GAIN = 0.01;
 const PING_ATTACK_SEC = 0.01;
 const PING_COUNT = 3;
-const PING_INTERVAL_MS = 300;
+const PING_INTERVAL_SEC = 0.3;
 
 const FALLBACK_SAMPLE_RATE = 44100;
 const FALLBACK_DURATION_SEC = 0.5;
@@ -13,47 +13,78 @@ const FALLBACK_AMPLITUDE = 0.3;
 const WAV_HEADER_SIZE = 44;
 const PCM_MAX_VALUE = 32767;
 
-export function playAlarmSound(): void {
-  try {
-    const audioContext = new (
+// AudioContext를 재사용하여 suspended 상태 문제를 완화
+let sharedAudioContext: AudioContext | null = null;
+
+function getOrCreateAudioContext(): AudioContext {
+  if (!sharedAudioContext || sharedAudioContext.state === "closed") {
+    sharedAudioContext = new (
       window.AudioContext ||
       (window as never as { webkitAudioContext: typeof AudioContext })
         .webkitAudioContext
     )();
+  }
+  return sharedAudioContext;
+}
 
+async function ensureRunningContext(): Promise<AudioContext> {
+  let ctx = getOrCreateAudioContext();
+
+  if (ctx.state === "suspended") {
+    await ctx.resume();
+  }
+
+  // resume 후에도 running이 아니면 새 컨텍스트 생성
+  if (ctx.state !== "running") {
+    sharedAudioContext = null;
+    ctx = getOrCreateAudioContext();
+    await ctx.resume();
+  }
+
+  if (ctx.state !== "running") {
+    throw new Error(`AudioContext not running: ${ctx.state}`);
+  }
+
+  return ctx;
+}
+
+export async function playAlarmSound(): Promise<void> {
+  try {
+    const audioContext = await ensureRunningContext();
+
+    // AudioContext 네이티브 스케줄링 사용 (setTimeout 대신)
+    // → 백그라운드 탭 throttling 영향 없음, sample-accurate 타이밍
+    const baseTime = audioContext.currentTime;
     for (let i = 0; i < PING_COUNT; i++) {
-      setTimeout(() => playPing(audioContext), i * PING_INTERVAL_MS);
+      playPing(audioContext, baseTime + i * PING_INTERVAL_SEC);
     }
   } catch {
     playFallbackSound();
   }
 }
 
-function playPing(audioContext: AudioContext): void {
+function playPing(audioContext: AudioContext, startTime: number): void {
   const oscillator = audioContext.createOscillator();
   const gainNode = audioContext.createGain();
 
   oscillator.connect(gainNode);
   gainNode.connect(audioContext.destination);
 
-  oscillator.frequency.setValueAtTime(
-    PING_FREQUENCY_HZ,
-    audioContext.currentTime,
-  );
+  oscillator.frequency.setValueAtTime(PING_FREQUENCY_HZ, startTime);
   oscillator.type = "sine";
 
-  gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+  gainNode.gain.setValueAtTime(0, startTime);
   gainNode.gain.linearRampToValueAtTime(
     PING_PEAK_GAIN,
-    audioContext.currentTime + PING_ATTACK_SEC,
+    startTime + PING_ATTACK_SEC,
   );
   gainNode.gain.exponentialRampToValueAtTime(
     PING_FADE_GAIN,
-    audioContext.currentTime + PING_DURATION_SEC,
+    startTime + PING_DURATION_SEC,
   );
 
-  oscillator.start(audioContext.currentTime);
-  oscillator.stop(audioContext.currentTime + PING_DURATION_SEC);
+  oscillator.start(startTime);
+  oscillator.stop(startTime + PING_DURATION_SEC);
 }
 
 function playFallbackSound(): void {

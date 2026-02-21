@@ -56,15 +56,26 @@ export class WebWorkerAlarmService {
   }
 
   private async handleAlarmTriggered(event: AlarmEvent) {
+    // 알림 실패가 사운드 재생을 막지 않도록 분리
     try {
       const rule = await db.rules.get(event.ruleId);
       if (rule?.notificationEnabled) {
         await this.showNotification(event);
       }
     } catch {
-      await this.showNotification(event);
+      try {
+        await this.showNotification(event);
+      } catch {
+        // 알림 완전 실패 — 사운드는 계속 재생
+      }
     }
-    playAlarmSound();
+
+    try {
+      await playAlarmSound();
+    } catch {
+      // 사운드 재생 실패 로깅 (playAlarmSound 내부에서 폴백 처리됨)
+    }
+
     this.onAlarmTriggered?.(event);
   }
 
@@ -106,6 +117,12 @@ export class WebWorkerAlarmService {
   public stop(): void {
     if (this.worker) {
       this.worker.postMessage({ type: "STOP_ALARM" });
+    }
+  }
+
+  public notifyRulesChanged(): void {
+    if (this.worker) {
+      this.worker.postMessage({ type: "RULES_CHANGED" });
     }
   }
 
