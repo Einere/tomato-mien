@@ -100,10 +100,15 @@ class AlarmWorker {
   }
 
   private subscribeToRuleChanges() {
+    let isInitialEmit = true;
     try {
       const observable = liveQuery(() => this.db.rules.toArray());
       this.rulesSubscription = observable.subscribe({
         next: () => {
+          if (isInitialEmit) {
+            isInitialEmit = false;
+            return;
+          }
           console.debug("[AlarmWorker] Rules changed via liveQuery");
           this.debouncedReschedule();
         },

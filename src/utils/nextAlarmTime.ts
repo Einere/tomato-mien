@@ -9,6 +9,20 @@ const MINUTES_PER_HOUR = 60;
 const MINUTES_PER_DAY = 1440;
 const MS_PER_MINUTE = 60_000;
 
+function computeForwardDistance(
+  targetHour: number,
+  targetMinute: number,
+  currentTime: number,
+): number {
+  const distance =
+    (targetHour * MINUTES_PER_HOUR +
+      targetMinute -
+      currentTime +
+      MINUTES_PER_DAY) %
+    MINUTES_PER_DAY;
+  return distance === 0 ? MINUTES_PER_DAY : distance;
+}
+
 export function getNextAlarmTime(
   triggers: TriggerCondition[],
   filters: FilterCondition[],
@@ -29,13 +43,11 @@ export function getNextAlarmTime(
     );
     if (!candidate) continue;
 
-    let distance =
-      (candidate.hour * MINUTES_PER_HOUR +
-        candidate.minute -
-        currentTime +
-        MINUTES_PER_DAY) %
-      MINUTES_PER_DAY;
-    if (distance === 0) distance = MINUTES_PER_DAY;
+    const distance = computeForwardDistance(
+      candidate.hour,
+      candidate.minute,
+      currentTime,
+    );
 
     if (!bestCandidate || distance < bestCandidate.distance) {
       bestCandidate = {
@@ -200,13 +212,11 @@ export function getEarliestNextAlarm(
     );
     if (!next) continue;
 
-    let distance =
-      (next.hour * MINUTES_PER_HOUR +
-        next.minute -
-        currentTime +
-        MINUTES_PER_DAY) %
-      MINUTES_PER_DAY;
-    if (distance === 0) distance = MINUTES_PER_DAY;
+    const distance = computeForwardDistance(
+      next.hour,
+      next.minute,
+      currentTime,
+    );
 
     if (!best || distance < best.distance) {
       best = {
