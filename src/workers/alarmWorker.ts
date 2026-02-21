@@ -133,7 +133,7 @@ class AlarmWorker {
     }, RESCHEDULE_DEBOUNCE_MS);
   }
 
-  private async schedule() {
+  private async schedule(cachedRules?: AlarmRule[]) {
     const gen = this.generation;
     if (!this.running) return;
 
@@ -144,7 +144,7 @@ class AlarmWorker {
     }
 
     try {
-      const allRules = await this.db.rules.toArray();
+      const allRules = cachedRules ?? (await this.db.rules.toArray());
 
       // stale 방지: await 복귀 후 generation 체크
       if (gen !== this.generation) return;
@@ -191,8 +191,9 @@ class AlarmWorker {
       this.lastCheckKey = currentTimeKey;
     }
 
+    let allRules: AlarmRule[] | undefined;
     try {
-      const allRules = await this.db.rules.toArray();
+      allRules = await this.db.rules.toArray();
 
       // stale 방지: await 복귀 후 generation 체크
       if (gen !== this.generation) return;
@@ -229,8 +230,8 @@ class AlarmWorker {
       data: { lastCheckTime: now.toISOString() },
     });
 
-    // 평가 후 다음 알람 재스케줄
-    this.schedule();
+    // 평가 후 다음 알람 재스케줄 (이미 읽은 규칙을 전달하여 중복 DB 조회 방지)
+    this.schedule(allRules);
   }
 
   private triggerAlarm(

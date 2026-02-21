@@ -40,6 +40,11 @@ async function ensureRunningContext(): Promise<AudioContext> {
   // resume 후에도 running이 아니면 새 컨텍스트 생성
   if (ctx.state !== "running") {
     console.debug("[AlarmSound] Still not running, creating new AudioContext");
+    try {
+      ctx.close();
+    } catch {
+      /* ignore */
+    }
     sharedAudioContext = null;
     ctx = getOrCreateAudioContext();
     await ctx.resume();

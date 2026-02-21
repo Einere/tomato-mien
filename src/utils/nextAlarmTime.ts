@@ -168,7 +168,7 @@ export function computeDelayMs(
 
   const nowSeconds = now.getSeconds();
   const nowMs = now.getMilliseconds();
-  return diffMinutes * MS_PER_MINUTE - nowSeconds * 1000 - nowMs;
+  return Math.max(0, diffMinutes * MS_PER_MINUTE - nowSeconds * 1000 - nowMs);
 }
 
 /**

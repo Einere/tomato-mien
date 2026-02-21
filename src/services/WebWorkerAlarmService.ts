@@ -74,14 +74,6 @@ export class WebWorkerAlarmService {
       }
     } catch (error) {
       console.warn("[AlarmService] Notification flow error:", error);
-      try {
-        await this.showNotification(event);
-      } catch (retryError) {
-        console.error(
-          "[AlarmService] Notification retry also failed:",
-          retryError,
-        );
-      }
     }
 
     try {

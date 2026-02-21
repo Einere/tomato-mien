@@ -1,5 +1,6 @@
-export { TomatoMienDB } from "./TomatoMienDB";
 import { TomatoMienDB } from "./TomatoMienDB";
+
+export { TomatoMienDB };
 
 export const db = new TomatoMienDB();
 
