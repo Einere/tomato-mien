@@ -46,6 +46,10 @@ src/               # Electron 렌더러 (React SPA)
 electron/          # Electron 메인/프리로드
 ```
 
+## 알려진 제한 사항
+
+- `npm run dev`(브라우저 환경)에서는 알람 사운드가 재생되지 않을 수 있습니다. 브라우저의 Autoplay Policy로 인해 사용자 제스처 없이는 AudioContext가 `suspended` 상태에 머뭅니다. 알람 사운드를 테스트하려면 `npm run electron:dev`로 Electron 환경에서 실행하세요.
+
 ## 개발
 
 ```bash

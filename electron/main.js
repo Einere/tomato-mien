@@ -51,6 +51,7 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
       enableRemoteModule: false,
+      autoplayPolicy: "no-user-gesture-required",
       preload: path.join(__dirname, "preload.js"),
     },
     icon: path.join(__dirname, "../assets/icon.png"), // 아이콘 경로 (선택사항)

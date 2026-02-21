@@ -4,7 +4,7 @@ const PING_PEAK_GAIN = 0.3;
 const PING_FADE_GAIN = 0.01;
 const PING_ATTACK_SEC = 0.01;
 const PING_COUNT = 3;
-const PING_INTERVAL_MS = 300;
+const PING_INTERVAL_SEC = 0.3;
 
 const FALLBACK_SAMPLE_RATE = 44100;
 const FALLBACK_DURATION_SEC = 0.5;
@@ -13,50 +13,100 @@ const FALLBACK_AMPLITUDE = 0.3;
 const WAV_HEADER_SIZE = 44;
 const PCM_MAX_VALUE = 32767;
 
-export function playAlarmSound(): void {
-  try {
-    const audioContext = new (
+// AudioContext를 재사용하여 suspended 상태 문제를 완화
+let sharedAudioContext: AudioContext | null = null;
+
+function getOrCreateAudioContext(): AudioContext {
+  if (!sharedAudioContext || sharedAudioContext.state === "closed") {
+    sharedAudioContext = new (
       window.AudioContext ||
       (window as never as { webkitAudioContext: typeof AudioContext })
         .webkitAudioContext
     )();
+  }
+  return sharedAudioContext;
+}
 
-    for (let i = 0; i < PING_COUNT; i++) {
-      setTimeout(() => playPing(audioContext), i * PING_INTERVAL_MS);
+async function ensureRunningContext(): Promise<AudioContext> {
+  let ctx = getOrCreateAudioContext();
+  console.debug("[AlarmSound] AudioContext state:", ctx.state);
+
+  if (ctx.state === "suspended") {
+    console.debug("[AlarmSound] Resuming suspended AudioContext...");
+    await ctx.resume();
+    console.debug("[AlarmSound] After resume:", ctx.state);
+  }
+
+  // resume 후에도 running이 아니면 새 컨텍스트 생성
+  if (ctx.state !== "running") {
+    console.debug("[AlarmSound] Still not running, creating new AudioContext");
+    try {
+      ctx.close();
+    } catch {
+      /* ignore */
     }
-  } catch {
+    sharedAudioContext = null;
+    ctx = getOrCreateAudioContext();
+    await ctx.resume();
+    console.debug("[AlarmSound] New context state:", ctx.state);
+  }
+
+  if (ctx.state !== "running") {
+    throw new Error(`AudioContext not running: ${ctx.state}`);
+  }
+
+  return ctx;
+}
+
+export async function playAlarmSound(): Promise<void> {
+  console.debug("[AlarmSound] playAlarmSound called");
+  try {
+    const audioContext = await ensureRunningContext();
+
+    // AudioContext 네이티브 스케줄링 사용 (setTimeout 대신)
+    // → 백그라운드 탭 throttling 영향 없음, sample-accurate 타이밍
+    const baseTime = audioContext.currentTime;
+    for (let i = 0; i < PING_COUNT; i++) {
+      playPing(audioContext, baseTime + i * PING_INTERVAL_SEC);
+    }
+    console.debug(
+      "[AlarmSound] Scheduled",
+      PING_COUNT,
+      "pings at baseTime",
+      baseTime,
+    );
+  } catch (error) {
+    console.warn("[AlarmSound] AudioContext failed, trying fallback:", error);
     playFallbackSound();
   }
 }
 
-function playPing(audioContext: AudioContext): void {
+function playPing(audioContext: AudioContext, startTime: number): void {
   const oscillator = audioContext.createOscillator();
   const gainNode = audioContext.createGain();
 
   oscillator.connect(gainNode);
   gainNode.connect(audioContext.destination);
 
-  oscillator.frequency.setValueAtTime(
-    PING_FREQUENCY_HZ,
-    audioContext.currentTime,
-  );
+  oscillator.frequency.setValueAtTime(PING_FREQUENCY_HZ, startTime);
   oscillator.type = "sine";
 
-  gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+  gainNode.gain.setValueAtTime(0, startTime);
   gainNode.gain.linearRampToValueAtTime(
     PING_PEAK_GAIN,
-    audioContext.currentTime + PING_ATTACK_SEC,
+    startTime + PING_ATTACK_SEC,
   );
   gainNode.gain.exponentialRampToValueAtTime(
     PING_FADE_GAIN,
-    audioContext.currentTime + PING_DURATION_SEC,
+    startTime + PING_DURATION_SEC,
   );
 
-  oscillator.start(audioContext.currentTime);
-  oscillator.stop(audioContext.currentTime + PING_DURATION_SEC);
+  oscillator.start(startTime);
+  oscillator.stop(startTime + PING_DURATION_SEC);
 }
 
 function playFallbackSound(): void {
+  console.debug("[AlarmSound] Playing fallback WAV sound");
   try {
     const audio = new Audio();
     const samples = Math.floor(FALLBACK_SAMPLE_RATE * FALLBACK_DURATION_SEC);
@@ -68,11 +118,11 @@ function playFallbackSound(): void {
 
     const blob = new Blob([buffer], { type: "audio/wav" });
     audio.src = URL.createObjectURL(blob);
-    audio.play().catch(() => {
-      console.warn("Failed to play fallback alarm sound");
+    audio.play().catch(error => {
+      console.error("[AlarmSound] Fallback play() failed:", error);
     });
-  } catch {
-    console.warn("Failed to create fallback alarm sound");
+  } catch (error) {
+    console.error("[AlarmSound] Fallback creation failed:", error);
   }
 }
 

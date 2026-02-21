@@ -56,15 +56,34 @@ export class WebWorkerAlarmService {
   }
 
   private async handleAlarmTriggered(event: AlarmEvent) {
+    console.debug(
+      "[AlarmService] handleAlarmTriggered:",
+      event.ruleName,
+      event.ruleId,
+    );
+
+    // 알림 실패가 사운드 재생을 막지 않도록 분리
     try {
       const rule = await db.rules.get(event.ruleId);
+      console.debug(
+        "[AlarmService] notificationEnabled:",
+        rule?.notificationEnabled,
+      );
       if (rule?.notificationEnabled) {
         await this.showNotification(event);
       }
-    } catch {
-      await this.showNotification(event);
+    } catch (error) {
+      console.warn("[AlarmService] Notification flow error:", error);
     }
-    playAlarmSound();
+
+    try {
+      console.debug("[AlarmService] Playing alarm sound...");
+      await playAlarmSound();
+      console.debug("[AlarmService] Alarm sound completed");
+    } catch (error) {
+      console.error("[AlarmService] playAlarmSound threw:", error);
+    }
+
     this.onAlarmTriggered?.(event);
   }
 
@@ -106,6 +125,12 @@ export class WebWorkerAlarmService {
   public stop(): void {
     if (this.worker) {
       this.worker.postMessage({ type: "STOP_ALARM" });
+    }
+  }
+
+  public notifyRulesChanged(): void {
+    if (this.worker) {
+      this.worker.postMessage({ type: "RULES_CHANGED" });
     }
   }
 

@@ -1,13 +1,19 @@
-// Web Worker for background alarm checking
-import { TomatoMienDB } from "@/db/database";
+// Web Worker for background alarm checking (Hybrid: Timer + Safety Net + Reactive)
+import { TomatoMienDB } from "@/db/TomatoMienDB";
+import { liveQuery, type Subscription } from "dexie";
 import { evaluateRule } from "@/utils/evaluateCondition";
-import { getNextAlarmTime } from "@/utils/nextAlarmTime";
+import {
+  getNextAlarmTime,
+  computeDelayMs,
+  getEarliestNextAlarm,
+} from "@/utils/nextAlarmTime";
 import type { AlarmRule } from "@/types/alarm";
 
-const CHECK_INTERVAL_MS = 60_000;
+const SAFETY_INTERVAL_MS = 5 * 60_000; // 5분
+const RESCHEDULE_DEBOUNCE_MS = 500;
 
 interface WorkerMessage {
-  type: "START_ALARM" | "STOP_ALARM" | "CHECK_ALARM";
+  type: "START_ALARM" | "STOP_ALARM" | "CHECK_ALARM" | "RULES_CHANGED";
 }
 
 interface AlarmEvent {
@@ -20,9 +26,14 @@ interface AlarmEvent {
 
 class AlarmWorker {
   private db = new TomatoMienDB();
-  private intervalId: number | null = null;
+  private primaryTimerId: number | null = null;
+  private safetyIntervalId: number | null = null;
+  private rulesSubscription: Subscription | null = null;
+  private rescheduleDebounceId: number | null = null;
   private triggeredAlarms: Set<string> = new Set(); // "ruleId:hour:minute"
-  private lastCheckMinute: number | null = null;
+  private lastCheckKey: string | null = null; // "hour:minute"
+  private running = false;
+  private generation = 0;
 
   constructor() {
     self.addEventListener("message", this.handleMessage.bind(this));
@@ -41,40 +52,157 @@ class AlarmWorker {
       case "CHECK_ALARM":
         this.checkAlarms();
         break;
+      case "RULES_CHANGED":
+        this.debouncedReschedule();
+        break;
     }
   }
 
   private start() {
-    if (this.intervalId) {
+    if (this.running) {
       this.stop();
     }
+    this.generation++;
+    this.running = true;
 
-    this.intervalId = self.setInterval(() => {
+    this.subscribeToRuleChanges();
+
+    // Safety Net: 5분마다 보정 체크
+    this.safetyIntervalId = self.setInterval(() => {
+      console.debug("[AlarmWorker] Safety net check");
       this.checkAlarms();
-    }, CHECK_INTERVAL_MS);
+    }, SAFETY_INTERVAL_MS);
 
+    // 초기 체크 + 스케줄
     this.checkAlarms();
   }
 
   private stop() {
-    if (this.intervalId) {
-      self.clearInterval(this.intervalId);
-      this.intervalId = null;
+    this.running = false;
+    this.generation++;
+
+    if (this.primaryTimerId !== null) {
+      self.clearTimeout(this.primaryTimerId);
+      this.primaryTimerId = null;
+    }
+    if (this.safetyIntervalId !== null) {
+      self.clearInterval(this.safetyIntervalId);
+      this.safetyIntervalId = null;
+    }
+    if (this.rescheduleDebounceId !== null) {
+      self.clearTimeout(this.rescheduleDebounceId);
+      this.rescheduleDebounceId = null;
+    }
+    if (this.rulesSubscription) {
+      this.rulesSubscription.unsubscribe();
+      this.rulesSubscription = null;
+    }
+  }
+
+  private subscribeToRuleChanges() {
+    let isInitialEmit = true;
+    try {
+      const observable = liveQuery(() => this.db.rules.toArray());
+      this.rulesSubscription = observable.subscribe({
+        next: () => {
+          if (isInitialEmit) {
+            isInitialEmit = false;
+            return;
+          }
+          console.debug("[AlarmWorker] Rules changed via liveQuery");
+          this.debouncedReschedule();
+        },
+        error: err => {
+          console.warn(
+            "[AlarmWorker] liveQuery subscription failed, relying on RULES_CHANGED messages:",
+            err,
+          );
+        },
+      });
+    } catch (err) {
+      console.warn(
+        "[AlarmWorker] liveQuery not available, relying on RULES_CHANGED messages:",
+        err,
+      );
+    }
+  }
+
+  private debouncedReschedule() {
+    if (!this.running) return;
+    if (this.rescheduleDebounceId !== null) {
+      self.clearTimeout(this.rescheduleDebounceId);
+    }
+    this.rescheduleDebounceId = self.setTimeout(() => {
+      this.rescheduleDebounceId = null;
+      this.schedule();
+    }, RESCHEDULE_DEBOUNCE_MS);
+  }
+
+  private async schedule(cachedRules?: AlarmRule[]) {
+    const gen = this.generation;
+    if (!this.running) return;
+
+    // 기존 primary timer 클리어
+    if (this.primaryTimerId !== null) {
+      self.clearTimeout(this.primaryTimerId);
+      this.primaryTimerId = null;
+    }
+
+    try {
+      const allRules = cachedRules ?? (await this.db.rules.toArray());
+
+      // stale 방지: await 복귀 후 generation 체크
+      if (gen !== this.generation) return;
+
+      const now = new Date();
+      const currentHour = now.getHours();
+      const currentMinute = now.getMinutes();
+
+      const earliest = getEarliestNextAlarm(
+        allRules,
+        currentHour,
+        currentMinute,
+      );
+
+      if (!earliest) {
+        console.debug("[AlarmWorker] No upcoming alarm, timer not set");
+        return;
+      }
+
+      const delayMs = computeDelayMs(earliest.hour, earliest.minute, now);
+      console.debug(
+        `[AlarmWorker] Next alarm: ${String(earliest.hour).padStart(2, "0")}:${String(earliest.minute).padStart(2, "0")} (in ${Math.round(delayMs / 60_000)}min)`,
+      );
+
+      this.primaryTimerId = self.setTimeout(() => {
+        this.primaryTimerId = null;
+        this.checkAlarms();
+      }, delayMs);
+    } catch (err) {
+      console.error("[AlarmWorker] schedule error:", err);
     }
   }
 
   private async checkAlarms() {
+    const gen = this.generation;
     const now = new Date();
     const currentHour = now.getHours();
     const currentMinute = now.getMinutes();
 
-    if (this.lastCheckMinute !== currentMinute) {
+    // hour:minute 조합으로 추적하여 시간 변경 시에도 정확히 clear
+    const currentTimeKey = `${currentHour}:${currentMinute}`;
+    if (this.lastCheckKey !== currentTimeKey) {
       this.triggeredAlarms.clear();
-      this.lastCheckMinute = currentMinute;
+      this.lastCheckKey = currentTimeKey;
     }
 
+    let allRules: AlarmRule[] | undefined;
     try {
-      const allRules = await this.db.rules.toArray();
+      allRules = await this.db.rules.toArray();
+
+      // stale 방지: await 복귀 후 generation 체크
+      if (gen !== this.generation) return;
+
       const enabledRules = allRules.filter(r => r.enabled);
 
       for (const rule of enabledRules) {
@@ -99,10 +227,16 @@ class AlarmWorker {
       console.error("[AlarmWorker] checkAlarms error:", err);
     }
 
+    // stop() 이후 메시지/스케줄 방지
+    if (!this.running) return;
+
     self.postMessage({
       type: "LAST_CHECK_TIME_UPDATE",
       data: { lastCheckTime: now.toISOString() },
     });
+
+    // 평가 후 다음 알람 재스케줄 (이미 읽은 규칙을 전달하여 중복 DB 조회 방지)
+    this.schedule(allRules);
   }
 
   private triggerAlarm(

@@ -1,4 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { useAtomValue } from "jotai";
+import { rulesAtom } from "@/store/atoms";
 import { WebWorkerAlarmService } from "@/services/WebWorkerAlarmService";
 
 export function useAlarmService() {
@@ -11,4 +13,16 @@ export function useAlarmService() {
       service.stop();
     };
   }, []);
+
+  // 규칙 변경 시 Worker에 추가 알림 (Worker liveQuery와 중복되지만 debounce로 처리됨)
+  // 초기 마운트 시에는 start()가 이미 스케줄링을 수행하므로 스킵
+  const rules = useAtomValue(rulesAtom);
+  const isInitialMount = useRef(true);
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    WebWorkerAlarmService.getInstance().notifyRulesChanged();
+  }, [rules]);
 }
