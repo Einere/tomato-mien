@@ -56,24 +56,40 @@ export class WebWorkerAlarmService {
   }
 
   private async handleAlarmTriggered(event: AlarmEvent) {
+    console.debug(
+      "[AlarmService] handleAlarmTriggered:",
+      event.ruleName,
+      event.ruleId,
+    );
+
     // 알림 실패가 사운드 재생을 막지 않도록 분리
     try {
       const rule = await db.rules.get(event.ruleId);
+      console.debug(
+        "[AlarmService] notificationEnabled:",
+        rule?.notificationEnabled,
+      );
       if (rule?.notificationEnabled) {
         await this.showNotification(event);
       }
-    } catch {
+    } catch (error) {
+      console.warn("[AlarmService] Notification flow error:", error);
       try {
         await this.showNotification(event);
-      } catch {
-        // 알림 완전 실패 — 사운드는 계속 재생
+      } catch (retryError) {
+        console.error(
+          "[AlarmService] Notification retry also failed:",
+          retryError,
+        );
       }
     }
 
     try {
+      console.debug("[AlarmService] Playing alarm sound...");
       await playAlarmSound();
-    } catch {
-      // 사운드 재생 실패 로깅 (playAlarmSound 내부에서 폴백 처리됨)
+      console.debug("[AlarmService] Alarm sound completed");
+    } catch (error) {
+      console.error("[AlarmService] playAlarmSound threw:", error);
     }
 
     this.onAlarmTriggered?.(event);

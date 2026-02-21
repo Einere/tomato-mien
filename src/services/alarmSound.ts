@@ -29,16 +29,21 @@ function getOrCreateAudioContext(): AudioContext {
 
 async function ensureRunningContext(): Promise<AudioContext> {
   let ctx = getOrCreateAudioContext();
+  console.debug("[AlarmSound] AudioContext state:", ctx.state);
 
   if (ctx.state === "suspended") {
+    console.debug("[AlarmSound] Resuming suspended AudioContext...");
     await ctx.resume();
+    console.debug("[AlarmSound] After resume:", ctx.state);
   }
 
   // resume 후에도 running이 아니면 새 컨텍스트 생성
   if (ctx.state !== "running") {
+    console.debug("[AlarmSound] Still not running, creating new AudioContext");
     sharedAudioContext = null;
     ctx = getOrCreateAudioContext();
     await ctx.resume();
+    console.debug("[AlarmSound] New context state:", ctx.state);
   }
 
   if (ctx.state !== "running") {
@@ -49,6 +54,7 @@ async function ensureRunningContext(): Promise<AudioContext> {
 }
 
 export async function playAlarmSound(): Promise<void> {
+  console.debug("[AlarmSound] playAlarmSound called");
   try {
     const audioContext = await ensureRunningContext();
 
@@ -58,7 +64,14 @@ export async function playAlarmSound(): Promise<void> {
     for (let i = 0; i < PING_COUNT; i++) {
       playPing(audioContext, baseTime + i * PING_INTERVAL_SEC);
     }
-  } catch {
+    console.debug(
+      "[AlarmSound] Scheduled",
+      PING_COUNT,
+      "pings at baseTime",
+      baseTime,
+    );
+  } catch (error) {
+    console.warn("[AlarmSound] AudioContext failed, trying fallback:", error);
     playFallbackSound();
   }
 }
@@ -88,6 +101,7 @@ function playPing(audioContext: AudioContext, startTime: number): void {
 }
 
 function playFallbackSound(): void {
+  console.debug("[AlarmSound] Playing fallback WAV sound");
   try {
     const audio = new Audio();
     const samples = Math.floor(FALLBACK_SAMPLE_RATE * FALLBACK_DURATION_SEC);
@@ -99,11 +113,11 @@ function playFallbackSound(): void {
 
     const blob = new Blob([buffer], { type: "audio/wav" });
     audio.src = URL.createObjectURL(blob);
-    audio.play().catch(() => {
-      console.warn("Failed to play fallback alarm sound");
+    audio.play().catch(error => {
+      console.error("[AlarmSound] Fallback play() failed:", error);
     });
-  } catch {
-    console.warn("Failed to create fallback alarm sound");
+  } catch (error) {
+    console.error("[AlarmSound] Fallback creation failed:", error);
   }
 }
 
