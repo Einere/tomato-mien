@@ -33,3 +33,21 @@ export function formatTimeRange(
 export function formatTimeValue(hour: number, minute: number): string {
   return `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
 }
+
+export function timeToDate(timeStr: string): Date {
+  const [hours, minutes] = timeStr.split(":").map(Number);
+  const now = new Date();
+  const target = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    hours,
+    minutes,
+    0,
+    0,
+  );
+  if (target <= now) {
+    target.setDate(target.getDate() + 1);
+  }
+  return target;
+}

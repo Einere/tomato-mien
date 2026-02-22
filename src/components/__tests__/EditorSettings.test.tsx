@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { EditorSettings, timeToDate } from "@/components/Editor/EditorSettings";
+import { EditorSettings } from "@/components/Editor/EditorSettings";
+import { timeToDate } from "@/lib/dayjs";
 
 const defaultProps = {
   notificationEnabled: true,

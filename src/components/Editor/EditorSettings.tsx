@@ -1,4 +1,5 @@
 import { Card, Toggle, Button } from "@tomato-mien/ui";
+import { formatTimeValue, timeToDate } from "@/lib/dayjs";
 
 interface EditorSettingsProps {
   notificationEnabled: boolean;
@@ -6,29 +7,6 @@ interface EditorSettingsProps {
   scheduledEnableAt: Date | undefined;
   onScheduledEnableAtChange: (value: Date | undefined) => void;
   ruleEnabled: boolean;
-}
-
-function toTimeString(date: Date): string {
-  const pad = (n: number) => String(n).padStart(2, "0");
-  return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
-}
-
-export function timeToDate(timeStr: string): Date {
-  const [hours, minutes] = timeStr.split(":").map(Number);
-  const now = new Date();
-  const target = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate(),
-    hours,
-    minutes,
-    0,
-    0,
-  );
-  if (target <= now) {
-    target.setDate(target.getDate() + 1);
-  }
-  return target;
 }
 
 export function EditorSettings({
@@ -74,7 +52,14 @@ export function EditorSettings({
                 aria-label="Scheduled activation time"
                 disabled={ruleEnabled}
                 className="text-body text-foreground bg-surface border-border rounded-lg border px-3 py-2 disabled:cursor-not-allowed disabled:opacity-50"
-                value={scheduledEnableAt ? toTimeString(scheduledEnableAt) : ""}
+                value={
+                  scheduledEnableAt
+                    ? formatTimeValue(
+                        scheduledEnableAt.getHours(),
+                        scheduledEnableAt.getMinutes(),
+                      )
+                    : ""
+                }
                 onChange={e => {
                   const value = e.target.value;
                   onScheduledEnableAtChange(
