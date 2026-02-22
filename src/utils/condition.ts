@@ -67,6 +67,18 @@ export function describeRule(
   return `${triggerPart} (${filterPart})`;
 }
 
+export function describeSchedule(
+  scheduledEnableAt: Date | undefined,
+  timeFormat: TimeFormat = "24h",
+): string {
+  if (!scheduledEnableAt) return "";
+  const d = new Date(scheduledEnableAt);
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  const time = formatTime(d.getHours(), d.getMinutes(), timeFormat);
+  return `Scheduled at ${month}/${day} ${time}`;
+}
+
 export function validateCondition(
   cond: TimeCondition,
   basePath = "condition",

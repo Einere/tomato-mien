@@ -22,5 +22,7 @@ export {
   toggleRuleAtom,
   enableAllRulesAtom,
   disableAllRulesAtom,
+  scheduleRuleEnableAtom,
+  activateScheduledRulesAtom,
   navigateToAboutAtom,
 } from "./actions";

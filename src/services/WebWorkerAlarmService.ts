@@ -7,6 +7,7 @@ export class WebWorkerAlarmService {
   private static instance: WebWorkerAlarmService;
   private worker: Worker | null = null;
   private onAlarmTriggered?: (event: AlarmEvent) => void;
+  private onScheduledEnableTriggered?: (ruleIds: string[]) => void;
   private lastCheckTime: Date | null = null;
 
   private constructor() {
@@ -35,6 +36,9 @@ export class WebWorkerAlarmService {
         switch (type) {
           case "ALARM_TRIGGERED":
             this.handleAlarmTriggered(data);
+            break;
+          case "SCHEDULED_ENABLE_TRIGGERED":
+            this.onScheduledEnableTriggered?.(data.ruleIds);
             break;
           case "LAST_CHECK_TIME_UPDATE":
             this.lastCheckTime = new Date(data.lastCheckTime);
@@ -136,6 +140,12 @@ export class WebWorkerAlarmService {
 
   public setAlarmCallback(callback: (event: AlarmEvent) => void): void {
     this.onAlarmTriggered = callback;
+  }
+
+  public setScheduledEnableCallback(
+    callback: (ruleIds: string[]) => void,
+  ): void {
+    this.onScheduledEnableTriggered = callback;
   }
 
   public async requestNotificationPermission(): Promise<boolean> {

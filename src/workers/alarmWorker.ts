@@ -6,6 +6,7 @@ import {
   getNextAlarmTime,
   computeDelayMs,
   getEarliestNextAlarm,
+  getEarliestScheduledEnable,
 } from "@/utils/nextAlarmTime";
 import type { AlarmRule } from "@/types/alarm";
 
@@ -31,6 +32,7 @@ class AlarmWorker {
   private rulesSubscription: Subscription | null = null;
   private rescheduleDebounceId: number | null = null;
   private triggeredAlarms: Set<string> = new Set(); // "ruleId:hour:minute"
+  private processedScheduleEnables: Set<string> = new Set(); // ruleId
   private lastCheckKey: string | null = null; // "hour:minute"
   private running = false;
   private generation = 0;
@@ -97,6 +99,7 @@ class AlarmWorker {
       this.rulesSubscription.unsubscribe();
       this.rulesSubscription = null;
     }
+    this.processedScheduleEnables.clear();
   }
 
   private subscribeToRuleChanges() {
@@ -164,14 +167,29 @@ class AlarmWorker {
         currentMinute,
       );
 
-      if (!earliest) {
+      const earliestSchedule = getEarliestScheduledEnable(allRules, now);
+
+      const alarmDelayMs = earliest
+        ? computeDelayMs(earliest.hour, earliest.minute, now)
+        : null;
+      const scheduleDelayMs = earliestSchedule
+        ? Math.max(0, earliestSchedule.enableAt.getTime() - now.getTime())
+        : null;
+
+      let delayMs: number | null = null;
+      if (alarmDelayMs !== null && scheduleDelayMs !== null) {
+        delayMs = Math.min(alarmDelayMs, scheduleDelayMs);
+      } else {
+        delayMs = alarmDelayMs ?? scheduleDelayMs;
+      }
+
+      if (delayMs === null) {
         console.debug("[AlarmWorker] No upcoming alarm, timer not set");
         return;
       }
 
-      const delayMs = computeDelayMs(earliest.hour, earliest.minute, now);
       console.debug(
-        `[AlarmWorker] Next alarm: ${String(earliest.hour).padStart(2, "0")}:${String(earliest.minute).padStart(2, "0")} (in ${Math.round(delayMs / 60_000)}min)`,
+        `[AlarmWorker] Next timer in ${Math.round(delayMs / 60_000)}min`,
       );
 
       this.primaryTimerId = self.setTimeout(() => {
@@ -193,6 +211,7 @@ class AlarmWorker {
     const currentTimeKey = `${currentHour}:${currentMinute}`;
     if (this.lastCheckKey !== currentTimeKey) {
       this.triggeredAlarms.clear();
+      this.processedScheduleEnables.clear();
       this.lastCheckKey = currentTimeKey;
     }
 
@@ -202,6 +221,25 @@ class AlarmWorker {
 
       // stale 방지: await 복귀 후 generation 체크
       if (gen !== this.generation) return;
+
+      // 예약 활성화 체크: scheduledEnableAt이 도래한 비활성 규칙을 Renderer에 통지
+      const ruleIdsToEnable: string[] = [];
+      for (const rule of allRules) {
+        if (rule.enabled || !rule.scheduledEnableAt) continue;
+        if (this.processedScheduleEnables.has(rule.id)) continue;
+        const scheduledAt = new Date(rule.scheduledEnableAt);
+        if (now >= scheduledAt) {
+          ruleIdsToEnable.push(rule.id);
+          this.processedScheduleEnables.add(rule.id);
+        }
+      }
+
+      if (ruleIdsToEnable.length > 0) {
+        self.postMessage({
+          type: "SCHEDULED_ENABLE_TRIGGERED",
+          data: { ruleIds: ruleIdsToEnable },
+        });
+      }
 
       const enabledRules = allRules.filter(r => r.enabled);
 

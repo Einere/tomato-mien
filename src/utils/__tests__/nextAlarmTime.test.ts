@@ -3,6 +3,7 @@ import {
   getNextAlarmTime,
   computeDelayMs,
   getEarliestNextAlarm,
+  getEarliestScheduledEnable,
 } from "../nextAlarmTime";
 import type {
   TriggerCondition,
@@ -329,5 +330,96 @@ describe("getEarliestNextAlarm", () => {
     // 현재 14:10 → 매 30분: 다음 14:30 (거리 20분)
     const result = getEarliestNextAlarm(rules, 14, 10);
     expect(result).toEqual({ ruleId: "rule-interval", hour: 14, minute: 30 });
+  });
+});
+
+describe("getEarliestScheduledEnable", () => {
+  it("비활성 + scheduledEnableAt 있는 규칙 중 가장 가까운 것 반환", () => {
+    const now = new Date("2024-06-01T10:00:00");
+    const rules = [
+      createTestRule({
+        id: "rule-a",
+        enabled: false,
+        scheduledEnableAt: new Date("2024-06-01T12:00:00"),
+      }),
+      createTestRule({
+        id: "rule-b",
+        enabled: false,
+        scheduledEnableAt: new Date("2024-06-01T11:00:00"),
+      }),
+    ];
+    const result = getEarliestScheduledEnable(rules, now);
+    expect(result).toEqual({
+      ruleId: "rule-b",
+      enableAt: new Date("2024-06-01T11:00:00"),
+    });
+  });
+
+  it("활성 규칙은 무시", () => {
+    const now = new Date("2024-06-01T10:00:00");
+    const rules = [
+      createTestRule({
+        id: "rule-a",
+        enabled: true,
+        scheduledEnableAt: new Date("2024-06-01T11:00:00"),
+      }),
+      createTestRule({
+        id: "rule-b",
+        enabled: false,
+        scheduledEnableAt: new Date("2024-06-01T12:00:00"),
+      }),
+    ];
+    const result = getEarliestScheduledEnable(rules, now);
+    expect(result).toEqual({
+      ruleId: "rule-b",
+      enableAt: new Date("2024-06-01T12:00:00"),
+    });
+  });
+
+  it("scheduledEnableAt 없는 규칙은 무시", () => {
+    const now = new Date("2024-06-01T10:00:00");
+    const rules = [
+      createTestRule({ id: "rule-a", enabled: false }),
+      createTestRule({
+        id: "rule-b",
+        enabled: false,
+        scheduledEnableAt: new Date("2024-06-01T11:00:00"),
+      }),
+    ];
+    const result = getEarliestScheduledEnable(rules, now);
+    expect(result).toEqual({
+      ruleId: "rule-b",
+      enableAt: new Date("2024-06-01T11:00:00"),
+    });
+  });
+
+  it("과거 시각은 무시 (now 이전)", () => {
+    const now = new Date("2024-06-01T10:00:00");
+    const rules = [
+      createTestRule({
+        id: "rule-a",
+        enabled: false,
+        scheduledEnableAt: new Date("2024-06-01T09:00:00"),
+      }),
+    ];
+    const result = getEarliestScheduledEnable(rules, now);
+    expect(result).toBeNull();
+  });
+
+  it("모든 규칙이 활성이면 null 반환", () => {
+    const now = new Date("2024-06-01T10:00:00");
+    const rules = [
+      createTestRule({
+        enabled: true,
+        scheduledEnableAt: new Date("2024-06-01T11:00:00"),
+      }),
+    ];
+    const result = getEarliestScheduledEnable(rules, now);
+    expect(result).toBeNull();
+  });
+
+  it("빈 배열이면 null 반환", () => {
+    const result = getEarliestScheduledEnable([], new Date());
+    expect(result).toBeNull();
   });
 });

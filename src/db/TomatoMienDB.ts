@@ -102,5 +102,11 @@ export class TomatoMienDB extends Dexie {
             }
           });
       });
+
+    this.version(4).stores({
+      rules: "id, enabled, updatedAt",
+      settings: "id",
+      metadata: "key",
+    });
   }
 }

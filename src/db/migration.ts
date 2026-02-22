@@ -9,8 +9,25 @@ const AlarmRulesArraySchema = z.array(AlarmRuleSchema);
 const RULES_KEY = "tomato-mien-rules";
 const SETTINGS_KEY = "tomato-mien-settings";
 
+export async function processExpiredSchedules(): Promise<void> {
+  const now = new Date();
+  await db.rules
+    .filter(
+      r =>
+        !r.enabled &&
+        r.scheduledEnableAt != null &&
+        new Date(r.scheduledEnableAt) <= now,
+    )
+    .modify(rule => {
+      rule.enabled = true;
+      rule.activatedAt = now;
+      delete rule.scheduledEnableAt;
+    });
+}
+
 export async function runMigration(): Promise<void> {
   await dbReady;
+  await processExpiredSchedules();
   await Promise.all([
     hydrateArrayStorage<AlarmRule>(
       RULES_KEY,

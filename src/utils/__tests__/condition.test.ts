@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   describeCondition,
   describeRule,
+  describeSchedule,
   validateCondition,
   validateRule,
 } from "@/utils/condition";
@@ -237,5 +238,26 @@ describe("validateRule", () => {
       ],
     );
     expect(issues.length).toBeGreaterThan(0);
+  });
+});
+
+describe("describeSchedule", () => {
+  it("24h 포맷으로 예약 설명 반환", () => {
+    const date = new Date(2024, 5, 15, 9, 30); // 2024-06-15 09:30
+    expect(describeSchedule(date, "24h")).toBe("Scheduled at 06/15 09:30");
+  });
+
+  it("12h 포맷으로 예약 설명 반환", () => {
+    const date = new Date(2024, 5, 15, 14, 30); // 2024-06-15 14:30
+    expect(describeSchedule(date, "12h")).toBe("Scheduled at 06/15 2:30 PM");
+  });
+
+  it("undefined이면 빈 문자열 반환", () => {
+    expect(describeSchedule(undefined)).toBe("");
+  });
+
+  it("기본 timeFormat은 24h", () => {
+    const date = new Date(2024, 0, 1, 0, 0); // 2024-01-01 00:00
+    expect(describeSchedule(date)).toBe("Scheduled at 01/01 00:00");
   });
 });

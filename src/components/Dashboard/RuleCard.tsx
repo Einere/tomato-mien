@@ -7,8 +7,15 @@ import {
   editorRuleIdAtom,
   settingsAtom,
 } from "@/store";
-import { describeRule } from "@/utils/condition";
-import { Card, MenuRow, Toggle, TimerIcon, AlarmIcon } from "@tomato-mien/ui";
+import { describeRule, describeSchedule } from "@/utils/condition";
+import {
+  Card,
+  MenuRow,
+  Toggle,
+  Badge,
+  TimerIcon,
+  AlarmIcon,
+} from "@tomato-mien/ui";
 import type { ComponentType } from "react";
 import type { IconProps } from "@tomato-mien/ui";
 import { useViewTransition } from "@tomato-mien/view-transition";
@@ -38,6 +45,10 @@ export function RuleCard({ rule }: RuleCardProps) {
   const { triggerTransition } = useViewTransition();
 
   const description = describeRule(rule.triggers, rule.filters, timeFormat);
+  const scheduleText =
+    !rule.enabled && rule.scheduledEnableAt
+      ? describeSchedule(rule.scheduledEnableAt, timeFormat)
+      : "";
   const icon = getConditionIcon(rule.triggers);
 
   const navigateToEditor = () => {
@@ -71,7 +82,14 @@ export function RuleCard({ rule }: RuleCardProps) {
             !rule.enabled ? "bg-muted text-subtle-foreground" : undefined
           }
         />
-        <MenuRow.Label title={rule.name} description={description} truncate />
+        <div className="min-w-0 flex-1">
+          <MenuRow.Label title={rule.name} description={description} truncate />
+          {scheduleText && (
+            <Badge variant="primary" className="mt-1">
+              {scheduleText}
+            </Badge>
+          )}
+        </div>
         <div
           onClick={e => {
             e.stopPropagation();

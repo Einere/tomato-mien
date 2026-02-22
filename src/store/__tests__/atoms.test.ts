@@ -8,6 +8,8 @@ import {
   toggleRuleAtom,
   enableAllRulesAtom,
   disableAllRulesAtom,
+  scheduleRuleEnableAtom,
+  activateScheduledRulesAtom,
   viewAtom,
   editorRuleIdAtom,
 } from "@/store";
@@ -176,5 +178,120 @@ describe("rulesAtom CRUD", () => {
     store.set(disableAllRulesAtom);
     const rules = store.get(rulesAtom);
     expect(rules.every(r => !r.enabled)).toBe(true);
+  });
+
+  it("toggleRuleAtom clears scheduledEnableAt when enabling", () => {
+    const store = createStore();
+    const futureDate = new Date("2024-12-01T09:00:00Z");
+    const rule = createTestRule({
+      enabled: false,
+      scheduledEnableAt: futureDate,
+    });
+    store.set(rulesAtom, [rule]);
+
+    store.set(toggleRuleAtom, rule.id);
+    const updated = store.get(rulesAtom)[0];
+    expect(updated.enabled).toBe(true);
+    expect(updated.scheduledEnableAt).toBeUndefined();
+  });
+
+  it("enableAllRulesAtom clears scheduledEnableAt for disabled rules", () => {
+    const store = createStore();
+    const futureDate = new Date("2024-12-01T09:00:00Z");
+    const rule = createTestRule({
+      enabled: false,
+      scheduledEnableAt: futureDate,
+    });
+    store.set(rulesAtom, [rule]);
+
+    store.set(enableAllRulesAtom);
+    const updated = store.get(rulesAtom)[0];
+    expect(updated.enabled).toBe(true);
+    expect(updated.scheduledEnableAt).toBeUndefined();
+  });
+
+  it("scheduleRuleEnableAtom sets scheduledEnableAt", () => {
+    const store = createStore();
+    const rule = createTestRule({ enabled: false });
+    store.set(rulesAtom, [rule]);
+
+    const futureDate = new Date("2024-12-01T09:00:00Z");
+    store.set(scheduleRuleEnableAtom, {
+      ruleId: rule.id,
+      scheduledEnableAt: futureDate,
+    });
+    const updated = store.get(rulesAtom)[0];
+    expect(updated.scheduledEnableAt).toEqual(futureDate);
+  });
+
+  it("scheduleRuleEnableAtom clears scheduledEnableAt with undefined", () => {
+    const store = createStore();
+    const futureDate = new Date("2024-12-01T09:00:00Z");
+    const rule = createTestRule({
+      enabled: false,
+      scheduledEnableAt: futureDate,
+    });
+    store.set(rulesAtom, [rule]);
+
+    store.set(scheduleRuleEnableAtom, {
+      ruleId: rule.id,
+      scheduledEnableAt: undefined,
+    });
+    const updated = store.get(rulesAtom)[0];
+    expect(updated.scheduledEnableAt).toBeUndefined();
+  });
+});
+
+describe("activateScheduledRulesAtom", () => {
+  it("activates target rules and clears scheduledEnableAt", () => {
+    const store = createStore();
+    const rule = createTestRule({
+      enabled: false,
+      scheduledEnableAt: new Date("2024-12-01T09:00:00Z"),
+    });
+    store.set(rulesAtom, [rule]);
+
+    store.set(activateScheduledRulesAtom, [rule.id]);
+    const updated = store.get(rulesAtom)[0];
+    expect(updated.enabled).toBe(true);
+    expect(updated.activatedAt).toBeInstanceOf(Date);
+    expect(updated.scheduledEnableAt).toBeUndefined();
+    expect(updated.updatedAt).toBeInstanceOf(Date);
+  });
+
+  it("does not modify rules not in the target list", () => {
+    const store = createStore();
+    const target = createTestRule({
+      enabled: false,
+      scheduledEnableAt: new Date("2024-12-01T09:00:00Z"),
+    });
+    const other = createTestRule({
+      enabled: false,
+      scheduledEnableAt: new Date("2024-12-01T10:00:00Z"),
+    });
+    store.set(rulesAtom, [target, other]);
+
+    store.set(activateScheduledRulesAtom, [target.id]);
+    const rules = store.get(rulesAtom);
+    expect(rules[0].enabled).toBe(true);
+    expect(rules[1].enabled).toBe(false);
+    expect(rules[1].scheduledEnableAt).toEqual(
+      new Date("2024-12-01T10:00:00Z"),
+    );
+  });
+
+  it("is idempotent — calling twice does not cause errors", () => {
+    const store = createStore();
+    const rule = createTestRule({
+      enabled: false,
+      scheduledEnableAt: new Date("2024-12-01T09:00:00Z"),
+    });
+    store.set(rulesAtom, [rule]);
+
+    store.set(activateScheduledRulesAtom, [rule.id]);
+    store.set(activateScheduledRulesAtom, [rule.id]);
+    const updated = store.get(rulesAtom)[0];
+    expect(updated.enabled).toBe(true);
+    expect(updated.scheduledEnableAt).toBeUndefined();
   });
 });

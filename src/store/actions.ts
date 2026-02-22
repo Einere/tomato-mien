@@ -53,7 +53,10 @@ export const toggleRuleAtom = atom(null, (get, set, ruleId: string) => {
         ? {
             ...r,
             enabled: !r.enabled,
-            ...(!r.enabled && { activatedAt: now }),
+            ...(!r.enabled && {
+              activatedAt: now,
+              scheduledEnableAt: undefined,
+            }),
           }
         : r,
     ),
@@ -67,7 +70,10 @@ export const enableAllRulesAtom = atom(null, (get, set) => {
     get(rulesAtom).map(r => ({
       ...r,
       enabled: true,
-      ...(!r.enabled && { activatedAt: now }),
+      ...(!r.enabled && {
+        activatedAt: now,
+        scheduledEnableAt: undefined,
+      }),
     })),
   );
 });
@@ -78,6 +84,50 @@ export const disableAllRulesAtom = atom(null, (get, set) => {
     get(rulesAtom).map(r => ({ ...r, enabled: false })),
   );
 });
+
+export const scheduleRuleEnableAtom = atom(
+  null,
+  (
+    get,
+    set,
+    payload: { ruleId: string; scheduledEnableAt: Date | undefined },
+  ) => {
+    set(
+      rulesAtom,
+      get(rulesAtom).map(r =>
+        r.id === payload.ruleId
+          ? {
+              ...r,
+              scheduledEnableAt: payload.scheduledEnableAt,
+              updatedAt: new Date(),
+            }
+          : r,
+      ),
+    );
+  },
+);
+
+export const activateScheduledRulesAtom = atom(
+  null,
+  (get, set, ruleIds: string[]) => {
+    const now = new Date();
+    const ruleIdSet = new Set(ruleIds);
+    set(
+      rulesAtom,
+      get(rulesAtom).map(r =>
+        ruleIdSet.has(r.id)
+          ? {
+              ...r,
+              enabled: true,
+              activatedAt: now,
+              scheduledEnableAt: undefined,
+              updatedAt: now,
+            }
+          : r,
+      ),
+    );
+  },
+);
 
 export const navigateToAboutAtom = atom(null, (_get, set) => {
   set(viewAtom, "settings");
