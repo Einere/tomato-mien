@@ -40,6 +40,9 @@ export function EditorView() {
   ]);
   const [filters, setFilters] = useState<FilterCondition[]>([]);
   const [notificationEnabled, setNotificationEnabled] = useState(true);
+  const [scheduledEnableAt, setScheduledEnableAt] = useState<
+    Date | undefined
+  >();
   const [dirty, setDirty] = useState(false);
 
   const issues = validateRule(triggers, filters);
@@ -51,6 +54,11 @@ export function EditorView() {
       setTriggers(existingRule.triggers);
       setFilters(existingRule.filters);
       setNotificationEnabled(existingRule.notificationEnabled);
+      setScheduledEnableAt(
+        existingRule.scheduledEnableAt
+          ? new Date(existingRule.scheduledEnableAt)
+          : undefined,
+      );
       setDirty(false);
     }
   }, [existingRule]);
@@ -75,6 +83,11 @@ export function EditorView() {
     setDirty(true);
   };
 
+  const handleScheduledEnableAtChange = (v: Date | undefined) => {
+    setScheduledEnableAt(v);
+    setDirty(true);
+  };
+
   const handleSave = () => {
     if (!ruleId) return;
     const now = new Date();
@@ -88,6 +101,7 @@ export function EditorView() {
       updatedAt: now,
       notificationEnabled,
       activatedAt: existingRule?.activatedAt ?? now,
+      scheduledEnableAt,
     };
     triggerTransition(() => {
       updateRule(updated);
@@ -123,6 +137,9 @@ export function EditorView() {
       <EditorSettings
         notificationEnabled={notificationEnabled}
         onNotificationEnabledChange={handleNotificationEnabledChange}
+        scheduledEnableAt={scheduledEnableAt}
+        onScheduledEnableAtChange={handleScheduledEnableAtChange}
+        ruleEnabled={existingRule?.enabled ?? true}
       />
       <EditorFooter
         onCancel={handleCancel}

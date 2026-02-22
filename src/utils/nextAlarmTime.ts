@@ -184,6 +184,30 @@ export function computeDelayMs(
 }
 
 /**
+ * 비활성 규칙 중 scheduledEnableAt이 설정된 것 중 가장 가까운 예약을 반환한다.
+ */
+export function getEarliestScheduledEnable(
+  rules: AlarmRule[],
+  now: Date,
+): { ruleId: string; enableAt: Date } | null {
+  let best: { ruleId: string; enableAt: Date } | null = null;
+
+  for (const rule of rules) {
+    if (rule.enabled) continue;
+    if (!rule.scheduledEnableAt) continue;
+
+    const enableAt = new Date(rule.scheduledEnableAt);
+    if (enableAt <= now) continue;
+
+    if (!best || enableAt.getTime() < best.enableAt.getTime()) {
+      best = { ruleId: rule.id, enableAt };
+    }
+  }
+
+  return best;
+}
+
+/**
  * 전체 규칙 중 가장 가까운 다음 알람을 반환한다.
  * 활성 규칙이 없거나 다음 알람이 없으면 null을 반환한다.
  */

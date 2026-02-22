@@ -5,6 +5,9 @@ import { EditorSettings } from "@/components/Editor/EditorSettings";
 const defaultProps = {
   notificationEnabled: true,
   onNotificationEnabledChange: () => {},
+  scheduledEnableAt: undefined,
+  onScheduledEnableAtChange: () => {},
+  ruleEnabled: true,
 };
 
 describe("EditorSettings", () => {
