@@ -8,13 +8,27 @@ interface EditorSettingsProps {
   ruleEnabled: boolean;
 }
 
-function toDatetimeLocalString(date: Date): string {
+function toTimeString(date: Date): string {
   const pad = (n: number) => String(n).padStart(2, "0");
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+  return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
 }
 
-function getMinDatetimeLocal(): string {
-  return toDatetimeLocalString(new Date());
+export function timeToDate(timeStr: string): Date {
+  const [hours, minutes] = timeStr.split(":").map(Number);
+  const now = new Date();
+  const target = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    hours,
+    minutes,
+    0,
+    0,
+  );
+  if (target <= now) {
+    target.setDate(target.getDate() + 1);
+  }
+  return target;
 }
 
 export function EditorSettings({
@@ -44,9 +58,9 @@ export function EditorSettings({
             onChange={onNotificationEnabledChange}
           />
         </div>
-        {!ruleEnabled && (
-          <div className="border-border border-t p-4">
-            <div className="mb-2">
+        <div className="border-border border-t p-4">
+          <div className="flex items-center justify-between">
+            <div className={ruleEnabled ? "opacity-50" : ""}>
               <p className="text-body text-foreground font-medium">
                 Scheduled Activation
               </p>
@@ -56,22 +70,18 @@ export function EditorSettings({
             </div>
             <div className="flex items-center gap-2">
               <input
-                type="datetime-local"
-                className="text-body text-foreground bg-surface border-border flex-1 rounded-lg border px-3 py-2"
-                value={
-                  scheduledEnableAt
-                    ? toDatetimeLocalString(scheduledEnableAt)
-                    : ""
-                }
-                min={getMinDatetimeLocal()}
+                type="time"
+                disabled={ruleEnabled}
+                className="text-body text-foreground bg-surface border-border rounded-lg border px-3 py-2 disabled:cursor-not-allowed disabled:opacity-50"
+                value={scheduledEnableAt ? toTimeString(scheduledEnableAt) : ""}
                 onChange={e => {
                   const value = e.target.value;
                   onScheduledEnableAtChange(
-                    value ? new Date(value) : undefined,
+                    value ? timeToDate(value) : undefined,
                   );
                 }}
               />
-              {scheduledEnableAt && (
+              {scheduledEnableAt && !ruleEnabled && (
                 <Button
                   variant="ghost"
                   color="danger"
@@ -82,7 +92,7 @@ export function EditorSettings({
               )}
             </div>
           </div>
-        )}
+        </div>
       </Card>
     </div>
   );

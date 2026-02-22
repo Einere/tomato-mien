@@ -1,6 +1,6 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { EditorSettings } from "@/components/Editor/EditorSettings";
+import { EditorSettings, timeToDate } from "@/components/Editor/EditorSettings";
 
 const defaultProps = {
   notificationEnabled: true,
@@ -38,5 +38,48 @@ describe("EditorSettings", () => {
     );
     fireEvent.click(screen.getByRole("switch"));
     expect(onNotificationEnabledChange).toHaveBeenCalledWith(false);
+  });
+});
+
+describe("timeToDate", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("미래 시각이면 오늘 날짜로 Date를 생성한다", () => {
+    vi.setSystemTime(new Date(2024, 5, 15, 10, 0)); // 2024-06-15 10:00
+    const result = timeToDate("14:30");
+    expect(result.getFullYear()).toBe(2024);
+    expect(result.getMonth()).toBe(5);
+    expect(result.getDate()).toBe(15);
+    expect(result.getHours()).toBe(14);
+    expect(result.getMinutes()).toBe(30);
+  });
+
+  it("이미 지난 시각이면 내일 날짜로 Date를 생성한다", () => {
+    vi.setSystemTime(new Date(2024, 5, 15, 16, 0)); // 2024-06-15 16:00
+    const result = timeToDate("14:30");
+    expect(result.getFullYear()).toBe(2024);
+    expect(result.getMonth()).toBe(5);
+    expect(result.getDate()).toBe(16);
+    expect(result.getHours()).toBe(14);
+    expect(result.getMinutes()).toBe(30);
+  });
+
+  it("현재 시각과 동일하면 내일로 설정한다", () => {
+    vi.setSystemTime(new Date(2024, 5, 15, 14, 30)); // 2024-06-15 14:30
+    const result = timeToDate("14:30");
+    expect(result.getDate()).toBe(16);
+  });
+
+  it("월말에 내일로 넘어가면 다음 달로 설정된다", () => {
+    vi.setSystemTime(new Date(2024, 5, 30, 23, 0)); // 2024-06-30 23:00
+    const result = timeToDate("09:00");
+    expect(result.getMonth()).toBe(6); // July
+    expect(result.getDate()).toBe(1);
   });
 });

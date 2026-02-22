@@ -76,7 +76,7 @@ export function describeSchedule(
   const month = String(d.getMonth() + 1).padStart(2, "0");
   const day = String(d.getDate()).padStart(2, "0");
   const time = formatTime(d.getHours(), d.getMinutes(), timeFormat);
-  return `${month}/${day} ${time}에 활성화 예약됨`;
+  return `Scheduled at ${month}/${day} ${time}`;
 }
 
 export function validateCondition(

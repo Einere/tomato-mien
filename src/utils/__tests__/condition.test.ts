@@ -244,12 +244,12 @@ describe("validateRule", () => {
 describe("describeSchedule", () => {
   it("24h 포맷으로 예약 설명 반환", () => {
     const date = new Date(2024, 5, 15, 9, 30); // 2024-06-15 09:30
-    expect(describeSchedule(date, "24h")).toBe("06/15 09:30에 활성화 예약됨");
+    expect(describeSchedule(date, "24h")).toBe("Scheduled at 06/15 09:30");
   });
 
   it("12h 포맷으로 예약 설명 반환", () => {
     const date = new Date(2024, 5, 15, 14, 30); // 2024-06-15 14:30
-    expect(describeSchedule(date, "12h")).toBe("06/15 2:30 PM에 활성화 예약됨");
+    expect(describeSchedule(date, "12h")).toBe("Scheduled at 06/15 2:30 PM");
   });
 
   it("undefined이면 빈 문자열 반환", () => {
@@ -258,6 +258,6 @@ describe("describeSchedule", () => {
 
   it("기본 timeFormat은 24h", () => {
     const date = new Date(2024, 0, 1, 0, 0); // 2024-01-01 00:00
-    expect(describeSchedule(date)).toBe("01/01 00:00에 활성화 예약됨");
+    expect(describeSchedule(date)).toBe("Scheduled at 01/01 00:00");
   });
 });
