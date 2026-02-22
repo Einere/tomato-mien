@@ -1,7 +1,6 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { EditorSettings } from "@/components/Editor/EditorSettings";
-import { timeToDate } from "@/lib/dayjs";
 
 const defaultProps = {
   notificationEnabled: true,
@@ -88,47 +87,118 @@ describe("EditorSettings", () => {
     fireEvent.click(screen.getByRole("button", { name: /clear/i }));
     expect(onScheduledEnableAtChange).toHaveBeenCalledWith(undefined);
   });
-});
 
-describe("timeToDate", () => {
-  beforeEach(() => {
-    vi.useFakeTimers();
+  it("scheduledEnableAt=undefined이면 Clear 버튼이 표시되지 않는다", () => {
+    render(
+      <EditorSettings
+        {...defaultProps}
+        ruleEnabled={false}
+        scheduledEnableAt={undefined}
+      />,
+    );
+    expect(
+      screen.queryByRole("button", { name: /clear/i }),
+    ).not.toBeInTheDocument();
   });
 
-  afterEach(() => {
+  it("time input 변경 시 onScheduledEnableAtChange(Date)를 호출한다", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(2024, 5, 15, 10, 0));
+    const onScheduledEnableAtChange = vi.fn();
+    render(
+      <EditorSettings
+        {...defaultProps}
+        ruleEnabled={false}
+        onScheduledEnableAtChange={onScheduledEnableAtChange}
+      />,
+    );
+    fireEvent.change(screen.getByLabelText("Scheduled activation time"), {
+      target: { value: "14:30" },
+    });
+    expect(onScheduledEnableAtChange).toHaveBeenCalledTimes(1);
+    const arg = onScheduledEnableAtChange.mock.calls[0][0];
+    expect(arg).toBeInstanceOf(Date);
+    expect(arg.getHours()).toBe(14);
+    expect(arg.getMinutes()).toBe(30);
     vi.useRealTimers();
   });
 
-  it("미래 시각이면 오늘 날짜로 Date를 생성한다", () => {
-    vi.setSystemTime(new Date(2024, 5, 15, 10, 0)); // 2024-06-15 10:00
-    const result = timeToDate("14:30");
-    expect(result.getFullYear()).toBe(2024);
-    expect(result.getMonth()).toBe(5);
-    expect(result.getDate()).toBe(15);
-    expect(result.getHours()).toBe(14);
-    expect(result.getMinutes()).toBe(30);
+  it("과거 시간 입력 시 onScheduledEnableAtChange를 호출하지 않고 에러 메시지를 표시한다", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(2024, 5, 15, 16, 0));
+    const onScheduledEnableAtChange = vi.fn();
+    render(
+      <EditorSettings
+        {...defaultProps}
+        ruleEnabled={false}
+        onScheduledEnableAtChange={onScheduledEnableAtChange}
+      />,
+    );
+    fireEvent.change(screen.getByLabelText("Scheduled activation time"), {
+      target: { value: "14:30" },
+    });
+    expect(onScheduledEnableAtChange).not.toHaveBeenCalled();
+    expect(
+      screen.getByText("Cannot schedule in the past. Choose a future time."),
+    ).toBeInTheDocument();
+    vi.useRealTimers();
   });
 
-  it("이미 지난 시각이면 내일 날짜로 Date를 생성한다", () => {
-    vi.setSystemTime(new Date(2024, 5, 15, 16, 0)); // 2024-06-15 16:00
-    const result = timeToDate("14:30");
-    expect(result.getFullYear()).toBe(2024);
-    expect(result.getMonth()).toBe(5);
-    expect(result.getDate()).toBe(16);
-    expect(result.getHours()).toBe(14);
-    expect(result.getMinutes()).toBe(30);
+  it("미래 시간 입력 시 에러 메시지가 사라진다", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(2024, 5, 15, 12, 0));
+    const onScheduledEnableAtChange = vi.fn();
+    render(
+      <EditorSettings
+        {...defaultProps}
+        ruleEnabled={false}
+        onScheduledEnableAtChange={onScheduledEnableAtChange}
+      />,
+    );
+    // 과거 시간 → 에러 발생
+    fireEvent.change(screen.getByLabelText("Scheduled activation time"), {
+      target: { value: "10:00" },
+    });
+    expect(
+      screen.getByText("Cannot schedule in the past. Choose a future time."),
+    ).toBeInTheDocument();
+    // 미래 시간 → 에러 해제
+    fireEvent.change(screen.getByLabelText("Scheduled activation time"), {
+      target: { value: "14:00" },
+    });
+    expect(
+      screen.queryByText("Cannot schedule in the past. Choose a future time."),
+    ).not.toBeInTheDocument();
+    vi.useRealTimers();
   });
 
-  it("현재 시각과 동일하면 내일로 설정한다", () => {
-    vi.setSystemTime(new Date(2024, 5, 15, 14, 30)); // 2024-06-15 14:30
-    const result = timeToDate("14:30");
-    expect(result.getDate()).toBe(16);
-  });
-
-  it("월말에 내일로 넘어가면 다음 달로 설정된다", () => {
-    vi.setSystemTime(new Date(2024, 5, 30, 23, 0)); // 2024-06-30 23:00
-    const result = timeToDate("09:00");
-    expect(result.getMonth()).toBe(6); // July
-    expect(result.getDate()).toBe(1);
+  it("input 비우기 시 에러 메시지가 사라진다", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(2024, 5, 15, 12, 0));
+    const onScheduledEnableAtChange = vi.fn();
+    render(
+      <EditorSettings
+        {...defaultProps}
+        ruleEnabled={false}
+        scheduledEnableAt={new Date(2024, 5, 15, 14, 30)}
+        onScheduledEnableAtChange={onScheduledEnableAtChange}
+      />,
+    );
+    // 과거 시간 → 에러 발생
+    fireEvent.change(screen.getByLabelText("Scheduled activation time"), {
+      target: { value: "10:00" },
+    });
+    expect(
+      screen.getByText("Cannot schedule in the past. Choose a future time."),
+    ).toBeInTheDocument();
+    // 비우기 → 에러 해제 + undefined 전달
+    fireEvent.change(screen.getByLabelText("Scheduled activation time"), {
+      target: { value: "" },
+    });
+    expect(
+      screen.queryByText("Cannot schedule in the past. Choose a future time."),
+    ).not.toBeInTheDocument();
+    expect(onScheduledEnableAtChange).toHaveBeenCalledWith(undefined);
+    vi.useRealTimers();
   });
 });

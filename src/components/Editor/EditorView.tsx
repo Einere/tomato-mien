@@ -91,17 +91,18 @@ export function EditorView() {
   const handleSave = () => {
     if (!ruleId) return;
     const now = new Date();
+    const isEnabled = existingRule?.enabled ?? true;
     const updated: AlarmRule = {
       id: ruleId,
       name: name || "Untitled Rule",
-      enabled: existingRule?.enabled ?? true,
+      enabled: isEnabled,
       triggers,
       filters,
       createdAt: existingRule?.createdAt ?? now,
       updatedAt: now,
       notificationEnabled,
       activatedAt: existingRule?.activatedAt ?? now,
-      scheduledEnableAt,
+      scheduledEnableAt: isEnabled ? undefined : scheduledEnableAt,
     };
     triggerTransition(() => {
       updateRule(updated);

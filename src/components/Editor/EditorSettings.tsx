@@ -1,5 +1,11 @@
+import { useState } from "react";
 import { Card, Toggle, Button } from "@tomato-mien/ui";
-import { formatTimeValue, timeToDate } from "@/lib/dayjs";
+import {
+  formatTimeValue,
+  timeToDate,
+  getMinTimeValue,
+  isTimeAfterNow,
+} from "@/lib/dayjs";
 
 interface EditorSettingsProps {
   notificationEnabled: boolean;
@@ -16,6 +22,8 @@ export function EditorSettings({
   onScheduledEnableAtChange,
   ruleEnabled,
 }: EditorSettingsProps) {
+  const [timeError, setTimeError] = useState<string | null>(null);
+
   return (
     <div className="px-5 pb-4">
       <span className="text-overline text-subtle-foreground mb-2 block">
@@ -51,6 +59,7 @@ export function EditorSettings({
                 type="time"
                 aria-label="Scheduled activation time"
                 disabled={ruleEnabled}
+                min={getMinTimeValue()}
                 className="text-body text-foreground bg-surface border-border rounded-lg border px-3 py-2 disabled:cursor-not-allowed disabled:opacity-50"
                 value={
                   scheduledEnableAt
@@ -62,9 +71,19 @@ export function EditorSettings({
                 }
                 onChange={e => {
                   const value = e.target.value;
-                  onScheduledEnableAtChange(
-                    value ? timeToDate(value) : undefined,
-                  );
+                  if (!value) {
+                    setTimeError(null);
+                    onScheduledEnableAtChange(undefined);
+                    return;
+                  }
+                  if (!isTimeAfterNow(value)) {
+                    setTimeError(
+                      "Cannot schedule in the past. Choose a future time.",
+                    );
+                    return;
+                  }
+                  setTimeError(null);
+                  onScheduledEnableAtChange(timeToDate(value));
                 }}
               />
               {scheduledEnableAt && !ruleEnabled && (
@@ -78,6 +97,9 @@ export function EditorSettings({
               )}
             </div>
           </div>
+          {timeError && (
+            <p className="text-caption text-danger-600 mt-1">{timeError}</p>
+          )}
         </div>
       </Card>
     </div>
