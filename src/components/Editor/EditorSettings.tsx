@@ -71,6 +71,7 @@ export function EditorSettings({
             <div className="flex items-center gap-2">
               <input
                 type="time"
+                aria-label="Scheduled activation time"
                 disabled={ruleEnabled}
                 className="text-body text-foreground bg-surface border-border rounded-lg border px-3 py-2 disabled:cursor-not-allowed disabled:opacity-50"
                 value={scheduledEnableAt ? toTimeString(scheduledEnableAt) : ""}

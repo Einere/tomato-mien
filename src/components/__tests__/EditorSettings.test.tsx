@@ -39,6 +39,54 @@ describe("EditorSettings", () => {
     fireEvent.click(screen.getByRole("switch"));
     expect(onNotificationEnabledChange).toHaveBeenCalledWith(false);
   });
+
+  it("ruleEnabled=true이면 time input이 disabled 상태", () => {
+    render(<EditorSettings {...defaultProps} ruleEnabled={true} />);
+    expect(screen.getByLabelText("Scheduled activation time")).toBeDisabled();
+  });
+
+  it("ruleEnabled=false이면 time input이 enabled 상태", () => {
+    render(<EditorSettings {...defaultProps} ruleEnabled={false} />);
+    expect(screen.getByLabelText("Scheduled activation time")).toBeEnabled();
+  });
+
+  it("scheduledEnableAt이 있고 ruleEnabled=false이면 Clear 버튼 표시", () => {
+    render(
+      <EditorSettings
+        {...defaultProps}
+        ruleEnabled={false}
+        scheduledEnableAt={new Date(2024, 5, 15, 14, 30)}
+      />,
+    );
+    expect(screen.getByRole("button", { name: /clear/i })).toBeInTheDocument();
+  });
+
+  it("scheduledEnableAt이 있어도 ruleEnabled=true이면 Clear 버튼 숨김", () => {
+    render(
+      <EditorSettings
+        {...defaultProps}
+        ruleEnabled={true}
+        scheduledEnableAt={new Date(2024, 5, 15, 14, 30)}
+      />,
+    );
+    expect(
+      screen.queryByRole("button", { name: /clear/i }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("Clear 버튼 클릭 시 onScheduledEnableAtChange(undefined) 호출", () => {
+    const onScheduledEnableAtChange = vi.fn();
+    render(
+      <EditorSettings
+        {...defaultProps}
+        ruleEnabled={false}
+        scheduledEnableAt={new Date(2024, 5, 15, 14, 30)}
+        onScheduledEnableAtChange={onScheduledEnableAtChange}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: /clear/i }));
+    expect(onScheduledEnableAtChange).toHaveBeenCalledWith(undefined);
+  });
 });
 
 describe("timeToDate", () => {
