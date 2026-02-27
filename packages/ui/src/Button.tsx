@@ -84,8 +84,7 @@ export function Button({
 
   return (
     <button
-      className={cn(buttonVariants({ variant, color }), className)}
-      style={{ cornerShape: "squircle" }}
+      className={cn(buttonVariants({ variant, color }), "squircle", className)}
       disabled={isDisabled}
       aria-busy={loading || undefined}
       {...props}

@@ -26,10 +26,9 @@ export function Select({
       onChange={e => onChange(e.target.value)}
       disabled={disabled}
       className={cn(
-        "focus-visible:border-primary-500 focus-visible:ring-ring border-border bg-surface select-chevron text-body text-foreground cursor-pointer rounded-lg border py-1.5 pr-8 pl-3 shadow-sm focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+        "focus-visible:border-primary-500 focus-visible:ring-ring border-border bg-surface select-chevron text-body text-foreground squircle cursor-pointer rounded-lg border py-1.5 pr-8 pl-3 shadow-sm focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
         className,
       )}
-      style={{ cornerShape: "squircle" }}
     >
       {options.map(opt => (
         <option key={opt.value} value={opt.value}>

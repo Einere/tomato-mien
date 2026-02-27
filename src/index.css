@@ -4,6 +4,12 @@
 @plugin "@tailwindcss/forms";
 @source "../packages/ui/src";
 
+/* ── Squircle Corners ── */
+
+@utility squircle {
+  corner-shape: squircle;
+}
+
 /* ── Inter Font (local) ── */
 
 @font-face {
