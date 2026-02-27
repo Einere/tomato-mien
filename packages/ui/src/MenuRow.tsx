@@ -40,7 +40,7 @@ function MenuRowIcon({
   return (
     <div
       className={cn(
-        "bg-accent text-accent-foreground flex h-10 w-10 shrink-0 items-center justify-center rounded-lg",
+        "bg-accent text-accent-foreground squircle flex h-10 w-10 shrink-0 items-center justify-center rounded-lg",
         className,
       )}
     >

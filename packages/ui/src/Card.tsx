@@ -20,7 +20,7 @@ export function Card({
   return (
     <div
       className={cn(
-        "bg-surface rounded-xl shadow-sm",
+        "bg-surface squircle rounded-xl shadow-sm",
         paddingStyles[padding],
         className,
       )}

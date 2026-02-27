@@ -64,13 +64,13 @@ export function AboutView({ onBack }: { onBack: () => void }) {
           className={`h-24 w-24 rounded-2xl ${easterEggActive ? "animate-spin" : ""}`}
         />
         <h2 className="text-heading-2 text-foreground">Tomato Mien</h2>
-        <button
-          type="button"
-          className="text-caption text-muted-foreground cursor-pointer rounded-md px-2 py-1 transition-colors select-none active:bg-black/5 dark:active:bg-white/10"
+        <Button
+          variant="ghost"
+          className="text-caption px-2 py-1 font-normal select-none"
           onClick={handleVersionClick}
         >
           v{__APP_VERSION__}
-        </button>
+        </Button>
         {easterEggActive && (
           <p className="text-caption text-primary-600 animate-bounce">
             You found a secret!

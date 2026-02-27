@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, Toggle, Button } from "@tomato-mien/ui";
+import { Card, Toggle, Button, Input } from "@tomato-mien/ui";
 import {
   formatTimeValue,
   timeToDate,
@@ -55,12 +55,12 @@ export function EditorSettings({
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <input
+              <Input
                 type="time"
                 aria-label="Scheduled activation time"
                 disabled={ruleEnabled}
                 min={getMinTimeValue()}
-                className="text-body text-foreground bg-surface border-border rounded-lg border px-3 py-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="py-2 disabled:cursor-not-allowed disabled:opacity-50"
                 value={
                   scheduledEnableAt
                     ? formatTimeValue(
