@@ -24,6 +24,7 @@ export function Card({
         paddingStyles[padding],
         className,
       )}
+      style={{ cornerShape: "squircle" }}
       {...props}
     >
       {children}

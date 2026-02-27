@@ -43,6 +43,7 @@ function MenuRowIcon({
         "bg-accent text-accent-foreground flex h-10 w-10 shrink-0 items-center justify-center rounded-lg",
         className,
       )}
+      style={{ cornerShape: "squircle" }}
     >
       <IconComponent />
     </div>
