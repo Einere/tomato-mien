@@ -650,7 +650,8 @@ npm run electron</code></pre>
       </div>
     </section>
 
-    <!-- Support -->
+    <!-- Support (hidden for App Store review) -->
+    <!--
     <section id="support" class="px-4 py-20 sm:py-28">
       <div class="mx-auto max-w-5xl">
         <div class="mb-12 text-center">
@@ -664,7 +665,6 @@ npm run electron</code></pre>
           </p>
         </div>
         <div class="mx-auto grid max-w-2xl gap-6 sm:grid-cols-2">
-          <!-- Lemon Squeezy -->
           <div
             class="flex flex-col items-center rounded-2xl border border-gray-200 bg-gray-50 p-8 text-center dark:border-gray-800 dark:bg-gray-900"
           >
@@ -695,7 +695,6 @@ npm run electron</code></pre>
               </svg>
             </a>
           </div>
-          <!-- Toss -->
           <div
             class="flex flex-col items-center rounded-2xl border border-gray-200 bg-gray-50 p-8 text-center dark:border-gray-800 dark:bg-gray-900"
           >
@@ -736,20 +735,21 @@ npm run electron</code></pre>
         </div>
       </div>
     </section>
+    -->
 
     <script>
-      // Toss QR toggle
-      const toggle = document.getElementById("toss-toggle");
-      const qr = document.getElementById("toss-qr");
-      const chevron = document.getElementById("toss-chevron");
-
-      toggle.addEventListener("click", () => {
-        const isHidden = qr.classList.toggle("hidden");
-        chevron.style.transform = isHidden ? "" : "rotate(180deg)";
-        toggle.firstChild.textContent = isHidden
-          ? "Show QR Code"
-          : "Hide QR Code";
-      });
+      // Toss QR toggle (hidden for App Store review)
+      // const toggle = document.getElementById("toss-toggle");
+      // const qr = document.getElementById("toss-qr");
+      // const chevron = document.getElementById("toss-chevron");
+      //
+      // toggle.addEventListener("click", () => {
+      //   const isHidden = qr.classList.toggle("hidden");
+      //   chevron.style.transform = isHidden ? "" : "rotate(180deg)";
+      //   toggle.firstChild.textContent = isHidden
+      //     ? "Show QR Code"
+      //     : "Hide QR Code";
+      // });
 
       // OS detection & auto-download
       (function () {
@@ -898,6 +898,7 @@ npm run electron</code></pre>
           >
             GitHub
           </a>
+          <!-- hidden for App Store review
           <span class="text-gray-300 dark:text-gray-700">|</span>
           <a
             href="#support"
@@ -905,6 +906,7 @@ npm run electron</code></pre>
           >
             Support
           </a>
+          -->
           <span class="text-gray-300 dark:text-gray-700">|</span>
           <a
             href="https://github.com/Einere/tomato-mien/issues"
