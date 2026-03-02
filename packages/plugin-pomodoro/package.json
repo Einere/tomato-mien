@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "@tomato-mien/plugin-core": "*",
-    "@tomato-mien/ui": "*"
+    "@tomato-mien/ui": "*",
+    "jotai": "*",
+    "zod": "*"
   },
   "peerDependencies": {
     "react": ">=18"
