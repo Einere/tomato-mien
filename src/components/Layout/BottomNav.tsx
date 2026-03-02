@@ -26,12 +26,17 @@ const coreTabs: TabDef[] = [
 function getTabDirection(
   from: ViewState,
   to: ViewState,
+  allTabs: TabDef[],
 ): TransitionDirection | undefined {
   if (from === "editor" && to === "dashboard") return "drill-backward";
   if (from === "editor") return undefined;
-  if (to === "settings") return "slide-left";
-  if (to === "dashboard") return "slide-right";
-  return undefined;
+
+  const fromIndex = allTabs.findIndex(t => t.id === from);
+  const toIndex = allTabs.findIndex(t => t.id === to);
+
+  if (fromIndex === -1 || toIndex === -1) return undefined;
+
+  return toIndex > fromIndex ? "slide-left" : "slide-right";
 }
 
 function getActiveTab(view: ViewState, tabIds: string[]): string {
@@ -72,7 +77,7 @@ export function BottomNav() {
             onClick={() => {
               const target: ViewState = tab.id;
               if (view === target) return;
-              const direction = getTabDirection(view, target);
+              const direction = getTabDirection(view, target, allTabs);
               triggerTransition(() => setView(target), direction);
             }}
             className={cn(
