@@ -9,6 +9,9 @@
       content="Tomato Mien is a simple desktop app for setting up rule-based alarms. Define triggers (intervals, specific times) and filters (time ranges) to create your own alarm rules."
     />
 
+    <link rel="canonical" href="https://einere.github.io/tomato-mien/" />
+    <meta name="theme-color" content="#dc2626" />
+
     <!-- Open Graph -->
     <meta
       property="og:title"
@@ -18,9 +21,51 @@
       property="og:description"
       content="A simple desktop app for rule-based alarms. Define triggers and filters to get notified exactly when you need."
     />
-    <meta property="og:image" content="assets/screenshots/rules_screen.png" />
+    <meta
+      property="og:image"
+      content="https://einere.github.io/tomato-mien/assets/screenshots/rules_screen.png"
+    />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://einere.github.io/tomato-mien/" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Tomato Mien" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Tomato Mien - Simple Rule-Based Alarm App"
+    />
+    <meta
+      name="twitter:description"
+      content="A simple desktop app for rule-based alarms. Define triggers and filters to get notified exactly when you need."
+    />
+    <meta
+      name="twitter:image"
+      content="https://einere.github.io/tomato-mien/assets/screenshots/rules_screen.png"
+    />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Tomato Mien",
+        "description": "A simple desktop app for setting up rule-based alarms. Define triggers (intervals, specific times) and filters (time ranges) to create your own alarm rules.",
+        "url": "https://einere.github.io/tomato-mien/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "macOS, Windows, Linux",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "screenshot": "https://einere.github.io/tomato-mien/assets/screenshots/rules_screen.png",
+        "softwareVersion": "latest",
+        "license": "https://opensource.org/licenses/MIT",
+        "downloadUrl": "https://github.com/Einere/tomato-mien/releases/latest"
+      }
+    </script>
 
     <link rel="icon" href="assets/icon.ico" sizes="48x48" />
     <link rel="icon" type="image/png" sizes="16x16" href="assets/icon-16.png" />
@@ -49,6 +94,7 @@
     class="bg-white text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100"
   >
     <!-- Hero -->
+    <header>
     <section
       class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 py-20"
     >
@@ -59,6 +105,8 @@
         <img
           src="assets/icon-rounded.png"
           alt="Tomato Mien app icon"
+          width="1868"
+          height="1868"
           class="mb-8 h-32 w-32 drop-shadow-xl sm:h-40 sm:w-40"
         />
         <h1
@@ -115,7 +163,9 @@
         </div>
       </div>
     </section>
+    </header>
 
+    <main>
     <!-- Features -->
     <section class="px-4 py-20 sm:py-28">
       <div class="mx-auto max-w-5xl">
@@ -264,6 +314,8 @@
             <img
               src="assets/screenshots/rules_screen.png"
               alt="Tomato Mien rules list screen with search bar, active/total count, sort options, and rule cards with toggle"
+              width="1376"
+              height="2070"
               class="w-full"
               loading="lazy"
             />
@@ -279,6 +331,8 @@
             <img
               src="assets/screenshots/rule_edit_screen.png"
               alt="Tomato Mien rule editor with filters (AND), triggers (OR), summary, notification toggle, and scheduled activation"
+              width="1376"
+              height="2070"
               class="w-full"
               loading="lazy"
             />
@@ -294,6 +348,8 @@
             <img
               src="assets/screenshots/settings_screen.png"
               alt="Tomato Mien settings screen with time format, theme, preview section, and about menu"
+              width="1376"
+              height="2070"
               class="w-full"
               loading="lazy"
             />
@@ -737,6 +793,8 @@ npm run electron</code></pre>
     </section>
     -->
 
+    </main>
+
     <script>
       // Toss QR toggle (hidden for App Store review)
       // const toggle = document.getElementById("toss-toggle");
@@ -891,7 +949,7 @@ npm run electron</code></pre>
       <div
         class="mx-auto flex max-w-5xl flex-col items-center gap-4 text-center text-sm text-gray-500 dark:text-gray-500"
       >
-        <div class="flex items-center gap-4">
+        <nav aria-label="Footer navigation" class="flex items-center gap-4">
           <a
             href="https://github.com/Einere/tomato-mien"
             class="transition hover:text-gray-900 dark:hover:text-gray-300"
@@ -921,7 +979,7 @@ npm run electron</code></pre>
           >
             Privacy Policy
           </a>
-        </div>
+        </nav>
         <p>MIT License &copy; Einere</p>
       </div>
     </footer>
