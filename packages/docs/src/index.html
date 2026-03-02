@@ -25,6 +25,9 @@
       property="og:image"
       content="https://einere.github.io/tomato-mien/assets/screenshots/rules_screen.png"
     />
+    <meta property="og:image:width" content="1376" />
+    <meta property="og:image:height" content="2070" />
+    <meta property="og:image:alt" content="Tomato Mien rules list screen" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://einere.github.io/tomato-mien/" />
     <meta property="og:locale" content="en_US" />
@@ -61,9 +64,142 @@
           "priceCurrency": "USD"
         },
         "screenshot": "https://einere.github.io/tomato-mien/assets/screenshots/rules_screen.png",
-        "softwareVersion": "latest",
+        "softwareVersion": "__APP_VERSION__",
         "license": "https://opensource.org/licenses/MIT",
-        "downloadUrl": "https://github.com/Einere/tomato-mien/releases/latest"
+        "downloadUrl": "https://github.com/Einere/tomato-mien/releases/latest",
+        "author": {
+          "@type": "Person",
+          "@id": "https://github.com/Einere",
+          "name": "Einere",
+          "url": "https://github.com/Einere"
+        },
+        "featureList": [
+          "Rule-based alarm scheduling with triggers and filters",
+          "Interval alarms (e.g. every 15, 25, 30 minutes)",
+          "Specific time alarms (e.g. 2:30 PM)",
+          "Time range filters to restrict when alarms fire",
+          "Background alarm evaluation via Web Worker",
+          "Native desktop notifications with sound",
+          "Rule management dashboard with search and sort",
+          "Cross-platform support for macOS, Windows, and Linux"
+        ],
+        "sameAs": "https://github.com/Einere/tomato-mien",
+        "dateModified": "2026-03-02"
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is Tomato Mien free?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, Tomato Mien is completely free and open-source under the MIT License. There are no ads, subscriptions, or in-app purchases."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What platforms does Tomato Mien support?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Tomato Mien supports macOS, Windows, and Linux. Download the .dmg for macOS, .exe for Windows, or .AppImage for Linux from the GitHub Releases page."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does Tomato Mien require an internet connection?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Tomato Mien is a fully offline app. All data is stored locally on your device. The only optional network usage is checking for updates."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I create an alarm rule?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Click the + button to create a new rule, give it a name, add triggers (interval or specific time), optionally set filters (time ranges), and toggle the rule on."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does it work in the background?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Tomato Mien uses a Web Worker to evaluate alarm conditions in the background. Alarms fire even when the app is minimized."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What types of alarms can I set?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You can set interval alarms (e.g. every 15 minutes), specific time alarms (e.g. 2:30 PM), combine multiple triggers per rule, and add time range filters to control when alarms are active."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I schedule rules to activate later?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. You can set a scheduled activation date so the rule automatically enables itself at a future time."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does notification work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Tomato Mien uses native desktop notifications with sound alerts. Notifications can be toggled on or off per rule. It falls back to Web Notification API if native notifications are unavailable."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "How to Use Tomato Mien",
+        "description": "Set up your first alarm rule in four simple steps",
+        "totalTime": "PT2M",
+        "tool": [
+          {
+            "@type": "HowToTool",
+            "name": "Tomato Mien app"
+          }
+        ],
+        "step": [
+          {
+            "@type": "HowToStep",
+            "position": 1,
+            "name": "Create a Rule",
+            "text": "Give your alarm rule a name to get started"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 2,
+            "name": "Add Triggers",
+            "text": "Choose interval (e.g. every 15 min) or specific time (e.g. 2:30 PM)"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 3,
+            "name": "Set Filters (Optional)",
+            "text": "Restrict when alarms fire with time ranges (e.g. 9 AM - 5 PM only)"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 4,
+            "name": "Enable & Go",
+            "text": "Toggle the rule on — alarms run in the background, even when minimized"
+          }
+        ]
       }
     </script>
 
@@ -94,8 +230,7 @@
     class="bg-white text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100"
   >
     <!-- Hero -->
-    <header>
-    <section
+    <header
       class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 py-20"
     >
       <div
@@ -127,6 +262,8 @@
               class="bg-tomato-600 hover:bg-tomato-700 inline-flex items-center gap-2 rounded-xl px-8 py-3 text-lg font-semibold text-white shadow-lg transition hover:shadow-xl"
             >
               <svg
+                aria-hidden="true"
+                focusable="false"
                 class="h-5 w-5"
                 fill="none"
                 stroke="currentColor"
@@ -145,7 +282,7 @@
               href="https://github.com/Einere/tomato-mien"
               class="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-8 py-3 text-lg font-semibold transition hover:border-gray-400 hover:bg-gray-50 dark:border-gray-700 dark:hover:border-gray-600 dark:hover:bg-gray-900"
             >
-              <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+              <svg aria-hidden="true" focusable="false" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                 <path
                   d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
                 />
@@ -162,14 +299,14 @@
           </a>
         </div>
       </div>
-    </section>
     </header>
 
     <main>
     <!-- Features -->
-    <section class="px-4 py-20 sm:py-28">
+    <section aria-labelledby="features-heading" class="px-4 py-20 sm:py-28">
       <div class="mx-auto max-w-5xl">
         <h2
+          id="features-heading"
           class="mb-4 text-center text-3xl font-bold tracking-tight sm:text-4xl"
         >
           Key Features
@@ -188,6 +325,8 @@
               class="bg-tomato-100 text-tomato-600 dark:bg-tomato-900/30 dark:text-tomato-400 mb-4 flex h-12 w-12 items-center justify-center rounded-xl"
             >
               <svg
+                aria-hidden="true"
+                focusable="false"
                 class="h-6 w-6"
                 fill="none"
                 stroke="currentColor"
@@ -215,6 +354,8 @@
               class="bg-tomato-100 text-tomato-600 dark:bg-tomato-900/30 dark:text-tomato-400 mb-4 flex h-12 w-12 items-center justify-center rounded-xl"
             >
               <svg
+                aria-hidden="true"
+                focusable="false"
                 class="h-6 w-6"
                 fill="none"
                 stroke="currentColor"
@@ -242,6 +383,8 @@
               class="bg-tomato-100 text-tomato-600 dark:bg-tomato-900/30 dark:text-tomato-400 mb-4 flex h-12 w-12 items-center justify-center rounded-xl"
             >
               <svg
+                aria-hidden="true"
+                focusable="false"
                 class="h-6 w-6"
                 fill="none"
                 stroke="currentColor"
@@ -271,6 +414,8 @@
               class="bg-tomato-100 text-tomato-600 dark:bg-tomato-900/30 dark:text-tomato-400 mb-4 flex h-12 w-12 items-center justify-center rounded-xl"
             >
               <svg
+                aria-hidden="true"
+                focusable="false"
                 class="h-6 w-6"
                 fill="none"
                 stroke="currentColor"
@@ -295,9 +440,10 @@
     </section>
 
     <!-- Screenshots -->
-    <section class="bg-gray-50 px-4 py-20 sm:py-28 dark:bg-gray-900/50">
+    <section aria-labelledby="screenshots-heading" class="bg-gray-50 px-4 py-20 sm:py-28 dark:bg-gray-900/50">
       <div class="mx-auto max-w-5xl">
         <h2
+          id="screenshots-heading"
           class="mb-4 text-center text-3xl font-bold tracking-tight sm:text-4xl"
         >
           App Preview
@@ -364,9 +510,10 @@
     </section>
 
     <!-- How to Use -->
-    <section class="px-4 py-20 sm:py-28">
+    <section aria-labelledby="howto-heading" class="px-4 py-20 sm:py-28">
       <div class="mx-auto max-w-5xl">
         <h2
+          id="howto-heading"
           class="mb-4 text-center text-3xl font-bold tracking-tight sm:text-4xl"
         >
           How to Use
@@ -440,9 +587,10 @@
     </section>
 
     <!-- Use Cases -->
-    <section class="bg-gray-50 px-4 py-20 sm:py-28 dark:bg-gray-900/50">
+    <section aria-labelledby="usecases-heading" class="bg-gray-50 px-4 py-20 sm:py-28 dark:bg-gray-900/50">
       <div class="mx-auto max-w-5xl">
         <h2
+          id="usecases-heading"
           class="mb-4 text-center text-3xl font-bold tracking-tight sm:text-4xl"
         >
           Use Cases
@@ -457,7 +605,7 @@
           <div
             class="rounded-2xl border border-gray-200 bg-white p-6 transition hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
           >
-            <div class="mb-3 text-3xl">🍅</div>
+            <div class="mb-3 text-3xl" aria-hidden="true">🍅</div>
             <h3 class="mb-2 text-lg font-semibold">Focus Timer</h3>
             <div class="mb-3 flex flex-wrap gap-2">
               <span
@@ -477,7 +625,7 @@
           <div
             class="rounded-2xl border border-gray-200 bg-white p-6 transition hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
           >
-            <div class="mb-3 text-3xl">💧</div>
+            <div class="mb-3 text-3xl" aria-hidden="true">💧</div>
             <h3 class="mb-2 text-lg font-semibold">Hydration Reminder</h3>
             <div class="mb-3 flex flex-wrap gap-2">
               <span
@@ -497,7 +645,7 @@
           <div
             class="rounded-2xl border border-gray-200 bg-white p-6 transition hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
           >
-            <div class="mb-3 text-3xl">📋</div>
+            <div class="mb-3 text-3xl" aria-hidden="true">📋</div>
             <h3 class="mb-2 text-lg font-semibold">Meeting Prep</h3>
             <div class="mb-3 flex flex-wrap gap-2">
               <span
@@ -513,7 +661,7 @@
           <div
             class="rounded-2xl border border-gray-200 bg-white p-6 transition hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
           >
-            <div class="mb-3 text-3xl">🧘</div>
+            <div class="mb-3 text-3xl" aria-hidden="true">🧘</div>
             <h3 class="mb-2 text-lg font-semibold">Hourly Stretch</h3>
             <div class="mb-3 flex flex-wrap gap-2">
               <span
@@ -533,7 +681,7 @@
           <div
             class="rounded-2xl border border-gray-200 bg-white p-6 transition hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
           >
-            <div class="mb-3 text-3xl">💊</div>
+            <div class="mb-3 text-3xl" aria-hidden="true">💊</div>
             <h3 class="mb-2 text-lg font-semibold">Medication Alert</h3>
             <div class="mb-3 flex flex-wrap gap-2">
               <span
@@ -549,7 +697,7 @@
           <div
             class="rounded-2xl border border-gray-200 bg-white p-6 transition hover:shadow-md dark:border-gray-800 dark:bg-gray-900"
           >
-            <div class="mb-3 text-3xl">🌙</div>
+            <div class="mb-3 text-3xl" aria-hidden="true">🌙</div>
             <h3 class="mb-2 text-lg font-semibold">Night Study Timer</h3>
             <div class="mb-3 flex flex-wrap gap-2">
               <span
@@ -569,10 +717,259 @@
       </div>
     </section>
 
-    <!-- Installation -->
-    <section id="installation" class="px-4 py-20 sm:py-28">
+    <!-- FAQ -->
+    <section aria-labelledby="faq-heading" class="px-4 py-20 sm:py-28">
       <div class="mx-auto max-w-5xl">
         <h2
+          id="faq-heading"
+          class="mb-4 text-center text-3xl font-bold tracking-tight sm:text-4xl"
+        >
+          Frequently Asked Questions
+        </h2>
+        <p
+          class="mx-auto mb-12 max-w-2xl text-center text-gray-600 sm:mb-16 dark:text-gray-400"
+        >
+          Common questions about Tomato Mien
+        </p>
+        <div class="mx-auto max-w-3xl space-y-4">
+          <details
+            class="group rounded-2xl border border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900"
+          >
+            <summary
+              class="flex cursor-pointer items-center justify-between p-6 font-semibold"
+            >
+              Is Tomato Mien free?
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                class="h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </summary>
+            <div class="px-6 pb-6 text-gray-600 dark:text-gray-400">
+              Yes, Tomato Mien is completely free and open-source under the MIT
+              License. There are no ads, subscriptions, or in-app purchases.
+            </div>
+          </details>
+          <details
+            class="group rounded-2xl border border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900"
+          >
+            <summary
+              class="flex cursor-pointer items-center justify-between p-6 font-semibold"
+            >
+              What platforms does Tomato Mien support?
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                class="h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </summary>
+            <div class="px-6 pb-6 text-gray-600 dark:text-gray-400">
+              Tomato Mien supports macOS, Windows, and Linux. Download the .dmg
+              for macOS, .exe for Windows, or .AppImage for Linux from the GitHub
+              Releases page.
+            </div>
+          </details>
+          <details
+            class="group rounded-2xl border border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900"
+          >
+            <summary
+              class="flex cursor-pointer items-center justify-between p-6 font-semibold"
+            >
+              Does Tomato Mien require an internet connection?
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                class="h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </summary>
+            <div class="px-6 pb-6 text-gray-600 dark:text-gray-400">
+              No. Tomato Mien is a fully offline app. All data is stored locally
+              on your device. The only optional network usage is checking for
+              updates.
+            </div>
+          </details>
+          <details
+            class="group rounded-2xl border border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900"
+          >
+            <summary
+              class="flex cursor-pointer items-center justify-between p-6 font-semibold"
+            >
+              How do I create an alarm rule?
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                class="h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </summary>
+            <div class="px-6 pb-6 text-gray-600 dark:text-gray-400">
+              Click the + button to create a new rule, give it a name, add
+              triggers (interval or specific time), optionally set filters (time
+              ranges), and toggle the rule on.
+            </div>
+          </details>
+          <details
+            class="group rounded-2xl border border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900"
+          >
+            <summary
+              class="flex cursor-pointer items-center justify-between p-6 font-semibold"
+            >
+              Does it work in the background?
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                class="h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </summary>
+            <div class="px-6 pb-6 text-gray-600 dark:text-gray-400">
+              Yes. Tomato Mien uses a Web Worker to evaluate alarm conditions in
+              the background. Alarms fire even when the app is minimized.
+            </div>
+          </details>
+          <details
+            class="group rounded-2xl border border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900"
+          >
+            <summary
+              class="flex cursor-pointer items-center justify-between p-6 font-semibold"
+            >
+              What types of alarms can I set?
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                class="h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </summary>
+            <div class="px-6 pb-6 text-gray-600 dark:text-gray-400">
+              You can set interval alarms (e.g. every 15 minutes), specific time
+              alarms (e.g. 2:30 PM), combine multiple triggers per rule, and add
+              time range filters to control when alarms are active.
+            </div>
+          </details>
+          <details
+            class="group rounded-2xl border border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900"
+          >
+            <summary
+              class="flex cursor-pointer items-center justify-between p-6 font-semibold"
+            >
+              Can I schedule rules to activate later?
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                class="h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </summary>
+            <div class="px-6 pb-6 text-gray-600 dark:text-gray-400">
+              Yes. You can set a scheduled activation date so the rule
+              automatically enables itself at a future time.
+            </div>
+          </details>
+          <details
+            class="group rounded-2xl border border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900"
+          >
+            <summary
+              class="flex cursor-pointer items-center justify-between p-6 font-semibold"
+            >
+              How does notification work?
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                class="h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </summary>
+            <div class="px-6 pb-6 text-gray-600 dark:text-gray-400">
+              Tomato Mien uses native desktop notifications with sound alerts.
+              Notifications can be toggled on or off per rule. It falls back to
+              Web Notification API if native notifications are unavailable.
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Installation -->
+    <section id="installation" aria-labelledby="installation-heading" class="px-4 py-20 sm:py-28">
+      <div class="mx-auto max-w-5xl">
+        <h2
+          id="installation-heading"
           class="mb-4 text-center text-3xl font-bold tracking-tight sm:text-4xl"
         >
           Installation
@@ -589,6 +986,8 @@
           >
             <div class="mb-4 flex justify-center">
               <svg
+                aria-hidden="true"
+                focusable="false"
                 class="h-10 w-10 text-gray-700 dark:text-gray-300"
                 viewBox="0 0 24 24"
                 fill="currentColor"
@@ -616,6 +1015,8 @@
           >
             <div class="mb-4 flex justify-center">
               <svg
+                aria-hidden="true"
+                focusable="false"
                 class="h-10 w-10 text-gray-700 dark:text-gray-300"
                 viewBox="0 0 24 24"
                 fill="currentColor"
@@ -660,6 +1061,8 @@
           >
             <div class="mb-4 flex justify-center">
               <svg
+                aria-hidden="true"
+                focusable="false"
                 class="h-10 w-10 text-gray-700 dark:text-gray-300"
                 viewBox="0 0 256 256"
                 fill="currentColor"
@@ -794,6 +1197,48 @@ npm run electron</code></pre>
     -->
 
     </main>
+
+    <!-- Footer -->
+    <footer
+      class="border-t border-gray-200 bg-gray-50 px-4 py-12 dark:border-gray-800"
+    >
+      <div
+        class="mx-auto flex max-w-5xl flex-col items-center gap-4 text-center text-sm text-gray-500 dark:text-gray-500"
+      >
+        <nav aria-label="Footer navigation" class="flex items-center gap-4">
+          <a
+            href="https://github.com/Einere/tomato-mien"
+            class="transition hover:text-gray-900 dark:hover:text-gray-300"
+          >
+            GitHub
+          </a>
+          <!-- hidden for App Store review
+          <span class="text-gray-300 dark:text-gray-700">|</span>
+          <a
+            href="#support"
+            class="transition hover:text-gray-900 dark:hover:text-gray-300"
+          >
+            Support
+          </a>
+          -->
+          <span class="text-gray-300 dark:text-gray-700">|</span>
+          <a
+            href="https://github.com/Einere/tomato-mien/issues"
+            class="transition hover:text-gray-900 dark:hover:text-gray-300"
+          >
+            Issues & PRs Welcome
+          </a>
+          <span class="text-gray-300 dark:text-gray-700">|</span>
+          <a
+            href="privacy.html"
+            class="transition hover:text-gray-900 dark:hover:text-gray-300"
+          >
+            Privacy Policy
+          </a>
+        </nav>
+        <p>MIT License &copy; Einere</p>
+      </div>
+    </footer>
 
     <script>
       // Toss QR toggle (hidden for App Store review)
@@ -941,47 +1386,5 @@ npm run electron</code></pre>
           });
       })();
     </script>
-
-    <!-- Footer -->
-    <footer
-      class="border-t border-gray-200 bg-gray-50 px-4 py-12 dark:border-gray-800"
-    >
-      <div
-        class="mx-auto flex max-w-5xl flex-col items-center gap-4 text-center text-sm text-gray-500 dark:text-gray-500"
-      >
-        <nav aria-label="Footer navigation" class="flex items-center gap-4">
-          <a
-            href="https://github.com/Einere/tomato-mien"
-            class="transition hover:text-gray-900 dark:hover:text-gray-300"
-          >
-            GitHub
-          </a>
-          <!-- hidden for App Store review
-          <span class="text-gray-300 dark:text-gray-700">|</span>
-          <a
-            href="#support"
-            class="transition hover:text-gray-900 dark:hover:text-gray-300"
-          >
-            Support
-          </a>
-          -->
-          <span class="text-gray-300 dark:text-gray-700">|</span>
-          <a
-            href="https://github.com/Einere/tomato-mien/issues"
-            class="transition hover:text-gray-900 dark:hover:text-gray-300"
-          >
-            Issues & PRs Welcome
-          </a>
-          <span class="text-gray-300 dark:text-gray-700">|</span>
-          <a
-            href="privacy.html"
-            class="transition hover:text-gray-900 dark:hover:text-gray-300"
-          >
-            Privacy Policy
-          </a>
-        </nav>
-        <p>MIT License &copy; Einere</p>
-      </div>
-    </footer>
   </body>
 </html>
