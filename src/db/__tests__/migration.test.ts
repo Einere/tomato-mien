@@ -29,7 +29,11 @@ describe("runMigration", () => {
   });
 
   it("hydrates settings cache from Dexie", async () => {
-    await db.settings.put({ id: "default", timeFormat: "12h" });
+    await db.settings.put({
+      id: "default",
+      timeFormat: "12h",
+      enabledPlugins: [],
+    });
 
     await runMigration();
 

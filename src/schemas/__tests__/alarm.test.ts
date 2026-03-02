@@ -376,12 +376,14 @@ describe("AppSettingsSchema", () => {
   it("accepts 24h format", () => {
     expect(AppSettingsSchema.parse({ timeFormat: "24h" })).toEqual({
       timeFormat: "24h",
+      enabledPlugins: [],
     });
   });
 
   it("accepts 12h format", () => {
     expect(AppSettingsSchema.parse({ timeFormat: "12h" })).toEqual({
       timeFormat: "12h",
+      enabledPlugins: [],
     });
   });
 
@@ -389,5 +391,32 @@ describe("AppSettingsSchema", () => {
     expect(AppSettingsSchema.safeParse({ timeFormat: "AM/PM" }).success).toBe(
       false,
     );
+  });
+
+  it("accepts enabledPlugins array", () => {
+    const data = { timeFormat: "24h", enabledPlugins: ["pomodoro"] };
+    const result = AppSettingsSchema.parse(data);
+    expect(result.enabledPlugins).toEqual(["pomodoro"]);
+  });
+
+  it("defaults enabledPlugins to empty array", () => {
+    const data = { timeFormat: "24h" };
+    const result = AppSettingsSchema.parse(data);
+    expect(result.enabledPlugins).toEqual([]);
+  });
+
+  it("accepts multiple enabled plugins", () => {
+    const data = {
+      timeFormat: "24h",
+      enabledPlugins: ["pomodoro", "break-reminder"],
+    };
+    const result = AppSettingsSchema.parse(data);
+    expect(result.enabledPlugins).toEqual(["pomodoro", "break-reminder"]);
+  });
+
+  it("rejects non-string plugin IDs", () => {
+    const data = { timeFormat: "24h", enabledPlugins: [123] };
+    const result = AppSettingsSchema.safeParse(data);
+    expect(result.success).toBe(false);
   });
 });

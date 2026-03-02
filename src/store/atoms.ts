@@ -19,7 +19,7 @@ export const rulesAtom = atomWithStorage<AlarmRule[]>(
 
 export const settingsAtom = atomWithStorage<AppSettings>(
   "tomato-mien-settings",
-  { timeFormat: "24h" },
+  { timeFormat: "24h", enabledPlugins: [] },
   createDexieSingleRowStorage(db.settings, AppSettingsSchema),
 );
 
