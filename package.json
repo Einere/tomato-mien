@@ -1,7 +1,7 @@
 {
   "name": "tomato-mien",
   "private": true,
-  "version": "2.1.1",
+  "version": "2.3.0",
   "workspaces": [
     "packages/*"
   ],
@@ -50,7 +50,8 @@
     "electron:mas:dist": "npm run build && MAS_BUILD=true electron-builder --mac mas --publish=never",
     "docs:dev": "npm run dev -w @tomato-mien/docs",
     "docs:build": "npm run build -w @tomato-mien/docs",
-    "test": "npx vitest run"
+    "test": "npx vitest run",
+    "release": "npm version $npm_config_tag --no-git-tag-version && git add package.json package-lock.json && git commit -m \"chore: bump version to $npm_config_tag\" && git tag v$npm_config_tag && git push && git push origin v$npm_config_tag"
   },
   "dependencies": {
     "electron-updater": "^6.6.2"
