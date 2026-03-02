@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { Provider, createStore } from "jotai";
 import { AppShell } from "@/components/Layout/AppShell";
 import { viewAtom } from "@/store";
+import { PluginManager, PluginManagerProvider } from "@/plugins";
 
 vi.mock("@/hooks/useAlarmService", () => ({
   useAlarmService: vi.fn(),
@@ -13,9 +14,12 @@ vi.mock("@/hooks/useElectronMenu", () => ({
 }));
 
 function renderAppShell(store: ReturnType<typeof createStore>) {
+  const pluginManager = new PluginManager();
   return render(
     <Provider store={store}>
-      <AppShell />
+      <PluginManagerProvider value={pluginManager}>
+        <AppShell />
+      </PluginManagerProvider>
     </Provider>,
   );
 }
