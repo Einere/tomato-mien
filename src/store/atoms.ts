@@ -23,7 +23,8 @@ export const settingsAtom = atomWithStorage<AppSettings>(
   createDexieSingleRowStorage(db.settings, AppSettingsSchema),
 );
 
-export type ViewState = "dashboard" | "settings" | "editor";
+export type CoreViewState = "dashboard" | "settings" | "editor";
+export type ViewState = CoreViewState | (string & {});
 
 export const viewAtom = atom<ViewState>("dashboard");
 
