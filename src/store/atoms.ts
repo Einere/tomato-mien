@@ -19,11 +19,12 @@ export const rulesAtom = atomWithStorage<AlarmRule[]>(
 
 export const settingsAtom = atomWithStorage<AppSettings>(
   "tomato-mien-settings",
-  { timeFormat: "24h" },
+  { timeFormat: "24h", enabledPlugins: [] },
   createDexieSingleRowStorage(db.settings, AppSettingsSchema),
 );
 
-export type ViewState = "dashboard" | "settings" | "editor";
+export type CoreViewState = "dashboard" | "settings" | "editor";
+export type ViewState = CoreViewState | (string & {});
 
 export const viewAtom = atom<ViewState>("dashboard");
 

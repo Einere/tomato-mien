@@ -27,7 +27,7 @@ export default defineConfig([
       "prettier/prettier": "error",
       "@typescript-eslint/no-unused-vars": [
         "error",
-        { ignoreRestSiblings: true },
+        { argsIgnorePattern: "^_", ignoreRestSiblings: true },
       ],
       "react/jsx-curly-brace-presence": [
         "error",

@@ -85,6 +85,7 @@ export const ThemeSchema = z.enum(["system", "light", "dark"]);
 export const AppSettingsSchema = z.object({
   timeFormat: TimeFormatSchema,
   theme: ThemeSchema.optional(),
+  enabledPlugins: z.array(z.string()).default([]),
 });
 
 // --- 타입 추출 ---

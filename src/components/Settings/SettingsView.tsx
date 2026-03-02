@@ -13,6 +13,7 @@ import {
 } from "@tomato-mien/ui";
 import { formatTime, formatTimeRange } from "@/lib/dayjs";
 import { AboutView } from "./AboutView";
+import { PluginSection } from "./PluginSection";
 import { useViewTransition } from "@tomato-mien/view-transition";
 
 const timeFormatOptions = [
@@ -108,6 +109,8 @@ export function SettingsView() {
           </div>
         </Card>
       </div>
+
+      <PluginSection />
 
       <div className="mt-6 flex flex-col gap-3">
         <Card padding="none">

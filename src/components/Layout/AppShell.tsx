@@ -7,10 +7,18 @@ import { EditorView } from "@/components/Editor/EditorView";
 import { SettingsView } from "@/components/Settings/SettingsView";
 import { useAlarmService } from "@/hooks/useAlarmService";
 import { useElectronMenu } from "@/hooks/useElectronMenu";
+import { usePluginManager } from "@/plugins/usePluginManager";
 
 function CurrentView({ view }: { view: ViewState }) {
+  const pluginManager = usePluginManager();
+
   if (view === "editor") return <EditorView />;
   if (view === "settings") return <SettingsView />;
+  if (view === "dashboard") return <DashboardView />;
+
+  const PluginView = pluginManager.resolveView(view);
+  if (PluginView) return <PluginView />;
+
   return <DashboardView />;
 }
 

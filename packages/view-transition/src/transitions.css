@@ -1,3 +1,10 @@
+/* ── View Transition: keep bottom nav static during directional transitions ── */
+
+html[data-transition-direction]::view-transition-old(bottom-nav),
+html[data-transition-direction]::view-transition-new(bottom-nav) {
+  animation: none;
+}
+
 /* ── View Transition: merge individual cards into root during drill ── */
 
 html[data-transition-direction] .vt-merge-root {
@@ -53,15 +60,17 @@ html[data-transition-direction="drill-forward"]::view-transition-new(root) {
   mix-blend-mode: normal;
 }
 
-/* Drill Backward: old page slides right, new page enters from left */
+/* Drill Backward: old page slides right on top, new page enters from left behind */
 html[data-transition-direction="drill-backward"]::view-transition-old(root) {
-  animation: drill-slide-out-right 0.4s cubic-bezier(0.2, 0, 0, 1) both;
+  animation: drill-slide-out-right 0.4s cubic-bezier(0.4, 0, 0.1, 1) both;
   mix-blend-mode: normal;
+  z-index: 1;
 }
 
 html[data-transition-direction="drill-backward"]::view-transition-new(root) {
-  animation: drill-slide-in-from-left 0.4s cubic-bezier(0.2, 0, 0, 1) both;
+  animation: drill-slide-in-from-left 0.4s cubic-bezier(0.4, 0, 0.1, 1) both;
   mix-blend-mode: normal;
+  z-index: 0;
 }
 
 /* ── View Transition: Slide Animation ── */

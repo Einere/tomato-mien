@@ -9,50 +9,78 @@ import {
   useViewTransition,
   type TransitionDirection,
 } from "@tomato-mien/view-transition";
+import { usePluginManager } from "@/plugins/usePluginManager";
+
+interface TabDef {
+  id: string;
+  icon: ComponentType<IconProps>;
+  label: string;
+  order: number;
+}
+
+const coreTabs: TabDef[] = [
+  { id: "dashboard", icon: RuleIcon, label: "Rules", order: 0 },
+  { id: "settings", icon: SettingsIcon, label: "Settings", order: 100 },
+];
 
 function getTabDirection(
   from: ViewState,
   to: ViewState,
+  allTabs: TabDef[],
 ): TransitionDirection | undefined {
   if (from === "editor" && to === "dashboard") return "drill-backward";
-  if (from === "editor") return undefined; // editor → settings: plain crossfade
-  if (to === "settings") return "slide-left";
-  if (to === "dashboard") return "slide-right";
-  return undefined;
+  if (from === "editor") return undefined;
+
+  const fromIndex = allTabs.findIndex(t => t.id === from);
+  const toIndex = allTabs.findIndex(t => t.id === to);
+
+  if (fromIndex === -1 || toIndex === -1) return undefined;
+
+  return toIndex > fromIndex ? "slide-left" : "slide-right";
 }
 
-const tabs = [
-  { id: "dashboard", icon: RuleIcon, label: "Rules" },
-  { id: "settings", icon: SettingsIcon, label: "Settings" },
-] as const;
-
-type TabId = (typeof tabs)[number]["id"];
-
-function getActiveTab(view: ViewState): TabId {
-  if (view === "settings") return "settings";
+function getActiveTab(view: ViewState, tabIds: string[]): string {
+  if (tabIds.includes(view)) return view;
   return "dashboard";
 }
 
 export function BottomNav() {
   const [view, setView] = useAtom(viewAtom);
   const { triggerTransition } = useViewTransition();
-  const currentTab = getActiveTab(view);
+  const pluginManager = usePluginManager();
+
+  const pluginTabs: TabDef[] = pluginManager.getNavItems().map(item => ({
+    id: item.viewId,
+    // Plugin icons are expected to accept IconProps ({ className, size })
+    icon: item.icon as ComponentType<IconProps>,
+    label: item.label,
+    order: item.order ?? 50,
+  }));
+
+  const allTabs = [...coreTabs, ...pluginTabs].sort(
+    (a, b) => a.order - b.order,
+  );
+
+  const tabIds = allTabs.map(t => t.id);
+  const currentTab = getActiveTab(view, tabIds);
 
   return (
-    <nav className="pb-safe border-border bg-surface flex items-center justify-around border-t px-2">
-      {tabs.map(tab => {
+    <nav
+      className="pb-safe border-border bg-surface flex items-center justify-around border-t px-2"
+      style={{ viewTransitionName: "bottom-nav" }}
+    >
+      {allTabs.map(tab => {
         const isActive = tab.id === currentTab;
-        const TabIcon: ComponentType<IconProps> = tab.icon;
+        const TabIcon = tab.icon;
 
         return (
           <button
             key={tab.id}
             aria-current={isActive ? "page" : undefined}
             onClick={() => {
-              const target: ViewState =
-                tab.id === "dashboard" ? "dashboard" : "settings";
+              const target: ViewState = tab.id;
               if (view === target) return;
-              const direction = getTabDirection(view, target);
+              const direction = getTabDirection(view, target, allTabs);
               triggerTransition(() => setView(target), direction);
             }}
             className={cn(

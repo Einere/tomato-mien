@@ -4,6 +4,8 @@ import { Provider } from "jotai";
 import { createStore } from "jotai";
 import { SettingsView } from "../Settings/SettingsView";
 import { db } from "@/db/database";
+import { PluginManager } from "@/plugins/PluginManager";
+import { PluginManagerProvider } from "@/plugins/PluginManagerContext";
 
 beforeEach(async () => {
   await db.rules.clear();
@@ -13,9 +15,12 @@ beforeEach(async () => {
 
 function renderWithStore() {
   const store = createStore();
+  const pluginManager = new PluginManager();
   return render(
     <Provider store={store}>
-      <SettingsView />
+      <PluginManagerProvider value={pluginManager}>
+        <SettingsView />
+      </PluginManagerProvider>
     </Provider>,
   );
 }

@@ -7,7 +7,12 @@ export {
   settingsAtom,
   settingsSubViewAtom,
 } from "./atoms";
-export type { ViewState, SortOrder, SettingsSubView } from "./atoms";
+export type {
+  ViewState,
+  CoreViewState,
+  SortOrder,
+  SettingsSubView,
+} from "./atoms";
 
 export {
   activeRuleCountAtom,

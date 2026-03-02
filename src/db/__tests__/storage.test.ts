@@ -109,17 +109,25 @@ describe("createDexieSingleRowStorage", () => {
   const schema = z.object({
     timeFormat: z.enum(["12h", "24h"]),
     theme: z.enum(["system", "light", "dark"]).optional(),
+    enabledPlugins: z.array(z.string()).default([]),
   });
   const storage = createDexieSingleRowStorage(db.settings, schema);
-  const initialValue: AppSettings = { timeFormat: "24h" };
+  const initialValue: AppSettings = {
+    timeFormat: "24h",
+    enabledPlugins: [],
+  };
 
   it("getItem returns initialValue when cache is not hydrated", () => {
     const result = storage.getItem(SETTINGS_KEY, initialValue);
-    expect(result).toEqual({ timeFormat: "24h" });
+    expect(result).toEqual({ timeFormat: "24h", enabledPlugins: [] });
   });
 
   it("hydrateSingleRowStorage populates cache from DB", async () => {
-    await db.settings.put({ id: "default", timeFormat: "12h" });
+    await db.settings.put({
+      id: "default",
+      timeFormat: "12h",
+      enabledPlugins: [],
+    });
 
     await hydrateSingleRowStorage(
       SETTINGS_KEY,
@@ -129,21 +137,21 @@ describe("createDexieSingleRowStorage", () => {
     );
 
     const result = storage.getItem(SETTINGS_KEY, initialValue);
-    expect(result).toEqual({ timeFormat: "12h" });
+    expect(result).toEqual({ timeFormat: "12h", enabledPlugins: [] });
   });
 
   it("setItem updates cache synchronously", () => {
-    storage.setItem(SETTINGS_KEY, { timeFormat: "12h" });
+    storage.setItem(SETTINGS_KEY, { timeFormat: "12h", enabledPlugins: [] });
 
     const result = storage.getItem(SETTINGS_KEY, initialValue);
-    expect(result).toEqual({ timeFormat: "12h" });
+    expect(result).toEqual({ timeFormat: "12h", enabledPlugins: [] });
   });
 
   it("removeItem clears cache and falls back to initialValue", () => {
-    storage.setItem(SETTINGS_KEY, { timeFormat: "12h" });
+    storage.setItem(SETTINGS_KEY, { timeFormat: "12h", enabledPlugins: [] });
     storage.removeItem(SETTINGS_KEY);
 
     const result = storage.getItem(SETTINGS_KEY, initialValue);
-    expect(result).toEqual({ timeFormat: "24h" });
+    expect(result).toEqual({ timeFormat: "24h", enabledPlugins: [] });
   });
 });

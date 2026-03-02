@@ -3,11 +3,15 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { Provider, createStore } from "jotai";
 import { BottomNav } from "@/components/Layout/BottomNav";
 import { viewAtom } from "@/store";
+import { PluginManager, PluginManagerProvider } from "@/plugins";
 
 function renderBottomNav(store: ReturnType<typeof createStore>) {
+  const pluginManager = new PluginManager();
   return render(
     <Provider store={store}>
-      <BottomNav />
+      <PluginManagerProvider value={pluginManager}>
+        <BottomNav />
+      </PluginManagerProvider>
     </Provider>,
   );
 }
