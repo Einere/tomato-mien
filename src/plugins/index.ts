@@ -5,3 +5,5 @@ export {
   PluginManagerProvider,
   usePluginManager,
 } from "./PluginManagerContext";
+export { builtinPlugins } from "./registry";
+export { usePluginInit } from "./usePluginInit";

@@ -1,10 +1,10 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Provider } from "jotai";
 import { AppShell } from "@/components/Layout/AppShell";
 import { SplashScreen } from "@/components/SplashScreen";
 import { runMigration } from "@/db/migration";
 import { useTheme } from "@/hooks/useTheme";
-import { PluginManager, PluginManagerProvider } from "@/plugins";
+import { PluginManagerProvider, usePluginInit } from "@/plugins";
 
 const SLOW_THRESHOLD_MS = 3000;
 
@@ -73,16 +73,23 @@ function HydrationGate({ children }: { children: React.ReactNode }) {
   );
 }
 
-function App() {
-  const pluginManager = useMemo(() => new PluginManager(), []);
+function PluginGate({ children }: { children: React.ReactNode }) {
+  const pluginManager = usePluginInit();
+  return (
+    <PluginManagerProvider value={pluginManager}>
+      {children}
+    </PluginManagerProvider>
+  );
+}
 
+function App() {
   return (
     <Provider>
-      <PluginManagerProvider value={pluginManager}>
-        <HydrationGate>
+      <HydrationGate>
+        <PluginGate>
           <AppShell />
-        </HydrationGate>
-      </PluginManagerProvider>
+        </PluginGate>
+      </HydrationGate>
     </Provider>
   );
 }
