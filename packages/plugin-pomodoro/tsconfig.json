@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "declaration": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@tomato-mien/plugin-core": ["../plugin-core/src/index.ts"],
+      "@tomato-mien/ui": ["../ui/src/index.ts"]
+    }
+  },
+  "include": ["src"]
+}

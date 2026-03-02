@@ -1,0 +1,16 @@
+{
+  "name": "@tomato-mien/plugin-pomodoro",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@tomato-mien/plugin-core": "*",
+    "@tomato-mien/ui": "*"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  }
+}

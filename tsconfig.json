@@ -5,6 +5,7 @@
     { "path": "./tsconfig.node.json" },
     { "path": "./packages/ui" },
     { "path": "./packages/view-transition" },
-    { "path": "./packages/plugin-core" }
+    { "path": "./packages/plugin-core" },
+    { "path": "./packages/plugin-pomodoro" }
   ]
 }
