@@ -9,7 +9,7 @@ import {
   useViewTransition,
   type TransitionDirection,
 } from "@tomato-mien/view-transition";
-import { usePluginManager } from "@/plugins/PluginManagerContext";
+import { usePluginManager } from "@/plugins/usePluginManager";
 
 interface TabDef {
   id: string;
@@ -46,6 +46,7 @@ export function BottomNav() {
 
   const pluginTabs: TabDef[] = pluginManager.getNavItems().map(item => ({
     id: item.viewId,
+    // Plugin icons are expected to accept IconProps ({ className, size })
     icon: item.icon as ComponentType<IconProps>,
     label: item.label,
     order: item.order ?? 50,

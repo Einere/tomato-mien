@@ -8,7 +8,7 @@ export const pomodoroPlugin: TomatoPlugin = {
   version: "0.1.0",
   description: "25min work, 5min break cycles",
 
-  activate() {
+  activate(_ctx) {
     return {
       views: [{ id: "pomodoro", component: PomodoroView }],
       navItems: [

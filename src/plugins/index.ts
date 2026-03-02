@@ -1,9 +1,7 @@
 export { PluginManager } from "./PluginManager";
 export type { PluginInfo } from "./PluginManager";
 export { createPluginContext } from "./createPluginContext";
-export {
-  PluginManagerProvider,
-  usePluginManager,
-} from "./PluginManagerContext";
+export { PluginManagerProvider } from "./PluginManagerContext";
+export { usePluginManager } from "./usePluginManager";
 export { builtinPlugins } from "./registry";
 export { usePluginInit } from "./usePluginInit";

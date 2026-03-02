@@ -7,7 +7,7 @@ import { EditorView } from "@/components/Editor/EditorView";
 import { SettingsView } from "@/components/Settings/SettingsView";
 import { useAlarmService } from "@/hooks/useAlarmService";
 import { useElectronMenu } from "@/hooks/useElectronMenu";
-import { usePluginManager } from "@/plugins/PluginManagerContext";
+import { usePluginManager } from "@/plugins/usePluginManager";
 
 function CurrentView({ view }: { view: ViewState }) {
   const pluginManager = usePluginManager();

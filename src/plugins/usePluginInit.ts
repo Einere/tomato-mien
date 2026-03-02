@@ -10,6 +10,9 @@ export function usePluginInit(): PluginManager {
   const enabledIds = settings.enabledPlugins ?? [];
 
   const manager = useMemo(() => {
+    // DESIGN CONTRACT: PluginManager is created once at app startup.
+    // enabledPlugins changes require app restart to take effect.
+    // PluginSection UI displays "Changes take effect after restarting the app."
     const mgr = new PluginManager();
     const ctx = createPluginContext();
 
@@ -19,12 +22,11 @@ export function usePluginInit(): PluginManager {
     for (const id of enabledIds) {
       try {
         mgr.activate(id, ctx);
-      } catch {
-        console.warn(`[PluginManager] Failed to activate plugin: ${id}`);
+      } catch (error) {
+        console.warn(`[PluginManager] Failed to activate plugin: ${id}`, error);
       }
     }
     return mgr;
-    // enabledIds는 앱 재시작 시에만 반영되므로 의존성 불필요
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

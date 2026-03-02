@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { settingsAtom } from "@/store";
-import { usePluginManager } from "@/plugins/PluginManagerContext";
+import { usePluginManager } from "@/plugins/usePluginManager";
 import { Card, Toggle, MenuRow, CodeIcon } from "@tomato-mien/ui";
 
 export function PluginSection() {

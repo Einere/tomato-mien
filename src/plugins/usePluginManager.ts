@@ -1,9 +1,6 @@
-import { createContext, useContext } from "react";
+import { useContext } from "react";
+import { PluginManagerContext } from "./PluginManagerContext";
 import type { PluginManager } from "./PluginManager";
-
-const PluginManagerContext = createContext<PluginManager | null>(null);
-
-export const PluginManagerProvider = PluginManagerContext.Provider;
 
 export function usePluginManager(): PluginManager {
   const manager = useContext(PluginManagerContext);
