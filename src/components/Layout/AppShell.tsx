@@ -31,10 +31,7 @@ export function AppShell() {
   return (
     <div className="bg-background">
       <div className="mx-auto flex h-screen max-w-xl flex-col">
-        <main
-          className="flex-1 overflow-y-auto"
-          style={{ viewTransitionName: "main-content" }}
-        >
+        <main className="flex-1 overflow-y-auto">
           <CurrentView view={view} />
         </main>
         <BottomNav />

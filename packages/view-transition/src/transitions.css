@@ -1,11 +1,11 @@
-/* ── View Transition: keep nav bar static during directional transitions ── */
+/* ── View Transition: keep bottom nav static during directional transitions ── */
 
-html[data-transition-direction]::view-transition-old(root),
-html[data-transition-direction]::view-transition-new(root) {
+html[data-transition-direction]::view-transition-old(bottom-nav),
+html[data-transition-direction]::view-transition-new(bottom-nav) {
   animation: none;
 }
 
-/* ── View Transition: merge individual cards into main-content during drill ── */
+/* ── View Transition: merge individual cards into root during drill ── */
 
 html[data-transition-direction] .vt-merge-root {
   view-transition-name: none !important;
@@ -50,25 +50,27 @@ html[data-transition-direction] .vt-merge-root {
 }
 
 /* Drill Forward: new page slides from right, old page pushes left */
-html[data-transition-direction="drill-forward"]::view-transition-old(main-content) {
+html[data-transition-direction="drill-forward"]::view-transition-old(root) {
   animation: drill-slide-out-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
   mix-blend-mode: normal;
 }
 
-html[data-transition-direction="drill-forward"]::view-transition-new(main-content) {
+html[data-transition-direction="drill-forward"]::view-transition-new(root) {
   animation: drill-slide-in-from-right 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
   mix-blend-mode: normal;
 }
 
-/* Drill Backward: old page slides right, new page enters from left */
-html[data-transition-direction="drill-backward"]::view-transition-old(main-content) {
-  animation: drill-slide-out-right 0.4s cubic-bezier(0.2, 0, 0, 1) both;
+/* Drill Backward: old page slides right on top, new page enters from left behind */
+html[data-transition-direction="drill-backward"]::view-transition-old(root) {
+  animation: drill-slide-out-right 0.4s cubic-bezier(0.4, 0, 0.1, 1) both;
   mix-blend-mode: normal;
+  z-index: 1;
 }
 
-html[data-transition-direction="drill-backward"]::view-transition-new(main-content) {
-  animation: drill-slide-in-from-left 0.4s cubic-bezier(0.2, 0, 0, 1) both;
+html[data-transition-direction="drill-backward"]::view-transition-new(root) {
+  animation: drill-slide-in-from-left 0.4s cubic-bezier(0.4, 0, 0.1, 1) both;
   mix-blend-mode: normal;
+  z-index: 0;
 }
 
 /* ── View Transition: Slide Animation ── */
@@ -110,23 +112,23 @@ html[data-transition-direction="drill-backward"]::view-transition-new(main-conte
 }
 
 /* Slide Left: old page exits left, new page enters from right */
-html[data-transition-direction="slide-left"]::view-transition-old(main-content) {
+html[data-transition-direction="slide-left"]::view-transition-old(root) {
   animation: slide-out-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
   mix-blend-mode: normal;
 }
 
-html[data-transition-direction="slide-left"]::view-transition-new(main-content) {
+html[data-transition-direction="slide-left"]::view-transition-new(root) {
   animation: slide-in-from-right 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
   mix-blend-mode: normal;
 }
 
 /* Slide Right: old page exits right, new page enters from left */
-html[data-transition-direction="slide-right"]::view-transition-old(main-content) {
+html[data-transition-direction="slide-right"]::view-transition-old(root) {
   animation: slide-out-right 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
   mix-blend-mode: normal;
 }
 
-html[data-transition-direction="slide-right"]::view-transition-new(main-content) {
+html[data-transition-direction="slide-right"]::view-transition-new(root) {
   animation: slide-in-from-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
   mix-blend-mode: normal;
 }

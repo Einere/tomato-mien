@@ -65,7 +65,10 @@ export function BottomNav() {
   const currentTab = getActiveTab(view, tabIds);
 
   return (
-    <nav className="pb-safe border-border bg-surface flex items-center justify-around border-t px-2">
+    <nav
+      className="pb-safe border-border bg-surface flex items-center justify-around border-t px-2"
+      style={{ viewTransitionName: "bottom-nav" }}
+    >
       {allTabs.map(tab => {
         const isActive = tab.id === currentTab;
         const TabIcon = tab.icon;
