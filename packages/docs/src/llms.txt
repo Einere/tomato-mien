@@ -1,0 +1,56 @@
+# Tomato Mien
+
+> A simple desktop app for setting up rule-based alarms.
+
+Tomato Mien is a free, open-source, cross-platform desktop application that lets users define alarm rules using triggers and filters. Built with Electron and React.
+
+## Key Features
+
+- Rule-based alarm scheduling with triggers and filters
+- Interval alarms (e.g. every 15, 25, 30 minutes)
+- Specific time alarms (e.g. 2:30 PM)
+- Time range filters to restrict when alarms fire (e.g. 9 AM - 5 PM)
+- Background alarm evaluation via Web Worker
+- Native desktop notifications with sound
+- Rule management dashboard with search and sort
+- Fully offline — no internet required
+- Scheduled rule activation for future dates
+
+## Tech Stack
+
+- Electron (main process)
+- React + TypeScript (renderer)
+- Vite (build tool)
+- Jotai (state management)
+- Dexie / IndexedDB (local persistence)
+- Tailwind CSS (styling)
+- Web Worker (background alarm evaluation)
+
+## Platforms
+
+- macOS (.dmg)
+- Windows (.exe)
+- Linux (.AppImage)
+
+## How to Use
+
+1. Create a Rule — give your alarm rule a name
+2. Add Triggers — choose interval or specific time
+3. Set Filters (Optional) — restrict when alarms fire with time ranges
+4. Enable & Go — toggle the rule on, alarms run in the background
+
+## FAQ
+
+- Is it free? Yes, MIT License, no ads or subscriptions.
+- Offline? Fully offline, all data stored locally.
+- Background? Web Worker evaluates alarms even when minimized.
+- Alarm types? Interval, specific time, multiple triggers, time range filters.
+- Notifications? Native desktop notifications with sound, toggleable per rule.
+
+## Links
+
+- Homepage: https://einere.github.io/tomato-mien/
+- GitHub: https://github.com/Einere/tomato-mien
+- Download: https://github.com/Einere/tomato-mien/releases/latest
+- Issues: https://github.com/Einere/tomato-mien/issues
+- License: MIT
