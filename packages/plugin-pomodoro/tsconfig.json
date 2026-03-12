@@ -8,6 +8,7 @@
     "declaration": true,
     "noEmit": true,
     "skipLibCheck": true,
+    "types": ["@testing-library/jest-dom"],
     "paths": {
       "@tomato-mien/plugin-core": ["../plugin-core/src/index.ts"],
       "@tomato-mien/ui": ["../ui/src/index.ts"]

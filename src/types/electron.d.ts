@@ -1,3 +1,16 @@
+export interface IAPProduct {
+  productIdentifier: string;
+  localizedTitle: string;
+  localizedDescription: string;
+  formattedPrice: string;
+  price: number;
+}
+
+export interface IAPPurchaseResult {
+  success: boolean;
+  error?: string;
+}
+
 export interface NotificationOptions {
   body?: string;
   icon?: string;
@@ -18,6 +31,13 @@ export interface ElectronAPI {
     options: NotificationOptions,
   ) => Promise<NotificationResult>;
   requestNotificationPermission: () => Promise<boolean>;
+  isMAS: boolean;
+  iapCanMakePayments: () => Promise<boolean>;
+  iapGetProducts: (productIds: string[]) => Promise<IAPProduct[]>;
+  iapPurchase: (
+    productId: string,
+    quantity: number,
+  ) => Promise<IAPPurchaseResult>;
 }
 
 declare global {

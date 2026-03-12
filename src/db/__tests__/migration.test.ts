@@ -33,6 +33,7 @@ describe("runMigration", () => {
       id: "default",
       timeFormat: "12h",
       enabledPlugins: [],
+      tipCount: 0,
     });
 
     await runMigration();
