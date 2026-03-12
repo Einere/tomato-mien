@@ -26,6 +26,16 @@ contextBridge.exposeInMainWorld("electronAPI", {
   // 플랫폼 정보
   platform: process.platform,
 
+  // MAS 빌드 여부
+  isMAS: process.mas === true || process.env.MAS_BUILD === "true",
+
+  // In-App Purchase
+  iapCanMakePayments: () => ipcRenderer.invoke("iap-can-make-payments"),
+  iapGetProducts: (productIds) =>
+    ipcRenderer.invoke("iap-get-products", productIds),
+  iapPurchase: (productId, quantity) =>
+    ipcRenderer.invoke("iap-purchase", productId, quantity),
+
   // 알림
   showNotification: (title, options) =>
     ipcRenderer.invoke("show-notification", title, options),

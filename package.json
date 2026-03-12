@@ -1,7 +1,7 @@
 {
   "name": "tomato-mien",
   "private": true,
-  "version": "2.3.0",
+  "version": "2.4.1",
   "workspaces": [
     "packages/*"
   ],
@@ -45,6 +45,7 @@
     "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && NODE_ENV=development electron .\"",
     "electron:dist": "npm run build && electron-builder --publish=never",
     "electron:release": "npm run build && electron-builder",
+    "electron:mas:dev": "npm run build && MAS_BUILD=true electron-builder --mac mas-dev --publish=never",
     "electron:mas:dist": "npm run build && MAS_BUILD=true electron-builder --mac mas --publish=never",
     "electron:mas:release": "npm run build && MAS_BUILD=true electron-builder --mac mas",
     "docs:dev": "npm run dev -w @tomato-mien/docs",
