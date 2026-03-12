@@ -45,9 +45,9 @@
     "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && NODE_ENV=development electron .\"",
     "electron:dist": "npm run build && electron-builder --publish=never",
     "electron:release": "npm run build && electron-builder",
-    "electron:mas:dev": "npm run build && MAS_BUILD=true electron-builder --mac mas-dev --publish=never",
-    "electron:mas:dist": "npm run build && MAS_BUILD=true electron-builder --mac mas --publish=never",
-    "electron:mas:release": "npm run build && MAS_BUILD=true electron-builder --mac mas",
+    "electron:mas:dev": "npm run build && MAS_BUILD=true electron-builder --mac mas-dev --publish=never -c.mas.type=development -c.mas.provisioningProfile=electron/entitlements/embedded.dev.provisionprofile",
+    "electron:mas:dist": "npm run build && MAS_BUILD=true electron-builder --mac mas --publish=never -c.mas.provisioningProfile=electron/entitlements/embedded.mas.provisionprofile",
+    "electron:mas:release": "npm run build && MAS_BUILD=true electron-builder --mac mas -c.mas.provisioningProfile=electron/entitlements/embedded.mas.provisionprofile",
     "docs:dev": "npm run dev -w @tomato-mien/docs",
     "docs:build": "npm run build -w @tomato-mien/docs",
     "release": "npm version $npm_config_tag --no-git-tag-version && git add package.json package-lock.json && git commit -m \"chore: bump version to $npm_config_tag\" && git tag v$npm_config_tag && git push && git push origin v$npm_config_tag"
@@ -173,8 +173,8 @@
       "hardenedRuntime": false,
       "entitlements": "electron/entitlements/entitlements.mas.plist",
       "entitlementsInherit": "electron/entitlements/entitlements.mas.inherit.plist",
-      "entitlementsLoginHelper": "electron/entitlements/entitlements.mas.inherit.plist",
-      "provisioningProfile": "electron/entitlements/embedded.provisionprofile",
+      "entitlementsLoginHelper": "electron/entitlements/entitlements.mas.plist",
+      "provisioningProfile": "electron/entitlements/embedded.mas.provisionprofile",
       "category": "public.app-category.productivity",
       "target": [
         {

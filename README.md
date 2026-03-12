@@ -34,6 +34,12 @@ npm run build
 npm run electron:release
 ```
 
+### macOS 빌드 프로필
+
+- `npm run electron:mas:dev`: 로컬 Mac App Store Sandbox 테스트용 (`electron/entitlements/embedded.dev.provisionprofile`)
+- `npm run electron:mas:dist`: Mac App Store 제출용 (`electron/entitlements/embedded.mas.provisionprofile`)
+- `npm run electron:dist`: Mac App Store 외부 배포용 (`Developer ID Application` 서명 + 공증)
+
 ## 프로젝트 구조
 
 npm workspaces 기반 모노레포:
