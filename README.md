@@ -31,7 +31,7 @@
 ```bash
 npm install
 npm run build
-npm run electron:build
+npm run electron:release
 ```
 
 ## 프로젝트 구조

@@ -39,18 +39,16 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "test": "vitest run",
     "lint": "eslint . && prettier --check .",
     "lint:fix": "eslint . --fix && prettier --write .",
-    "preview": "vite preview",
-    "electron": "electron .",
     "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && NODE_ENV=development electron .\"",
-    "electron:build": "npm run build && electron-builder",
     "electron:dist": "npm run build && electron-builder --publish=never",
-    "electron:mas": "npm run build && MAS_BUILD=true electron-builder --mac mas",
+    "electron:release": "npm run build && electron-builder",
     "electron:mas:dist": "npm run build && MAS_BUILD=true electron-builder --mac mas --publish=never",
+    "electron:mas:release": "npm run build && MAS_BUILD=true electron-builder --mac mas",
     "docs:dev": "npm run dev -w @tomato-mien/docs",
     "docs:build": "npm run build -w @tomato-mien/docs",
-    "test": "npx vitest run",
     "release": "npm version $npm_config_tag --no-git-tag-version && git add package.json package-lock.json && git commit -m \"chore: bump version to $npm_config_tag\" && git tag v$npm_config_tag && git push && git push origin v$npm_config_tag"
   },
   "dependencies": {
