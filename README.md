@@ -6,24 +6,25 @@
 
 ## 기능
 
-- 트리거 기반 알림: 간격(매 N분), 특정 시각 조건 지원
-- 필터 조건: 시간 범위로 알림 활성 구간 제한
-- 백그라운드 알림 (Web Worker)
-- IndexedDB 기반 데이터 영속화
-- 네트워크 연결 불필요
+- **규칙 기반 알림**: 간격(매 N분), 특정 시각, 매시 N분 등 다양한 트리거 조합
+- **필터 조건**: 시간 범위로 알림 활성 구간 제한 (예: 근무 시간에만 알림)
+- **뽀모도로 타이머**: 플러그인으로 제공되는 집중/휴식 타이머
+- **백그라운드 알림**: Web Worker 기반 하이브리드 스케줄링 (Timer + Safety Net + liveQuery)
+- **오프라인 동작**: IndexedDB 영속화, 네트워크 연결 불필요
+- **자동 업데이트**: GitHub Releases를 통한 인앱 업데이트
+- **크로스 플랫폼**: macOS, Windows, Linux 지원
 
-## 설치 및 실행
+## 설치
 
 ### 앱 내려받기
 
-[Releases](https://github.com/Einere/tomato-mien/releases) 페이지에서 플랫폼별 최신 버전을 받아주세요.
+[Releases](https://github.com/Einere/tomato-mien/releases) 페이지에서 플랫폼별 최신 버전을 받으세요.
 
 | 플랫폼  | 파일 형식                |
 | ------- | ------------------------ |
 | macOS   | `.dmg` (arm64, x64)      |
 | Windows | `.exe` (x64, arm64)      |
 | Linux   | `.AppImage` (x64, arm64) |
-
 
 ### 직접 빌드
 
@@ -39,16 +40,19 @@ npm workspaces 기반 모노레포:
 
 ```
 packages/
-  design-tokens/   # CSS 디자인 토큰 (@tomato-mien/design-tokens)
-  ui/              # 공용 React UI 컴포넌트 (@tomato-mien/ui)
-  docs/            # 랜딩 페이지 (@tomato-mien/docs)
-src/               # Electron 렌더러 (React SPA)
-electron/          # Electron 메인/프리로드
+  design-tokens/     # CSS 디자인 토큰 — OKLCH 컬러, typography (@tomato-mien/design-tokens)
+  ui/                # React UI 프리미티브 — CVA + tailwind-merge (@tomato-mien/ui)
+  view-transition/   # SPA drill/slide 애니메이션 (@tomato-mien/view-transition)
+  plugin-core/       # 플러그인 타입 정의 (@tomato-mien/plugin-core)
+  plugin-pomodoro/   # 뽀모도로 타이머 플러그인 (@tomato-mien/plugin-pomodoro)
+  docs/              # 랜딩 페이지 (@tomato-mien/docs)
+src/                 # Electron 렌더러 (React SPA)
+electron/            # Electron 메인/프리로드
 ```
 
-## 알려진 제한 사항
+### 플러그인 시스템
 
-- `npm run dev`(브라우저 환경)에서는 알람 사운드가 재생되지 않을 수 있습니다. 브라우저의 Autoplay Policy로 인해 사용자 제스처 없이는 AudioContext가 `suspended` 상태에 머뭅니다. 알람 사운드를 테스트하려면 `npm run electron:dev`로 Electron 환경에서 실행하세요.
+`@tomato-mien/plugin-core`의 `TomatoPlugin` 인터페이스를 구현하면 뷰와 네비게이션 아이템을 앱에 추가할 수 있습니다. 현재 뽀모도로 타이머가 빌트인 플러그인으로 제공됩니다.
 
 ## 개발
 
@@ -69,13 +73,15 @@ npm run lint
 npx vitest run
 ```
 
+> **참고**: `npm run dev`(브라우저 환경)에서는 Autoplay Policy로 인해 알람 사운드가 재생되지 않을 수 있습니다. 알람 사운드 테스트는 `npm run electron:dev`로 실행하세요.
+
 ## 기술 스택
 
 | 영역       | 기술                                     |
 | ---------- | ---------------------------------------- |
 | Frontend   | React 19, TypeScript, Tailwind CSS v4    |
 | Desktop    | Electron, electron-builder               |
-| State      | Jotai (atomWithStorage)                  |
+| State      | Jotai (atomWithStorage + Dexie 영속화)   |
 | Schema     | Zod                                      |
 | Storage    | Dexie (IndexedDB)                        |
 | Background | Web Worker API                           |
@@ -86,3 +92,7 @@ npx vitest run
 ## 기여
 
 이슈 및 PR은 언제나 환영합니다.
+
+## 라이선스
+
+[MIT](LICENSE)
