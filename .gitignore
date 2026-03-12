@@ -34,8 +34,8 @@ coverage/
 .cache
 .parcel-cache
 
-# Provisioning profile (binary, per-machine)
-electron/entitlements/embedded.provisionprofile
+# Provisioning profiles (binary, per-machine)
+electron/entitlements/embedded*.provisionprofile
 
 # Screenshots (local store submission assets)
 screenshots/
