@@ -6,7 +6,7 @@
     <title>Tomato Mien - Simple Rule-Based Alarm App</title>
     <meta
       name="description"
-      content="Tomato Mien is a simple desktop app for setting up rule-based alarms. Define triggers (intervals, specific times) and filters (time ranges) to create your own alarm rules."
+      content="Tomato Mien is a desktop app for rule-based alarms and Pomodoro focus sessions. Create flexible reminder rules, enable the Pomodoro timer, and stay productive offline."
     />
 
     <link rel="canonical" href="https://einere.github.io/tomato-mien/" />
@@ -19,7 +19,7 @@
     />
     <meta
       property="og:description"
-      content="A simple desktop app for rule-based alarms. Define triggers and filters to get notified exactly when you need."
+      content="A desktop app for flexible alarm rules and focused Pomodoro sessions, with offline support and native notifications."
     />
     <meta
       property="og:image"
@@ -41,7 +41,7 @@
     />
     <meta
       name="twitter:description"
-      content="A simple desktop app for rule-based alarms. Define triggers and filters to get notified exactly when you need."
+      content="A desktop app for flexible alarm rules and focused Pomodoro sessions, with offline support and native notifications."
     />
     <meta
       name="twitter:image"
@@ -54,7 +54,7 @@
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "Tomato Mien",
-        "description": "A simple desktop app for setting up rule-based alarms. Define triggers (intervals, specific times) and filters (time ranges) to create your own alarm rules.",
+        "description": "A desktop app for flexible rule-based alarms and Pomodoro focus sessions. Create reminder rules, manage settings, and stay productive offline.",
         "url": "https://einere.github.io/tomato-mien/",
         "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "macOS, Windows, Linux",
@@ -78,6 +78,8 @@
           "Interval alarms (e.g. every 15, 25, 30 minutes)",
           "Specific time alarms (e.g. 2:30 PM)",
           "Time range filters to restrict when alarms fire",
+          "Optional Pomodoro timer with 25-minute focus and 5-minute break cycles",
+          "Plugin-based Pomodoro activation from Settings",
           "Background alarm evaluation via Web Worker",
           "Native desktop notifications with sound",
           "Rule management dashboard with search and sort",
@@ -123,6 +125,14 @@
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "Click the + button to create a new rule, give it a name, add triggers (interval or specific time), optionally set filters (time ranges), and toggle the rule on."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I enable the Pomodoro timer?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Open Settings, go to the Plugins section, and turn on the Pomodoro Timer toggle. Restart the app to apply the change, then the Pomodoro tab will appear in the bottom navigation."
             }
           },
           {
@@ -453,7 +463,7 @@
         >
           Manage your alarm rules effortlessly with an intuitive interface
         </p>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <div
             class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900"
           >
@@ -492,8 +502,25 @@
             class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900"
           >
             <img
+              src="assets/screenshots/pomodoro_screen.png"
+              alt="Tomato Mien Pomodoro screen with a circular timer, session progress dots, and a start button"
+              width="1376"
+              height="2070"
+              class="w-full"
+              loading="lazy"
+            />
+            <div class="p-4">
+              <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+                Pomodoro Timer
+              </p>
+            </div>
+          </div>
+          <div
+            class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900"
+          >
+            <img
               src="assets/screenshots/settings_screen.png"
-              alt="Tomato Mien settings screen with time format, theme, preview section, and about menu"
+              alt="Tomato Mien settings screen with time format, theme, preview section, and Pomodoro plugin toggle"
               width="1376"
               height="2070"
               class="w-full"
@@ -853,6 +880,35 @@
             <summary
               class="flex cursor-pointer items-center justify-between p-6 font-semibold"
             >
+              How do I enable the Pomodoro timer?
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                class="h-5 w-5 shrink-0 text-gray-500 transition-transform group-open:rotate-180"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </summary>
+            <div class="px-6 pb-6 text-gray-600 dark:text-gray-400">
+              Open Settings, go to the Plugins section, and turn on the
+              Pomodoro Timer toggle. Restart the app to apply the change, then
+              the Pomodoro tab will appear in the bottom navigation.
+            </div>
+          </details>
+          <details
+            class="group rounded-2xl border border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900"
+          >
+            <summary
+              class="flex cursor-pointer items-center justify-between p-6 font-semibold"
+            >
               Does it work in the background?
               <svg
                 aria-hidden="true"
@@ -1085,36 +1141,13 @@
             </a>
           </div>
         </div>
-        <!-- Build from source -->
-        <div
-          class="mt-8 rounded-2xl border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900"
-        >
-          <h3 class="mb-3 text-lg font-semibold">Build from Source</h3>
-          <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
-            Requires <strong>Node.js 18+</strong> and <strong>npm 10+</strong>
-          </p>
-          <pre
-            class="overflow-x-auto rounded-lg bg-gray-900 p-4 text-sm text-gray-100 dark:bg-gray-950"
-          ><code>git clone https://github.com/Einere/tomato-mien.git
-cd tomato-mien
-npm install
-
-# Development (with hot reload)
-npm run electron:dev
-
-# Production build (run locally)
-npm run build
-npm run electron</code></pre>
-        </div>
       </div>
     </section>
 
-    <!-- Support (hidden for App Store review) -->
-    <!--
+    <!-- Support -->
     <section id="support" class="px-4 py-20 sm:py-28">
       <div class="mx-auto max-w-5xl">
         <div class="mb-12 text-center">
-          <div class="mb-4 text-5xl">&#9749;</div>
           <h2 class="mb-3 text-3xl font-bold tracking-tight sm:text-4xl">
             Support This Project
           </h2>
@@ -1123,37 +1156,7 @@ npm run electron</code></pre>
             support helps keep this project alive!
           </p>
         </div>
-        <div class="mx-auto grid max-w-2xl gap-6 sm:grid-cols-2">
-          <div
-            class="flex flex-col items-center rounded-2xl border border-gray-200 bg-gray-50 p-8 text-center dark:border-gray-800 dark:bg-gray-900"
-          >
-            <div class="mb-3 text-4xl">&#127819;</div>
-            <h3 class="mb-2 text-xl font-semibold">Lemon Squeezy</h3>
-            <p class="mb-6 text-sm text-gray-600 dark:text-gray-400">
-              Pay with credit card via Lemon Squeezy
-            </p>
-            <a
-              href="https://tomato-mien.lemonsqueezy.com/checkout/buy/5457327e-10c4-449a-b3c0-e63264a89720?discount=0"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="bg-tomato-600 hover:bg-tomato-700 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-semibold text-white shadow-sm transition hover:shadow-md"
-            >
-              Buy me a coffee
-              <svg
-                class="h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
-            </a>
-          </div>
+        <div class="mx-auto max-w-md">
           <div
             class="flex flex-col items-center rounded-2xl border border-gray-200 bg-gray-50 p-8 text-center dark:border-gray-800 dark:bg-gray-900"
           >
@@ -1162,39 +1165,37 @@ npm run electron</code></pre>
             <p class="mb-6 text-sm text-gray-600 dark:text-gray-400">
               Scan QR code with the Toss app
             </p>
-            <button
-              id="toss-toggle"
-              type="button"
-              class="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-6 py-3 font-semibold transition hover:border-gray-400 hover:bg-gray-100 dark:border-gray-700 dark:hover:border-gray-600 dark:hover:bg-gray-800"
-            >
-              Show QR Code
-              <svg
-                id="toss-chevron"
-                class="h-4 w-4 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                viewBox="0 0 24 24"
+            <details class="group w-full">
+              <summary
+                class="mx-auto inline-flex cursor-pointer list-none items-center gap-2 rounded-xl border border-gray-300 px-6 py-3 font-semibold transition hover:border-gray-400 hover:bg-gray-100 dark:border-gray-700 dark:hover:border-gray-600 dark:hover:bg-gray-800"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M19 9l-7 7-7-7"
+                Show QR Code
+                <svg
+                  class="h-4 w-4 transition-transform group-open:rotate-180"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </summary>
+              <div class="mt-6 flex justify-center">
+                <img
+                  src="assets/toss_qr.png"
+                  alt="Toss QR code for donation"
+                  class="h-48 w-48 rounded-lg"
                 />
-              </svg>
-            </button>
-            <div id="toss-qr" class="mt-6 hidden">
-              <img
-                src="assets/toss_qr.png"
-                alt="Toss QR code for donation"
-                class="h-48 w-48 rounded-lg"
-              />
-            </div>
+              </div>
+            </details>
           </div>
         </div>
       </div>
     </section>
-    -->
 
     </main>
 
@@ -1212,15 +1213,6 @@ npm run electron</code></pre>
           >
             GitHub
           </a>
-          <!-- hidden for App Store review
-          <span class="text-gray-300 dark:text-gray-700">|</span>
-          <a
-            href="#support"
-            class="transition hover:text-gray-900 dark:hover:text-gray-300"
-          >
-            Support
-          </a>
-          -->
           <span class="text-gray-300 dark:text-gray-700">|</span>
           <a
             href="https://github.com/Einere/tomato-mien/issues"
@@ -1241,19 +1233,6 @@ npm run electron</code></pre>
     </footer>
 
     <script>
-      // Toss QR toggle (hidden for App Store review)
-      // const toggle = document.getElementById("toss-toggle");
-      // const qr = document.getElementById("toss-qr");
-      // const chevron = document.getElementById("toss-chevron");
-      //
-      // toggle.addEventListener("click", () => {
-      //   const isHidden = qr.classList.toggle("hidden");
-      //   chevron.style.transform = isHidden ? "" : "rotate(180deg)";
-      //   toggle.firstChild.textContent = isHidden
-      //     ? "Show QR Code"
-      //     : "Hide QR Code";
-      // });
-
       // OS detection & auto-download
       (function () {
         const API_URL =

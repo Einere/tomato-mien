@@ -21,7 +21,10 @@ describe("SupportView", () => {
 
   it("renders TossSupportContent when not MAS", () => {
     renderWithStore(<SupportView onBack={onBack} />);
-    expect(screen.getByText(/Toss로 후원하기/)).toBeInTheDocument();
+    expect(screen.getByText(/toss qr/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("img", { name: /toss support qr code/i }),
+    ).toBeInTheDocument();
   });
 
   it("renders IAPSupportContent when MAS", () => {
@@ -31,7 +34,9 @@ describe("SupportView", () => {
       iapGetProducts: vi.fn().mockResolvedValue([]),
     };
     renderWithStore(<SupportView onBack={onBack} />);
-    expect(screen.queryByText(/Toss로 후원하기/)).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("img", { name: /toss support qr code/i }),
+    ).not.toBeInTheDocument();
   });
 
   it("shows tip count when tipCount > 0 in MAS mode", async () => {
