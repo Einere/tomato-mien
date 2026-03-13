@@ -38,10 +38,11 @@ coverage/
 electron/entitlements/embedded*.provisionprofile
 
 # Screenshots (local store submission assets)
-screenshots/
+packages/docs/assets/appstore-previews
 
-# Internal docs (private planning documents, top-level only)
+# Internal docs (pr9ivate planning documents, top-level only)
 /docs/
 
 # Claude Code
 .claude
+.serena
