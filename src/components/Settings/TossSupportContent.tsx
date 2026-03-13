@@ -1,6 +1,5 @@
 import { Card } from "@tomato-mien/ui";
-
-const TOSS_QR_URL = "https://toss.me/tomatomien";
+import tossQrImage from "@assets/toss_qr.png";
 
 export function TossSupportContent() {
   return (
@@ -11,14 +10,14 @@ export function TossSupportContent() {
         후원은 개발을 지속하는 데 큰 힘이 됩니다.
       </p>
       <Card padding="md">
-        <a
-          href={TOSS_QR_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-primary-600 hover:text-primary-700 text-body block text-center underline"
-        >
-          Toss로 후원하기
-        </a>
+        <div className="flex flex-col items-center gap-3">
+          <p className="text-caption text-muted-foreground">Toss QR</p>
+          <img
+            src={tossQrImage}
+            alt="Toss support QR code"
+            className="h-60 w-60 rounded-lg"
+          />
+        </div>
       </Card>
     </div>
   );
