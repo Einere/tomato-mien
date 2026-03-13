@@ -50,7 +50,7 @@
     "electron:mas:release": "npm run build && MAS_BUILD=true electron-builder --mac mas -c.mas.provisioningProfile=electron/entitlements/embedded.mas.provisionprofile",
     "docs:dev": "npm run dev -w @tomato-mien/docs",
     "docs:build": "npm run build -w @tomato-mien/docs",
-    "release": "sh -c 'version=\"$1\"; [ -n \"$version\" ] || { echo \"Usage: npm run release -- <version>\" >&2; exit 1; }; npm version \"$version\" --no-git-tag-version && git add package.json package-lock.json && git commit -m \"chore: bump version to $version\" && git tag v$version && git push && git push origin v$version' --"
+    "release": "sh -c 'version=\"$1\"; [ -n \"$version\" ] || { echo \"Usage: npm run release -- <version>\" >&2; exit 1; }; npm version \"$version\" && git push && git push origin v$version' --"
   },
   "dependencies": {
     "electron-updater": "^6.6.2"
