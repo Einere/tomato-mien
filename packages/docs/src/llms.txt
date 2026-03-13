@@ -1,8 +1,8 @@
 # Tomato Mien
 
-> A simple desktop app for setting up rule-based alarms.
+> A desktop app for rule-based alarms and Pomodoro focus sessions.
 
-Tomato Mien is a free, open-source, cross-platform desktop application that lets users define alarm rules using triggers and filters. Built with Electron and React.
+Tomato Mien is a free, open-source, cross-platform desktop application that helps users manage flexible alarm rules and optional Pomodoro focus cycles. Built with Electron and React.
 
 ## Key Features
 
@@ -10,6 +10,8 @@ Tomato Mien is a free, open-source, cross-platform desktop application that lets
 - Interval alarms (e.g. every 15, 25, 30 minutes)
 - Specific time alarms (e.g. 2:30 PM)
 - Time range filters to restrict when alarms fire (e.g. 9 AM - 5 PM)
+- Optional Pomodoro timer with 25-minute focus and 5-minute break cycles
+- Pomodoro plugin toggle in Settings
 - Background alarm evaluation via Web Worker
 - Native desktop notifications with sound
 - Rule management dashboard with search and sort
@@ -43,6 +45,7 @@ Tomato Mien is a free, open-source, cross-platform desktop application that lets
 
 - Is it free? Yes, MIT License, no ads or subscriptions.
 - Offline? Fully offline, all data stored locally.
+- Pomodoro? Enable it from Settings > Plugins, then restart the app.
 - Background? Web Worker evaluates alarms even when minimized.
 - Alarm types? Interval, specific time, multiple triggers, time range filters.
 - Notifications? Native desktop notifications with sound, toggleable per rule.
