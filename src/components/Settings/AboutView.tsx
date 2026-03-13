@@ -110,7 +110,7 @@ export function AboutView({ onBack }: { onBack: () => void }) {
           className="transition-shadow hover:shadow-md"
         >
           <MenuRow.Icon icon={EmailIcon} />
-          <MenuRow.Label title="Support" description={__APP_AUTHOR_EMAIL__} />
+          <MenuRow.Label title="Contact" description={__APP_AUTHOR_EMAIL__} />
           <OpenInNewIcon size="sm" />
         </MenuRow>
       </Card>

@@ -43,7 +43,7 @@ Tomato Mien is a free, open-source, cross-platform desktop application that help
 
 ## FAQ
 
-- Is it free? Yes, MIT License, no ads or subscriptions.
+- Is it free? Yes, MIT License and fully free to use.
 - Offline? Fully offline, all data stored locally.
 - Pomodoro? Enable it from Settings > Plugins, then restart the app.
 - Background? Web Worker evaluates alarms even when minimized.

@@ -10,7 +10,6 @@ import {
   net,
 } from "electron";
 import pkg from "electron-updater";
-import { setupIAP } from "./iap.js";
 import path from "path";
 import { fileURLToPath, pathToFileURL } from "url";
 
@@ -119,11 +118,6 @@ app.whenReady().then(() => {
 
   // 알림 IPC 설정
   setupNotificationIPC();
-
-  // IAP 설정 (MAS에서만)
-  if (isMAS) {
-    setupIAP();
-  }
 
   // 자동 업데이트 설정 (프로덕션 + 비MAS에서만)
   if (!isDev && !isMAS) {
