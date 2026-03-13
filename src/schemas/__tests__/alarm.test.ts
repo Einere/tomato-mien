@@ -377,7 +377,6 @@ describe("AppSettingsSchema", () => {
     expect(AppSettingsSchema.parse({ timeFormat: "24h" })).toEqual({
       timeFormat: "24h",
       enabledPlugins: [],
-      tipCount: 0,
     });
   });
 
@@ -385,7 +384,6 @@ describe("AppSettingsSchema", () => {
     expect(AppSettingsSchema.parse({ timeFormat: "12h" })).toEqual({
       timeFormat: "12h",
       enabledPlugins: [],
-      tipCount: 0,
     });
   });
 

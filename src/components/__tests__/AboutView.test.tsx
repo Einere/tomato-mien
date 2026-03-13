@@ -57,7 +57,7 @@ describe("AboutView", () => {
     expect(screen.getByText(/^v/)).toBeInTheDocument();
   });
 
-  it("displays Homepage, Privacy Policy, and Support links", () => {
+  it("displays Homepage, Privacy Policy, and Contact links", () => {
     navigateToAbout();
     const links = screen.getAllByRole("link");
     const hrefs = links.map(link => link.getAttribute("href"));

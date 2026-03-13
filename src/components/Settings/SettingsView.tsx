@@ -9,12 +9,10 @@ import {
   ScheduleIcon,
   DarkModeIcon,
   InfoIcon,
-  FavoriteBorderIcon,
   MenuRow,
 } from "@tomato-mien/ui";
 import { formatTime, formatTimeRange } from "@/lib/dayjs";
 import { AboutView } from "./AboutView";
-import { SupportView } from "./SupportView";
 import { PluginSection } from "./PluginSection";
 import { useViewTransition } from "@tomato-mien/view-transition";
 
@@ -45,16 +43,6 @@ export function SettingsView() {
   const handleThemeChange = (value: string) => {
     setSettings({ ...settings, theme: value as Theme });
   };
-
-  if (subView === "support") {
-    return (
-      <SupportView
-        onBack={() =>
-          triggerTransition(() => setSubView("main"), "drill-backward")
-        }
-      />
-    );
-  }
 
   if (subView === "about") {
     return (
@@ -124,25 +112,7 @@ export function SettingsView() {
 
       <PluginSection />
 
-      <div className="mt-6 flex flex-col gap-3">
-        <Card padding="none">
-          <MenuRow
-            as="button"
-            type="button"
-            className="focus-visible:ring-ring w-full cursor-pointer rounded-xl transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-            onClick={() =>
-              triggerTransition(() => setSubView("support"), "drill-forward")
-            }
-          >
-            <MenuRow.Icon icon={FavoriteBorderIcon} />
-            <MenuRow.Label
-              title="Support"
-              description="Buy me a coffee"
-              className="text-left"
-            />
-            <ChevronRightIcon size="sm" />
-          </MenuRow>
-        </Card>
+      <div className="mt-6">
         <Card padding="none">
           <MenuRow
             as="button"

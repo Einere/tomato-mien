@@ -110,13 +110,11 @@ describe("createDexieSingleRowStorage", () => {
     timeFormat: z.enum(["12h", "24h"]),
     theme: z.enum(["system", "light", "dark"]).optional(),
     enabledPlugins: z.array(z.string()).default([]),
-    tipCount: z.number().int().min(0).optional().default(0),
   });
   const storage = createDexieSingleRowStorage(db.settings, schema);
   const initialValue: AppSettings = {
     timeFormat: "24h",
     enabledPlugins: [],
-    tipCount: 0,
   };
 
   it("getItem returns initialValue when cache is not hydrated", () => {
@@ -129,7 +127,6 @@ describe("createDexieSingleRowStorage", () => {
       id: "default",
       timeFormat: "12h",
       enabledPlugins: [],
-      tipCount: 0,
     });
 
     await hydrateSingleRowStorage(
@@ -143,7 +140,6 @@ describe("createDexieSingleRowStorage", () => {
     expect(result).toEqual({
       timeFormat: "12h",
       enabledPlugins: [],
-      tipCount: 0,
     });
   });
 
@@ -151,14 +147,12 @@ describe("createDexieSingleRowStorage", () => {
     storage.setItem(SETTINGS_KEY, {
       timeFormat: "12h",
       enabledPlugins: [],
-      tipCount: 0,
     });
 
     const result = storage.getItem(SETTINGS_KEY, initialValue);
     expect(result).toEqual({
       timeFormat: "12h",
       enabledPlugins: [],
-      tipCount: 0,
     });
   });
 
@@ -166,7 +160,6 @@ describe("createDexieSingleRowStorage", () => {
     storage.setItem(SETTINGS_KEY, {
       timeFormat: "12h",
       enabledPlugins: [],
-      tipCount: 0,
     });
     storage.removeItem(SETTINGS_KEY);
 
