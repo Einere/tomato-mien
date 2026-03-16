@@ -6,5 +6,7 @@
   "exports": {
     ".": "./src/index.css"
   },
-  "files": ["src/"]
+  "files": [
+    "src/"
+  ]
 }

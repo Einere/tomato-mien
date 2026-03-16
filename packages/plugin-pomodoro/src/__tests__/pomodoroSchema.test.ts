@@ -57,7 +57,7 @@ describe("PomodoroConfigSchema", () => {
 describe("PomodoroStateSchema", () => {
   it.each(["idle", "working", "shortBreak", "longBreak"] as const)(
     'accepts valid state "%s"',
-    (state) => {
+    state => {
       expect(PomodoroStateSchema.parse(state)).toBe(state);
     },
   );

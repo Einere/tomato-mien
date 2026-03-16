@@ -19,7 +19,7 @@ export function CycleIndicator({ completed, total }: CycleIndicatorProps) {
           />
         ))}
       </div>
-      <span className="text-xs text-muted-foreground">
+      <span className="text-muted-foreground text-xs">
         {completed} / {total}
       </span>
     </div>

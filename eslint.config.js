@@ -3,7 +3,6 @@ import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
-import prettier from "eslint-plugin-prettier";
 import prettierConfig from "eslint-config-prettier";
 import { defineConfig, globalIgnores } from "eslint/config";
 import react from "eslint-plugin-react";
@@ -21,10 +20,8 @@ export default defineConfig([
     ],
     plugins: {
       react,
-      prettier,
     },
     rules: {
-      "prettier/prettier": "error",
       "@typescript-eslint/no-unused-vars": [
         "error",
         { argsIgnorePattern: "^_", ignoreRestSiblings: true },
