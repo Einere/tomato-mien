@@ -5,7 +5,11 @@ import { TimerDisplay } from "../components/TimerDisplay";
 describe("TimerDisplay", () => {
   it("displays formatted remaining time", () => {
     render(
-      <TimerDisplay remainingSeconds={1500} totalSeconds={1500} state="working" />,
+      <TimerDisplay
+        remainingSeconds={1500}
+        totalSeconds={1500}
+        state="working"
+      />,
     );
     expect(screen.getByText("25:00")).toBeInTheDocument();
   });
@@ -19,7 +23,11 @@ describe("TimerDisplay", () => {
 
   it("shows state label for working", () => {
     render(
-      <TimerDisplay remainingSeconds={1500} totalSeconds={1500} state="working" />,
+      <TimerDisplay
+        remainingSeconds={1500}
+        totalSeconds={1500}
+        state="working"
+      />,
     );
     expect(screen.getByText("Focus")).toBeInTheDocument();
   });
@@ -48,7 +56,11 @@ describe("TimerDisplay", () => {
 
   it("renders SVG progress circle", () => {
     const { container } = render(
-      <TimerDisplay remainingSeconds={750} totalSeconds={1500} state="working" />,
+      <TimerDisplay
+        remainingSeconds={750}
+        totalSeconds={1500}
+        state="working"
+      />,
     );
     const circles = container.querySelectorAll("circle");
     expect(circles.length).toBeGreaterThanOrEqual(2);

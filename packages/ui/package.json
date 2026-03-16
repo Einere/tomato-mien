@@ -6,7 +6,9 @@
   "exports": {
     ".": "./src/index.ts"
   },
-  "files": ["src/"],
+  "files": [
+    "src/"
+  ],
   "peerDependencies": {
     "react": "^19.0.0",
     "class-variance-authority": "^0.7.0",

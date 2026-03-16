@@ -40,10 +40,7 @@ const numberFields: NumberFieldConfig[] = [
   },
 ];
 
-export function PomodoroSettings({
-  config,
-  onChange,
-}: PomodoroSettingsProps) {
+export function PomodoroSettings({ config, onChange }: PomodoroSettingsProps) {
   const handleNumberChange = useCallback(
     (key: keyof PomodoroConfig, value: string, min: number, max: number) => {
       const parsed = parseInt(value, 10);
@@ -58,7 +55,10 @@ export function PomodoroSettings({
     <div className="flex flex-col gap-4">
       {numberFields.map(({ key, label, min, max, suffix }) => (
         <div key={key} className="flex items-center justify-between gap-3">
-          <label htmlFor={`pomodoro-${key}`} className="text-sm text-foreground">
+          <label
+            htmlFor={`pomodoro-${key}`}
+            className="text-foreground text-sm"
+          >
             {label}
           </label>
           <div className="flex items-center gap-2">
@@ -68,26 +68,22 @@ export function PomodoroSettings({
               min={min}
               max={max}
               value={config[key] as number}
-              onChange={(e) =>
-                handleNumberChange(key, e.target.value, min, max)
-              }
+              onChange={e => handleNumberChange(key, e.target.value, min, max)}
               className="w-20 text-center"
             />
-            <span className="text-xs text-muted-foreground w-12">
-              {suffix}
-            </span>
+            <span className="text-muted-foreground w-12 text-xs">{suffix}</span>
           </div>
         </div>
       ))}
       <div className="flex flex-col gap-1">
-        <label className="flex items-center justify-between cursor-pointer">
-          <span className="text-sm text-foreground">Auto Start</span>
+        <label className="flex cursor-pointer items-center justify-between">
+          <span className="text-foreground text-sm">Auto Start</span>
           <Toggle
             checked={config.autoStart}
-            onChange={(checked) => onChange({ ...config, autoStart: checked })}
+            onChange={checked => onChange({ ...config, autoStart: checked })}
           />
         </label>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-muted-foreground text-xs">
           Automatically start the next session when the current one ends.
         </p>
       </div>

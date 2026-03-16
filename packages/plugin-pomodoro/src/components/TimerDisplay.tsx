@@ -65,11 +65,11 @@ export function TimerDisplay({
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-4xl font-bold tabular-nums text-foreground">
+          <span className="text-foreground text-4xl font-bold tabular-nums">
             {formatRemainingTime(remainingSeconds)}
           </span>
           {stateLabels[state] && (
-            <span className="text-sm text-muted-foreground mt-1">
+            <span className="text-muted-foreground mt-1 text-sm">
               {stateLabels[state]}
             </span>
           )}
