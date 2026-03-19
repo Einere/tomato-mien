@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Support - Tomato Mien</title>
+    <meta
+      name="description"
+      content="Support the Tomato Mien project. Buy me a coffee via Lemon Squeezy or Toss."
+    />
+    <link
+      rel="canonical"
+      href="https://einere.github.io/tomato-mien/support.html"
+    />
+    <meta name="theme-color" content="#dc2626" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Support - Tomato Mien" />
+    <meta
+      property="og:description"
+      content="Support the Tomato Mien project. Buy me a coffee via Lemon Squeezy or Toss."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://einere.github.io/tomato-mien/support.html"
+    />
+    <meta property="og:site_name" content="Tomato Mien" />
+    <meta
+      property="og:image"
+      content="https://einere.github.io/tomato-mien/assets/og-image.jpg"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:alt" content="Tomato Mien — Simple Rule-Based Reminders. Free app for macOS, Windows, and Linux." />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Support - Tomato Mien" />
+    <meta
+      name="twitter:description"
+      content="Support the Tomato Mien project. Buy me a coffee via Lemon Squeezy or Toss."
+    />
+    <meta
+      name="twitter:image"
+      content="https://einere.github.io/tomato-mien/assets/og-image.jpg"
+    />
+
+    <link rel="icon" href="assets/icon.ico" sizes="48x48" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body
+    class="bg-white text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100"
+  >
+    <div class="mx-auto max-w-3xl px-4 py-16 sm:py-24">
+      <a
+        href="./"
+        class="text-tomato-600 dark:text-tomato-400 mb-8 inline-flex items-center gap-1 text-sm font-medium transition hover:underline"
+      >
+        &larr; Back to Home
+      </a>
+
+      <div class="mb-12 text-center">
+        <div class="mb-4 text-5xl">&#9749;</div>
+        <h1 class="mb-3 text-3xl font-bold tracking-tight sm:text-4xl">
+          Support This Project
+        </h1>
+        <p class="mx-auto max-w-md text-gray-600 dark:text-gray-400">
+          If you find Tomato Mien useful, consider buying me a coffee.
+          Your support helps keep this project alive!
+        </p>
+      </div>
+
+      <div class="grid gap-6 sm:grid-cols-2">
+        <!-- Lemon Squeezy -->
+        <div
+          class="flex flex-col items-center rounded-2xl border border-gray-200 bg-gray-50 p-8 text-center dark:border-gray-800 dark:bg-gray-900"
+        >
+          <div class="mb-3 text-4xl">&#127819;</div>
+          <h2 class="mb-2 text-xl font-semibold">Lemon Squeezy</h2>
+          <p class="mb-6 text-sm text-gray-600 dark:text-gray-400">
+            Pay with credit card via Lemon Squeezy
+          </p>
+          <a
+            href="https://tomato-mien.lemonsqueezy.com/checkout/buy/5457327e-10c4-449a-b3c0-e63264a89720?discount=0"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-tomato-600 hover:bg-tomato-700 inline-flex items-center gap-2 rounded-xl px-6 py-3 font-semibold text-white shadow-sm transition hover:shadow-md"
+          >
+            Buy me a coffee
+            <svg
+              class="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M14 5l7 7m0 0l-7 7m7-7H3"
+              />
+            </svg>
+          </a>
+        </div>
+
+        <!-- Toss -->
+        <div
+          class="flex flex-col items-center rounded-2xl border border-gray-200 bg-gray-50 p-8 text-center dark:border-gray-800 dark:bg-gray-900"
+        >
+          <div class="mb-3 text-4xl">&#128179;</div>
+          <h2 class="mb-2 text-xl font-semibold">Toss</h2>
+          <p class="mb-6 text-sm text-gray-600 dark:text-gray-400">
+            Scan QR code with the Toss app
+          </p>
+          <button
+            id="toss-toggle"
+            type="button"
+            class="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-6 py-3 font-semibold transition hover:border-gray-400 hover:bg-gray-100 dark:border-gray-700 dark:hover:border-gray-600 dark:hover:bg-gray-800"
+          >
+            Show QR Code
+            <svg
+              id="toss-chevron"
+              class="h-4 w-4 transition-transform"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+          <div id="toss-qr" class="mt-6 hidden">
+            <img
+              src="assets/toss_qr.png"
+              alt="Toss QR code for donation"
+              class="h-48 w-48 rounded-lg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const toggle = document.getElementById("toss-toggle");
+      const qr = document.getElementById("toss-qr");
+      const chevron = document.getElementById("toss-chevron");
+
+      toggle.addEventListener("click", () => {
+        const isHidden = qr.classList.toggle("hidden");
+        chevron.style.transform = isHidden ? "" : "rotate(180deg)";
+        toggle.firstChild.textContent = isHidden
+          ? "Show QR Code"
+          : "Hide QR Code";
+      });
+    </script>
+  </body>
+</html>
