@@ -27,13 +27,13 @@ export function TimerControls({
   return (
     <div className="flex justify-center gap-3">
       {isRunning ? (
-        <Button variant="secondary" onClick={onPause}>
+        <Button onClick={onPause}>
           Pause
         </Button>
       ) : (
         <Button onClick={onStart}>Resume</Button>
       )}
-      <Button variant="ghost" color="danger" onClick={onReset}>
+      <Button variant="secondary" color="danger" onClick={onReset}>
         Reset
       </Button>
     </div>
