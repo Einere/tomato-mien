@@ -1,53 +1,66 @@
 # Tomato Mien
 
-> A desktop app for rule-based alarms and Pomodoro focus sessions.
+> A free productivity reminder and Pomodoro timer app for macOS, Windows, and Linux.
 
-Tomato Mien is a free, open-source, cross-platform desktop application that helps users manage flexible alarm rules and optional Pomodoro focus cycles. Built with Electron and React.
+Tomato Mien is a free, open-source, cross-platform desktop productivity application. It helps users stay on track with smart reminder rules, interval timers, and Pomodoro focus sessions — all running fully offline with native desktop notifications.
+
+## What It Does
+
+Tomato Mien is a **productivity tool** and **reminder app** that lets you:
+
+- Set work break reminders on a repeating interval (e.g. every 25 or 30 minutes)
+- Schedule specific-time alarms (e.g. a meeting reminder at 2:25 PM)
+- Restrict when reminders fire using time range filters (e.g. only during 9 AM – 6 PM)
+- Run a **Pomodoro timer** with 25-minute focus sessions and 5-minute breaks
+- Manage multiple reminder rules from a searchable dashboard
+- Receive native desktop notifications with sound alerts
+
+## Use Cases
+
+- **Focus timer**: Break reminders every 25 minutes during work hours (Pomodoro technique)
+- **Hydration reminder**: Drink water every 30 minutes from 9 AM to 6 PM
+- **Meeting prep**: Alert 5 minutes before a daily standup at 2:25 PM
+- **Hourly stretch**: Stand up and stretch every 60 minutes
+- **Medication alert**: Morning and evening reminders at fixed times
+- **Night study timer**: Track study sessions with 20-minute intervals
 
 ## Key Features
 
-- Rule-based alarm scheduling with triggers and filters
-- Interval alarms (e.g. every 15, 25, 30 minutes)
-- Specific time alarms (e.g. 2:30 PM)
-- Time range filters to restrict when alarms fire (e.g. 9 AM - 5 PM)
-- Optional Pomodoro timer with 25-minute focus and 5-minute break cycles
-- Pomodoro plugin toggle in Settings
-- Background alarm evaluation via Web Worker
+- Productivity reminder and time management for desktop
+- Pomodoro timer with configurable focus and break cycles
+- Interval reminders (every N minutes)
+- Specific time alarms (exact hour and minute)
+- Time range filters (active only during work hours)
+- Rule-based scheduling: combine multiple triggers per rule
+- Background operation via Web Worker — fires even when minimized
 - Native desktop notifications with sound
-- Rule management dashboard with search and sort
-- Fully offline — no internet required
-- Scheduled rule activation for future dates
-
-## Tech Stack
-
-- Electron (main process)
-- React + TypeScript (renderer)
-- Vite (build tool)
-- Jotai (state management)
-- Dexie / IndexedDB (local persistence)
-- Tailwind CSS (styling)
-- Web Worker (background alarm evaluation)
+- Fully offline — no internet connection required
+- Free and open-source (MIT License)
+- Cross-platform: macOS, Windows, Linux
 
 ## Platforms
 
-- macOS (.dmg)
+- macOS (.dmg) — Apple Silicon and Intel
 - Windows (.exe)
 - Linux (.AppImage)
 
+## Category
+
+Productivity, Time Management, Reminder App, Pomodoro Timer, Focus Tool, Desktop App
+
 ## How to Use
 
-1. Create a Rule — give your alarm rule a name
-2. Add Triggers — choose interval or specific time
-3. Set Filters (Optional) — restrict when alarms fire with time ranges
-4. Enable & Go — toggle the rule on, alarms run in the background
+1. Create a Rule — name your reminder
+2. Add Triggers — interval (e.g. every 25 min) or specific time (e.g. 2:30 PM)
+3. Set Filters (Optional) — restrict to time ranges like 9 AM – 5 PM
+4. Enable & Go — reminders run in the background
 
 ## FAQ
 
-- Is it free? Yes, MIT License and fully free to use.
-- Offline? Fully offline, all data stored locally.
-- Pomodoro? Enable it from Settings > Plugins, then restart the app.
-- Background? Web Worker evaluates alarms even when minimized.
-- Alarm types? Interval, specific time, multiple triggers, time range filters.
+- Free? Yes, fully free and open-source under the MIT License.
+- Offline? Yes, fully offline. All data stored locally.
+- Pomodoro? Enable from Settings > Plugins, then restart the app.
+- Background? Yes, a Web Worker evaluates reminders even when minimized.
 - Notifications? Native desktop notifications with sound, toggleable per rule.
 
 ## Links

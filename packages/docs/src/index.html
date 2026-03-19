@@ -3,10 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tomato Mien - Simple Rule-Based Alarm App</title>
+    <title>Tomato Mien - Simple Rule-Based Reminder App</title>
     <meta
       name="description"
-      content="Tomato Mien is a desktop app for rule-based alarms and Pomodoro focus sessions. Create flexible reminder rules, enable the Pomodoro timer, and stay productive offline."
+      content="Tomato Mien is a free productivity app for macOS, Windows, and Linux. Set smart reminders, interval timers, and Pomodoro focus sessions — fully offline with native desktop notifications."
+    />
+    <meta
+      name="keywords"
+      content="productivity app, reminder app, Pomodoro timer, desktop reminder, time management, break reminder, focus timer, interval timer, macOS productivity, Windows reminder, offline productivity app, free Pomodoro app, work break reminder, alarm desktop app"
     />
 
     <link rel="canonical" href="https://einere.github.io/tomato-mien/" />
@@ -15,19 +19,20 @@
     <!-- Open Graph -->
     <meta
       property="og:title"
-      content="Tomato Mien - Simple Rule-Based Alarm App"
+      content="Tomato Mien - Simple Rule-Based Reminder App"
     />
     <meta
       property="og:description"
-      content="A desktop app for flexible alarm rules and focused Pomodoro sessions, with offline support and native notifications."
+      content="Free productivity app for macOS, Windows, and Linux. Smart reminders, interval timers, and Pomodoro focus sessions — fully offline with native notifications."
     />
     <meta
       property="og:image"
-      content="https://einere.github.io/tomato-mien/assets/screenshots/rules_screen.png"
+      content="https://einere.github.io/tomato-mien/assets/og-image.jpg"
     />
-    <meta property="og:image:width" content="1376" />
-    <meta property="og:image:height" content="2070" />
-    <meta property="og:image:alt" content="Tomato Mien rules list screen" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:alt" content="Tomato Mien — Simple Rule-Based Reminders. Free app for macOS, Windows, and Linux." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://einere.github.io/tomato-mien/" />
     <meta property="og:locale" content="en_US" />
@@ -37,15 +42,15 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="Tomato Mien - Simple Rule-Based Alarm App"
+      content="Tomato Mien - Simple Rule-Based Reminder App"
     />
     <meta
       name="twitter:description"
-      content="A desktop app for flexible alarm rules and focused Pomodoro sessions, with offline support and native notifications."
+      content="Free productivity app for macOS, Windows, and Linux. Smart reminders, interval timers, and Pomodoro focus sessions — fully offline with native notifications."
     />
     <meta
       name="twitter:image"
-      content="https://einere.github.io/tomato-mien/assets/screenshots/rules_screen.png"
+      content="https://einere.github.io/tomato-mien/assets/og-image.jpg"
     />
 
     <!-- Structured Data -->
@@ -54,9 +59,9 @@
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "Tomato Mien",
-        "description": "A desktop app for flexible rule-based alarms and Pomodoro focus sessions. Create reminder rules, manage settings, and stay productive offline.",
+        "description": "A free productivity app for macOS, Windows, and Linux. Set smart reminder rules, interval timers, and Pomodoro focus sessions to manage your time and stay on track — fully offline.",
         "url": "https://einere.github.io/tomato-mien/",
-        "applicationCategory": "UtilitiesApplication",
+        "applicationCategory": "ProductivityApplication",
         "operatingSystem": "macOS, Windows, Linux",
         "offers": {
           "@type": "Offer",
@@ -74,16 +79,18 @@
           "url": "https://github.com/Einere"
         },
         "featureList": [
-          "Rule-based alarm scheduling with triggers and filters",
-          "Interval alarms (e.g. every 15, 25, 30 minutes)",
+          "Productivity reminder and time management tool",
+          "Pomodoro timer with 25-minute focus and 5-minute break cycles",
+          "Work break reminders and focus session scheduling",
+          "Interval reminders (e.g. every 15, 25, 30 minutes)",
           "Specific time alarms (e.g. 2:30 PM)",
-          "Time range filters to restrict when alarms fire",
-          "Optional Pomodoro timer with 25-minute focus and 5-minute break cycles",
-          "Plugin-based Pomodoro activation from Settings",
-          "Background alarm evaluation via Web Worker",
+          "Time range filters to restrict when reminders fire (e.g. 9 AM - 5 PM)",
+          "Rule-based alarm scheduling with triggers and filters",
+          "Background reminder evaluation — works even when minimized",
           "Native desktop notifications with sound",
+          "Fully offline — no internet connection required",
           "Rule management dashboard with search and sort",
-          "Cross-platform support for macOS, Windows, and Linux"
+          "Cross-platform: macOS, Windows, and Linux"
         ],
         "sameAs": "https://github.com/Einere/tomato-mien",
         "dateModified": "2026-03-02"
@@ -262,7 +269,7 @@
         <p
           class="mb-8 max-w-md text-lg text-gray-600 sm:text-xl dark:text-gray-400"
         >
-          Simple Rule-Based Alarm App
+          Simple Rule-Based Reminder App
         </p>
         <div id="hero-download" class="flex flex-col items-center gap-3">
           <div class="flex flex-col gap-4 sm:flex-row">
@@ -476,14 +483,20 @@
             <div
               class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900"
             >
-              <img
-                src="assets/screenshots/rules_screen.png"
-                alt="Tomato Mien rules list screen with search bar, active/total count, sort options, and rule cards with toggle"
-                width="1376"
-                height="2070"
-                class="w-full"
-                loading="lazy"
-              />
+              <picture>
+                <source
+                  srcset="assets/screenshots/rules_screen.webp"
+                  type="image/webp"
+                />
+                <img
+                  src="assets/screenshots/rules_screen.png"
+                  alt="Tomato Mien rules list screen with search bar, active/total count, sort options, and rule cards with toggle"
+                  width="1376"
+                  height="2070"
+                  class="w-full"
+                  loading="lazy"
+                />
+              </picture>
               <div class="p-4">
                 <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
                   Rules List
@@ -493,14 +506,20 @@
             <div
               class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900"
             >
-              <img
-                src="assets/screenshots/rule_edit_screen.png"
-                alt="Tomato Mien rule editor with filters (AND), triggers (OR), summary, notification toggle, and scheduled activation"
-                width="1376"
-                height="2070"
-                class="w-full"
-                loading="lazy"
-              />
+              <picture>
+                <source
+                  srcset="assets/screenshots/rule_edit_screen.webp"
+                  type="image/webp"
+                />
+                <img
+                  src="assets/screenshots/rule_edit_screen.png"
+                  alt="Tomato Mien rule editor with filters (AND), triggers (OR), summary, notification toggle, and scheduled activation"
+                  width="1376"
+                  height="2070"
+                  class="w-full"
+                  loading="lazy"
+                />
+              </picture>
               <div class="p-4">
                 <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
                   Rule Editor
@@ -510,14 +529,20 @@
             <div
               class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900"
             >
-              <img
-                src="assets/screenshots/pomodoro_screen.png"
-                alt="Tomato Mien Pomodoro screen with a circular timer, session progress dots, and a start button"
-                width="1376"
-                height="2070"
-                class="w-full"
-                loading="lazy"
-              />
+              <picture>
+                <source
+                  srcset="assets/screenshots/pomodoro_screen.webp"
+                  type="image/webp"
+                />
+                <img
+                  src="assets/screenshots/pomodoro_screen.png"
+                  alt="Tomato Mien Pomodoro screen with a circular timer, session progress dots, and a start button"
+                  width="1376"
+                  height="2070"
+                  class="w-full"
+                  loading="lazy"
+                />
+              </picture>
               <div class="p-4">
                 <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
                   Pomodoro Timer
@@ -527,14 +552,20 @@
             <div
               class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900"
             >
-              <img
-                src="assets/screenshots/settings_screen.png"
-                alt="Tomato Mien settings screen with time format, theme, preview section, and Pomodoro plugin toggle"
-                width="1376"
-                height="2070"
-                class="w-full"
-                loading="lazy"
-              />
+              <picture>
+                <source
+                  srcset="assets/screenshots/settings_screen.webp"
+                  type="image/webp"
+                />
+                <img
+                  src="assets/screenshots/settings_screen.png"
+                  alt="Tomato Mien settings screen with time format, theme, preview section, and Pomodoro plugin toggle"
+                  width="1376"
+                  height="2070"
+                  class="w-full"
+                  loading="lazy"
+                />
+              </picture>
               <div class="p-4">
                 <p class="text-sm font-medium text-gray-600 dark:text-gray-400">
                   Settings
