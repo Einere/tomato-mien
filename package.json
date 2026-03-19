@@ -185,6 +185,5 @@
       "repo": "tomato-mien",
       "releaseType": "release"
     }
-  },
-  "packageManager": "npm@10.9.2"
+  }
 }
