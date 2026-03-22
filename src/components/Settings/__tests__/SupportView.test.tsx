@@ -83,11 +83,13 @@ describe("SupportView", () => {
     };
     const { store } = renderWithStore(<SupportView onBack={onBack} />, 3);
 
-    const button = await screen.findByRole("button", { name: "Send a tip" });
+    const button = await screen.findByRole("button", {
+      name: "Buy me a coffee",
+    });
     fireEvent.click(button);
 
     expect(
-      await screen.findByText("Thank you. Your tip was completed."),
+      await screen.findByText("Thank you. Your support means a lot."),
     ).toBeInTheDocument();
     await waitFor(() => {
       expect(store.get(settingsAtom).tipCount).toBe(4);
@@ -99,11 +101,11 @@ describe("SupportView", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByRole("button", { name: "Send a tip" }),
+        screen.getByRole("button", { name: "Buy me a coffee" }),
       ).not.toBeDisabled();
     });
     expect(
-      screen.queryByText("Thank you. Your tip was completed."),
+      screen.queryByText("Thank you. Your support means a lot."),
     ).not.toBeInTheDocument();
   });
 
@@ -118,14 +120,18 @@ describe("SupportView", () => {
     };
     renderWithStore(<SupportView onBack={onBack} />);
 
-    const button = await screen.findByRole("button", { name: "Send a tip" });
+    const button = await screen.findByRole("button", {
+      name: "Buy me a coffee",
+    });
     fireEvent.click(button);
 
     expect(
       await screen.findByText("Purchase failed."),
     ).toBeInTheDocument();
     // 실패 후 버튼이 다시 활성화되어야 한다
-    expect(screen.getByRole("button", { name: "Send a tip" })).not.toBeDisabled();
+    expect(
+      screen.getByRole("button", { name: "Buy me a coffee" }),
+    ).not.toBeDisabled();
   });
 
   it("returns to ready state silently when user cancels the IAP dialog", async () => {
@@ -139,18 +145,20 @@ describe("SupportView", () => {
     };
     renderWithStore(<SupportView onBack={onBack} />);
 
-    const button = await screen.findByRole("button", { name: "Send a tip" });
+    const button = await screen.findByRole("button", {
+      name: "Buy me a coffee",
+    });
     fireEvent.click(button);
 
     // 취소 후: 에러 메시지 없이 버튼이 다시 활성화되어야 한다
     expect(
-      await screen.findByRole("button", { name: "Send a tip" }),
+      await screen.findByRole("button", { name: "Buy me a coffee" }),
     ).not.toBeDisabled();
     expect(
       screen.queryByText("Purchase failed. Please try again."),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByText("Thank you. Your tip was completed."),
+      screen.queryByText("Thank you. Your support means a lot."),
     ).not.toBeInTheDocument();
   });
 

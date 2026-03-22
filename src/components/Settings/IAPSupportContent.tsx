@@ -70,7 +70,7 @@ export function IAPSupportContent() {
       <p className="text-body text-foreground text-center">
         Thank you for using Tomato Mien.
         <br />
-        A one-time tip helps keep development going.
+        A coffee helps support ongoing development.
       </p>
 
       <Card padding="md" className="w-full">
@@ -82,7 +82,7 @@ export function IAPSupportContent() {
             {product.formattedPrice} / each
           </p>
           <p className="text-caption text-muted-foreground text-center">
-            Tips are consumable and cannot be restored.
+            Coffee support is consumable and cannot be restored.
           </p>
 
           <div className="flex items-center gap-3">
@@ -117,14 +117,14 @@ export function IAPSupportContent() {
             disabled={isPurchasing}
             className="w-full"
           >
-            {isPurchasing ? "Processing..." : "Send a tip"}
+            {isPurchasing ? "Processing..." : "Buy me a coffee"}
           </Button>
         </div>
       </Card>
 
       {isThanking && (
         <p className="text-body text-success-600 text-center">
-          Thank you. Your tip was completed.
+          Thank you. Your support means a lot.
         </p>
       )}
 
