@@ -86,6 +86,7 @@ export const AppSettingsSchema = z.object({
   timeFormat: TimeFormatSchema,
   theme: ThemeSchema.optional(),
   enabledPlugins: z.array(z.string()).default([]),
+  tipCount: z.number().int().min(0).optional().default(0),
 });
 
 // --- 타입 추출 ---

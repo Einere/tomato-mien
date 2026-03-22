@@ -39,7 +39,7 @@ export async function runMigration(): Promise<void> {
       SETTINGS_KEY,
       db.settings,
       AppSettingsSchema,
-      { timeFormat: "24h", enabledPlugins: [] },
+      { timeFormat: "24h", enabledPlugins: [], tipCount: 0 },
     ),
   ]);
 }

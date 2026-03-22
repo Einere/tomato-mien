@@ -41,7 +41,7 @@
     "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && NODE_ENV=development electron .\"",
     "electron:dist": "npm run build && electron-builder --publish=never",
     "electron:release": "npm run build && electron-builder",
-    "electron:mas:dev": "npm run build && MAS_BUILD=true electron-builder --mac mas-dev --publish=never -c.mas.type=development -c.mas.provisioningProfile=electron/entitlements/embedded.dev.provisionprofile",
+    "electron:mas:dev": "npm run build && MAS_BUILD=true electron-builder --mac mas-dev --publish=never -c.mas.type=development -c.mas.provisioningProfile=electron/entitlements/embedded.dev.provisionprofile -c.mac.notarize=false -c.mas.notarize=false",
     "electron:mas:dist": "npm run build && MAS_BUILD=true electron-builder --mac mas --publish=never -c.mas.provisioningProfile=electron/entitlements/embedded.mas.provisionprofile",
     "electron:mas:release": "npm run build && MAS_BUILD=true electron-builder --mac mas -c.mas.provisioningProfile=electron/entitlements/embedded.mas.provisionprofile",
     "docs:dev": "npm run dev -w @tomato-mien/docs",
@@ -49,7 +49,9 @@
     "release": "sh -c 'version=\"$1\"; [ -n \"$version\" ] || { echo \"Usage: npm run release -- <version>\" >&2; exit 1; }; npm version \"$version\" && git push && git push origin v$version' --"
   },
   "dependencies": {
-    "electron-updater": "^6.6.2"
+    "@xstate/react": "^5.0.5",
+    "electron-updater": "^6.6.2",
+    "xstate": "^5.28.0"
   },
   "devDependencies": {
     "@electron/notarize": "^3.1.1",

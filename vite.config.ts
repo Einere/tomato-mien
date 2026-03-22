@@ -3,6 +3,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import pkg from "./package.json";
+import { TIP_PRODUCT_ID } from "./electron/iap.config.js";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -35,6 +36,7 @@ export default defineConfig({
     __APP_AUTHOR_NAME__: JSON.stringify(pkg.author.name),
     __APP_AUTHOR_EMAIL__: JSON.stringify(pkg.author.email),
     __APP_BUGS_URL__: JSON.stringify(pkg.bugs.url),
+    __TIP_PRODUCT_ID__: JSON.stringify(TIP_PRODUCT_ID),
   },
   test: {
     globals: true,
