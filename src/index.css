@@ -98,6 +98,56 @@
   animation: splash-shimmer 3s linear infinite;
 }
 
+/* ── Coffee Celebration Animation ── */
+
+@keyframes coffee-pop {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.6) rotate(var(--coffee-rotate));
+  }
+  18% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--coffee-x), -138px, 0) scale(1)
+      rotate(calc(var(--coffee-rotate) + 22deg));
+  }
+}
+
+@keyframes thank-you-bounce {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@utility animate-coffee-pop {
+  animation: coffee-pop 900ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: var(--coffee-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+@utility animate-thank-you-bounce {
+  animation: thank-you-bounce 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-coffee-pop,
+  .animate-thank-you-bounce {
+    animation: none;
+  }
+}
+
 body {
   font-family:
     "Inter",

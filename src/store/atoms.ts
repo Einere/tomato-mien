@@ -19,7 +19,7 @@ export const rulesAtom = atomWithStorage<AlarmRule[]>(
 
 export const settingsAtom = atomWithStorage<AppSettings>(
   "tomato-mien-settings",
-  { timeFormat: "24h", enabledPlugins: [] },
+  { timeFormat: "24h", enabledPlugins: [], tipCount: 0 },
   createDexieSingleRowStorage(db.settings, AppSettingsSchema),
 );
 
@@ -32,7 +32,7 @@ export const editorRuleIdAtom = atom<string | null>(null);
 
 export const searchQueryAtom = atom("");
 
-export type SettingsSubView = "main" | "about";
+export type SettingsSubView = "main" | "about" | "support";
 
 export const settingsSubViewAtom = atom<SettingsSubView>("main");
 

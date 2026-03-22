@@ -26,6 +26,18 @@ contextBridge.exposeInMainWorld("electronAPI", {
   // 플랫폼 정보
   platform: process.platform,
 
+  // MAS 빌드 여부
+  // preload는 main.js와 별도의 프로세스이므로 isMAS를 독립적으로 평가한다.
+  // main.js의 isMAS 상수와 동일한 로직을 의도적으로 중복 정의한 것이다.
+  isMAS: process.mas === true || process.env.MAS_BUILD === "true",
+
+  // In-App Purchase
+  iapCanMakePayments: () => ipcRenderer.invoke("iap-can-make-payments"),
+  iapGetProducts: (productIds) =>
+    ipcRenderer.invoke("iap-get-products", productIds),
+  iapPurchase: (productId, quantity) =>
+    ipcRenderer.invoke("iap-purchase", productId, quantity),
+
   // 알림
   showNotification: (title, options) =>
     ipcRenderer.invoke("show-notification", title, options),

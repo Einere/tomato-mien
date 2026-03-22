@@ -5,15 +5,23 @@ const require = createRequire(import.meta.url);
 const { build } = require("../package.json");
 
 export default async function notarizing(context) {
-  const { electronPlatformName, appOutDir } = context;
+  const { electronPlatformName, appOutDir, targets } = context;
 
   if (electronPlatformName !== "darwin") {
     return;
   }
 
-  // MAS 빌드는 Apple이 심사 과정에서 자체 서명하므로 별도 공증 불필요
+  // MAS / MAS dev 빌드는 Apple 심사 또는 로컬 Sandbox 테스트 대상이므로 별도 공증이 필요 없다.
   const buildOptions = context.packager.platformSpecificBuildOptions;
-  if (buildOptions?.provisioningProfile) {
+  const targetNames = targets.map(target => target.name);
+  const isMasBuild =
+    process.env.MAS_BUILD === "true" ||
+    buildOptions?.type === "development" ||
+    targetNames.some(target => target === "mas" || target === "mas-dev") ||
+    appOutDir.includes("/mas-") ||
+    appOutDir.includes("mas-dev");
+
+  if (isMasBuild) {
     console.log("MAS build detected, skipping notarization.");
     return;
   }

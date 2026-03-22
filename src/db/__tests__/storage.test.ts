@@ -115,11 +115,12 @@ describe("createDexieSingleRowStorage", () => {
   const initialValue: AppSettings = {
     timeFormat: "24h",
     enabledPlugins: [],
+    tipCount: 0,
   };
 
   it("getItem returns initialValue when cache is not hydrated", () => {
     const result = storage.getItem(SETTINGS_KEY, initialValue);
-    expect(result).toEqual({ timeFormat: "24h", enabledPlugins: [] });
+    expect(result).toEqual({ timeFormat: "24h", enabledPlugins: [], tipCount: 0 });
   });
 
   it("hydrateSingleRowStorage populates cache from DB", async () => {
@@ -127,6 +128,7 @@ describe("createDexieSingleRowStorage", () => {
       id: "default",
       timeFormat: "12h",
       enabledPlugins: [],
+      tipCount: 0,
     });
 
     await hydrateSingleRowStorage(
@@ -164,6 +166,6 @@ describe("createDexieSingleRowStorage", () => {
     storage.removeItem(SETTINGS_KEY);
 
     const result = storage.getItem(SETTINGS_KEY, initialValue);
-    expect(result).toEqual({ timeFormat: "24h", enabledPlugins: [] });
+    expect(result).toEqual({ timeFormat: "24h", enabledPlugins: [], tipCount: 0 });
   });
 });
