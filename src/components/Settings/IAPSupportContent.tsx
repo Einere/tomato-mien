@@ -1,8 +1,96 @@
 import { useMachine } from "@xstate/react";
 import { useAtomValue, useSetAtom } from "jotai";
-import { Button, Card } from "@tomato-mien/ui";
+import { Button, Card, Select } from "@tomato-mien/ui";
+import type { CSSProperties } from "react";
 import { settingsAtom } from "@/store";
 import { iapMachine } from "./iapMachine";
+
+const celebrationBeans = [
+  {
+    color: "bg-amber-700",
+    delay: "0ms",
+    left: "10%",
+    rotate: "-18deg",
+    size: "h-3 w-2.5",
+    x: "-24px",
+  },
+  {
+    color: "bg-orange-500",
+    delay: "60ms",
+    left: "24%",
+    rotate: "12deg",
+    size: "h-2.5 w-2.5",
+    x: "-8px",
+  },
+  {
+    color: "bg-stone-700",
+    delay: "120ms",
+    left: "34%",
+    rotate: "-10deg",
+    size: "h-3.5 w-2.5",
+    x: "10px",
+  },
+  {
+    color: "bg-amber-500",
+    delay: "180ms",
+    left: "46%",
+    rotate: "8deg",
+    size: "h-2.5 w-2.5",
+    x: "-14px",
+  },
+  {
+    color: "bg-orange-600",
+    delay: "40ms",
+    left: "58%",
+    rotate: "-6deg",
+    size: "h-3 w-2.5",
+    x: "16px",
+  },
+  {
+    color: "bg-stone-600",
+    delay: "140ms",
+    left: "70%",
+    rotate: "18deg",
+    size: "h-3 w-2.5",
+    x: "26px",
+  },
+  {
+    color: "bg-amber-600",
+    delay: "220ms",
+    left: "82%",
+    rotate: "-14deg",
+    size: "h-2.5 w-2.5",
+    x: "8px",
+  },
+];
+
+function CoffeeCelebration({ active }: { active: boolean }) {
+  if (!active) {
+    return null;
+  }
+
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+    >
+      {celebrationBeans.map(bean => (
+        <span
+          key={`${bean.left}-${bean.delay}`}
+          className={`animate-coffee-pop absolute bottom-6 rounded-full opacity-0 ${bean.color} ${bean.size}`}
+          style={
+            {
+              "--coffee-delay": bean.delay,
+              "--coffee-rotate": bean.rotate,
+              "--coffee-x": bean.x,
+              left: bean.left,
+            } as CSSProperties
+          }
+        />
+      ))}
+    </div>
+  );
+}
 
 function Skeleton() {
   return (
@@ -64,6 +152,10 @@ export function IAPSupportContent() {
   const isPurchasing = state.matches("purchasing");
   const isThanking = state.matches("thanking");
   const purchaseError = state.matches("ready") ? state.context.purchaseError : null;
+  const quantityOptions = Array.from({ length: 10 }, (_, i) => {
+    const value = String(i + 1);
+    return { value, label: value };
+  });
 
   return (
     <div className="flex flex-col items-center gap-4 py-6">
@@ -73,7 +165,8 @@ export function IAPSupportContent() {
         A coffee helps support ongoing development.
       </p>
 
-      <Card padding="md" className="w-full">
+      <Card padding="md" className="relative w-full overflow-hidden">
+        <CoffeeCelebration active={isThanking} />
         <div className="flex flex-col items-center gap-3">
           <p className="text-body text-foreground font-medium">
             {product.localizedTitle}
@@ -92,24 +185,18 @@ export function IAPSupportContent() {
             >
               Quantity
             </label>
-            <select
-              id="tip-quantity"
-              value={state.context.quantity}
-              onChange={e =>
+            <Select
+              value={String(state.context.quantity)}
+              onChange={value =>
                 send({
                   type: "quantity.changed",
-                  value: Number(e.target.value),
+                  value: Number(value),
                 })
               }
-              className="border-border-muted text-body rounded-md border bg-transparent px-2 py-1"
+              options={quantityOptions}
               disabled={isPurchasing}
-            >
-              {Array.from({ length: 10 }, (_, i) => i + 1).map(n => (
-                <option key={n} value={n}>
-                  {n}
-                </option>
-              ))}
-            </select>
+              className="min-w-16"
+            />
           </div>
 
           <Button
@@ -123,7 +210,7 @@ export function IAPSupportContent() {
       </Card>
 
       {isThanking && (
-        <p className="text-body text-success-600 text-center">
+        <p className="text-body text-success-600 animate-thank-you-bounce text-center">
           Thank you. Your support means a lot.
         </p>
       )}
